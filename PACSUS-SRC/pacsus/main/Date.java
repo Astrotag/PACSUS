@@ -24,37 +24,17 @@ package pacsus.main;
  */
 public class Date
 {
-	/**
-     * For simplicity, dates will be represented just by an integer in the range
-     * 1-365. No Leap years!
-     */
-    private int dayNumber;
-    
-    public Date() {
-    	dayNumber = 1;
-    }
-    
     /**
      * This operation adds one to the day number, wrapping round to 1 after 365
      * automatically.
      */
     public void increment()
     {
-    	// TODO: develop further (Mind the range 1-365)
-    	if (dayNumber>365) {
-    		dayNumber = 1;
-    	} else {
-    		dayNumber++;
-    	}
-    		
     }
-    
+
     /**
-     * 
-     * @return dayNumber 
+     * For simplicity, dates will be represented just by an integer in the range
+     * 1-365. No Leap years!
      */
-    public int getDayNumber() {
-    	return dayNumber;
-    }
-    
+    private int dayNumber;
 }
