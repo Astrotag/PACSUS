@@ -40,4 +40,15 @@ public class System_status extends Observable
      * @directed
      */
     private Date today;
+    
+    /**
+     * @return String for boolean value
+     */
+    public String getSystemActive() {
+    	return systemActive ? "Active" : "Deactivated";
+    }
+    
+    public void setSystemActive(boolean status) {
+    	this.systemActive = status;
+    }
 }
