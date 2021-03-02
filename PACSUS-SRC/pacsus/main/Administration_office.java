@@ -129,7 +129,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	JSplitPane splitPane = new JSplitPane(SwingConstants.VERTICAL, left, right);
 	add(splitPane);
 	
-	label.setText("Date: " + "0");;//TODO systemStatus.getToday();
+	label.setText("Date: " + "");;//TODO systemStatus.getToday();
 	add(label);
 	setSize(300, 300);
 
