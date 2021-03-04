@@ -54,12 +54,7 @@ public class ChoicePane extends JDialog
 
 	case 2:
 	    // set up the dialog for cancelling permit
-	    // TODO set up the combobox
-
-	    setTitle("Cancel A Permit ");
-
-	    cmdEnter.setText("Delete");
-	    lblChoice.setText("choose permit:");
+	    // TODO set up the combobox	    
 	    
 	    setDialogText("Cancel A Permit ", "Delete", "Choose Permit:");
 	    break;
