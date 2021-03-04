@@ -90,8 +90,14 @@ public class Timer extends JFrame implements ActionListener
     	lnkPermit_list = permitList;
     	today = new Date();
     	
-    	// Configure the window
-        setTitle("Testing Window");
+    	loadGUI();
+    	
+    }
+
+    private void loadGUI()
+    {
+	// Configure the window
+        setTitle("Timer Window");
         setLocation(40, 40); 
         setSize(350,150);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -109,12 +115,11 @@ public class Timer extends JFrame implements ActionListener
         
         // Display the frame
         setVisible(true);
-    	
     }
     
     // Button click handling:
     public void actionPerformed(ActionEvent e) {
-    	if(e.getSource() == newDay) {
+    	if(e.getSource().equals(newDay)) {
     		today.increment();
     		currentDay.setText("Current Day: " + today.getDayNumber());
     		System.out.println("New day button pressed. Value: " + today.getDayNumber());

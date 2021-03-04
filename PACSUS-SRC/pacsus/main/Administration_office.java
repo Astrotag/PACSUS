@@ -71,8 +71,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @directed
      */
     private System_status lnkSystem_status;
-    
-    private JButton newPermitButton, warningButton, unsuspendButton, cancelButton, editButton; 
+
+    private JButton newPermitButton, warningButton, unsuspendButton, cancelButton, editButton;
 
     /**
      * Generated Constructor
@@ -81,29 +81,34 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @param vehicleList
      * @param permitList
      */
-    
-    
-    
+
     private ChoicePane choicePane;
     private PermitDialog permitDialog;
-    
-    
+
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
 	this.lnkSystem_status = systemStatus;
 	this.lnkPermit_list = permitList;
+	choicePane = new ChoicePane();
+	permitDialog = new PermitDialog();
+	permitList = new Permit_list();
 
-	//Grid layout for the left panel
+	loadGUI();
+    }
+
+    private void loadGUI()
+    {
+	// Grid layout for the left panel
 	GridLayout gridLayout = new GridLayout(5, 1);
-	
+
 	JPanel left = new JPanel();
 	left.setLayout(gridLayout);
-	
+
 	JPanel right = new JPanel();
-	
+
 	setTitle("Administration Office");
-	setLocation(40, 150);
+	setLocation(395, 40);
 	setSize(350, 150);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	Container window = getContentPane();
@@ -116,37 +121,30 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	newPermitButton = new JButton("New Permit");
 	left.add(newPermitButton);
 	newPermitButton.addActionListener(this);
-	
+
 	warningButton = new JButton("Issue Warning");
 	left.add(warningButton);
 	warningButton.addActionListener(this);
-	
+
 	unsuspendButton = new JButton("Unsuspend Permit");
 	left.add(unsuspendButton);
 	unsuspendButton.addActionListener(this);
-	
+
 	cancelButton = new JButton("Cancel Permit");
 	left.add(cancelButton);
 	cancelButton.addActionListener(this);
-	
+
 	editButton = new JButton("Edit");
 	left.add(editButton);
 	editButton.addActionListener(this);
-	
+
 	JSplitPane splitPane = new JSplitPane(SwingConstants.VERTICAL, left, right);
 	add(splitPane);
-	
-	label.setText("Date: " + "");;//TODO systemStatus.getToday();
+
+	label.setText("Date: " + "");// TODO systemStatus.getToday();
 	add(label);
 	setSize(300, 300);
-
-	choicePane = new ChoicePane();
-	permitDialog = new PermitDialog();
-	permitList= new Permit_list();
-	
 	setVisible(true);
-    
-    
     }
 
     @Override
@@ -156,38 +154,35 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     }
 
-   
     @Override
     public void actionPerformed(ActionEvent e)
     {
 	if (e.getSource().equals(newPermitButton))
 	{
-	 
-		
-	permitDialog.showDialog();
+	    permitDialog.showDialog();
 	}
-	
+
 	if (e.getSource().equals(warningButton))
 	{
-	  choicePane.showDialog(0);
+	    choicePane.showDialog(0);
 	}
-	
+
 	if (e.getSource().equals(unsuspendButton))
 	{
-	    //open the unsuspend dialog 
-		choicePane.showDialog(1);
+	    //open the unsuspend dialog
+	    choicePane.showDialog(1);
 	}
-	
+
 	if (e.getSource().equals(cancelButton))
 	{
-		choicePane.showDialog(2);
-	    //open the cancel dialog 
+	    choicePane.showDialog(2);
+	    //open the cancel dialog
 	}
-	
+
 	if (e.getSource().equals(editButton))
 	{
-		choicePane.showDialog(3);
-	    //opent the edit jdialog 
-	}	
+	    choicePane.showDialog(3);
+	    //open the edit dialog
+	}
     }
 }
