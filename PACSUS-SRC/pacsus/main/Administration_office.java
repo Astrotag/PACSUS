@@ -81,6 +81,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @param vehicleList
      * @param permitList
      */
+    
+    
+    
+    private ChoicePane choicePane;
+    private PermitDialog permitDialog;
+    
+    
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
@@ -133,7 +140,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	add(label);
 	setSize(300, 300);
 
+	choicePane = new ChoicePane();
+	permitDialog = new PermitDialog();
+	permitList= new Permit_list();
+	
 	setVisible(true);
+    
+    
     }
 
     @Override
@@ -149,27 +162,32 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     {
 	if (e.getSource().equals(newPermitButton))
 	{
-	    System.out.println("Clicked New Permit");
+	 
+		
+	permitDialog.showDialog();
 	}
 	
 	if (e.getSource().equals(warningButton))
 	{
-	    System.out.println("Issue Warning Button clicked");
+	  choicePane.showDialog(0);
 	}
 	
 	if (e.getSource().equals(unsuspendButton))
 	{
-	    System.out.println("Unsuspend Permit Button clicked");
+	    //open the unsuspend dialog 
+		choicePane.showDialog(1);
 	}
 	
 	if (e.getSource().equals(cancelButton))
 	{
-	    System.out.println("Cancel Button clicked");
+		choicePane.showDialog(2);
+	    //open the cancel dialog 
 	}
 	
 	if (e.getSource().equals(editButton))
 	{
-	    System.out.println("Edit Button clicked");
+		choicePane.showDialog(3);
+	    //opent the edit jdialog 
 	}	
     }
 }
