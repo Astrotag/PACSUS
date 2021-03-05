@@ -104,8 +104,13 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	this.lnkVehicle_list = vehicleList;
 	this.lnkSystem_status = systemStatus;
 
+	loadGUI();
+    }
+
+    private void loadGUI()
+    {
 	setTitle("Barrier");
-	setLocation(40, 150);
+	setLocation(750, 40);
 	setSize(350, 150);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	Container window = getContentPane();
@@ -132,7 +137,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	regField = new JTextField("", 15);
 	add(regField);
 
-	enterButton = new JButton("Enter Reg");
+	enterButton = new JButton("Enter Registration");
 	add(enterButton);
 	enterButton.addActionListener(this);
 
