@@ -74,13 +74,15 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	// Record references to the parent controller and the model
 	this.lnkVehicle_list = vehicleList;
 	this.lnkSystem_status = systemStatus;
+	
+	lnkSystem_status.addObserver(this);
 
 	loadGUI();
     }
 
     private void loadGUI()
     {
-	setTitle("Campus Security");
+	setTitle(1);
 	setLocation(40, 195);
 	setSize(350, 300);
 	setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -136,10 +138,16 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	setVisible(true);
     }
 
+    private void setTitle(int date)
+    {
+	setTitle("Campus Security: Date - " + date);
+    }
+
     @Override
     public void update(Observable o, Object arg)
     {
-	// TODO Auto-generated method stub
+	int date = lnkSystem_status.getDate().getDayNumber();
+	setTitle(date);
     }
 
     @Override

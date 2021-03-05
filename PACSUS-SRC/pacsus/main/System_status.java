@@ -39,7 +39,7 @@ public class System_status extends Observable
      * @label Contains
      * @directed
      */
-    private Date today;
+    private Date today = new Date();
     
     /**
      * @return String for boolean value
@@ -50,5 +50,19 @@ public class System_status extends Observable
     
     public void setSystemActive(boolean status) {
     	this.systemActive = status;
+    }
+    
+    public void nextDay() {
+	today.increment();
+	setChanged();
+	notifyObservers();
+    }
+    
+//    public int getDate() {
+//	return today.getDayNumber();
+//    }
+    
+    public Date getDate() {
+	return today;
     }
 }
