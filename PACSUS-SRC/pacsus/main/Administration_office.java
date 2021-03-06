@@ -84,6 +84,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private ChoicePane choicePane;
     private PermitDialog permitDialog;
+    private JLabel label = new JLabel();
 
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
@@ -92,6 +93,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	this.lnkPermit_list = permitList;
 	choicePane = new ChoicePane();
 	permitDialog = new PermitDialog();
+	
+	lnkSystem_status.addObserver(this);
 	permitList = new Permit_list();
 
 	loadGUI();
@@ -107,7 +110,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	JPanel right = new JPanel();
 
-	setTitle("Administration Office");
+	setTitle(1);
 	setLocation(395, 40);
 	setSize(350, 150);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -116,7 +119,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	// Set up view GUI
 	setBackground(Color.white);
-	JLabel label = new JLabel();
+	
 
 	newPermitButton = new JButton("New Permit");
 	left.add(newPermitButton);
@@ -141,17 +144,23 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	JSplitPane splitPane = new JSplitPane(SwingConstants.VERTICAL, left, right);
 	add(splitPane);
 
-	label.setText("Date: " + "");// TODO systemStatus.getToday();
+	label.setText("Date: " + 1);// TODO change this because shit
 	add(label);
 	setSize(300, 300);
 	setVisible(true);
     }
 
+    private void setTitle(int date)
+    {
+	setTitle("Administration Office: Date - " + date);
+    }
+
     @Override
     public void update(Observable o, Object arg)
     {
-	// TODO Auto-generated method stub
-
+	int date = lnkSystem_status.getDate().getDayNumber();
+	setTitle(date);
+	label.setText("Date: " + date);
     }
 
     @Override
@@ -169,20 +178,20 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	if (e.getSource().equals(unsuspendButton))
 	{
-	    //open the unsuspend dialog
+	    // open the unsuspend dialog
 	    choicePane.showDialog(1);
 	}
 
 	if (e.getSource().equals(cancelButton))
 	{
 	    choicePane.showDialog(2);
-	    //open the cancel dialog
+	    // open the cancel dialog
 	}
 
 	if (e.getSource().equals(editButton))
 	{
 	    choicePane.showDialog(3);
-	    //open the edit dialog
+	    // open the edit dialog
 	}
     }
 }
