@@ -35,6 +35,11 @@ public class Date
 	dayNumber = 1;
     }
 
+    public Date(int date) {
+    dayNumber = date;	
+    }
+    
+    
     /**
      * This operation adds one to the day number, wrapping round to 1 after 365
      * automatically.

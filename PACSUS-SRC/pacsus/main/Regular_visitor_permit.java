@@ -7,7 +7,9 @@ package pacsus.main;
  */
 public class Regular_visitor_permit extends Permit
 {
-    /**
+
+
+	/**
      * The name of the University member hosting the visit.
      */
     private String hostName;
@@ -33,4 +35,14 @@ public class Regular_visitor_permit extends Permit
      * @directed
      */
     private Date lnkDate1;
+
+        public Regular_visitor_permit(String permitHolder, Vehicle_info permittedVehicles, String visiting, Date start, Date end ) {
+		super(permitHolder, permittedVehicles);
+		this.hostName = visiting;
+		this.lnkDate = start;
+		this.lnkDate1 = end;
+		
+		
+	}
 }
+

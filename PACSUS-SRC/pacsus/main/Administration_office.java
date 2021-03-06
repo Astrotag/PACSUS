@@ -92,10 +92,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	this.lnkSystem_status = systemStatus;
 	this.lnkPermit_list = permitList;
 	choicePane = new ChoicePane();
-	permitDialog = new PermitDialog();
+	permitDialog = new PermitDialog(lnkPermit_list,lnkVehicle_list);
 	
 	lnkSystem_status.addObserver(this);
-	permitList = new Permit_list();
+	
 
 	loadGUI();
     }
