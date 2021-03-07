@@ -9,17 +9,20 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.ErrorManager;
 
 import javax.swing.JTextField;
 
 public class PermitDialog extends JDialog
 {
-
+	
     private final JPanel contentPanel = new JPanel();
     private JTextField txtYourName;
     private JTextField txtRegNo;
@@ -27,13 +30,22 @@ public class PermitDialog extends JDialog
     private JTextField txtEndDate;
     private JTextField txtVisiting;
     private JComboBox<String> comboBox;
-
+    private Permit_list currentPerList;
+    private Vehicle_list currentVehList;
+    private JLabel lblYourName;
+    private JLabel lblIssueDate;
+    private JLabel lblVisiting;
+    private JLabel lblEndDate;
     /**
+     * 
      * Create the dialog.
+     * @param lnkVehicle_list 
      */
-    public PermitDialog()
+    public PermitDialog(Permit_list pl, Vehicle_list vl)
     {
 	setupPane();
+	this.currentPerList = pl;
+    this.currentVehList = vl;
     }
 
     public void showDialog()
@@ -103,10 +115,37 @@ public class PermitDialog extends JDialog
 	{
 	    comboBox = new JComboBox<String>();
 	    comboBox.addItem("Select Permit");
-	    comboBox.addItem("Visitor Permit");
+	    comboBox.addItem("Day Visitor Permit");
 	    comboBox.addItem("University member Permit");
 	    comboBox.addItem("Regular Visitor Permit");
 	    comboBox.addItem("Permanent Visitor Permit");
+	    comboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox.getSelectedIndex()==1) {
+					//TODO display boxes appropriate for day visitor permit
+					//only need host name, name and date
+				
+					visibilityChanger(true,false,true,true,false,true);
+				}
+				
+				else if(comboBox.getSelectedIndex()==2) {
+					//TODO display boxes appropriate for uni member permit
+					visibilityChanger(false,false,true,false,false,true);
+				}
+				
+				else if(comboBox.getSelectedIndex()==3) {
+					//TODO display boxes appropriate for regular visitor permit
+					visibilityChanger(true,true,true,true,true,true);
+				}
+				
+				else if(comboBox.getSelectedIndex()==4) {
+					//TODO display boxes appropriate for permanent visitor permit
+					visibilityChanger(false,false,false,false,false,false);
+				}
+			}
+		});
 
 	    GridBagConstraints gbc_comboBox = new GridBagConstraints();
 	    gbc_comboBox.insets = new Insets(0, 0, 5, 0);
@@ -117,7 +156,7 @@ public class PermitDialog extends JDialog
 	}
 
 	{
-	    JLabel lblYourName = new JLabel("Your Name:");
+	    lblYourName = new JLabel("Your Name:");
 	    GridBagConstraints gbc_lblYourName = new GridBagConstraints();
 	    gbc_lblYourName.anchor = GridBagConstraints.EAST;
 	    gbc_lblYourName.insets = new Insets(0, 0, 5, 5);
@@ -160,7 +199,7 @@ public class PermitDialog extends JDialog
 	}
 
 	{
-	    JLabel lblIssueDate = new JLabel("Issue Date:");
+	     lblIssueDate = new JLabel("Issue Date:");
 	    GridBagConstraints gbc_lblIssueDate = new GridBagConstraints();
 	    gbc_lblIssueDate.anchor = GridBagConstraints.EAST;
 	    gbc_lblIssueDate.insets = new Insets(0, 0, 5, 5);
@@ -182,7 +221,7 @@ public class PermitDialog extends JDialog
 	}
 
 	{
-	    JLabel lblEndDate = new JLabel("End Date:");
+	    lblEndDate = new JLabel("End Date:");
 	    GridBagConstraints gbc_lblEndDate = new GridBagConstraints();
 	    gbc_lblEndDate.anchor = GridBagConstraints.EAST;
 	    gbc_lblEndDate.insets = new Insets(0, 0, 5, 5);
@@ -204,13 +243,13 @@ public class PermitDialog extends JDialog
 	}
 
 	{
-	    JLabel lblNewLabel = new JLabel("Visiting:");
+	     lblVisiting = new JLabel("Visiting:");
 	    GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 	    gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 	    gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
 	    gbc_lblNewLabel.gridx = 2;
 	    gbc_lblNewLabel.gridy = 6;
-	    contentPanel.add(lblNewLabel, gbc_lblNewLabel);
+	    contentPanel.add(lblVisiting, gbc_lblNewLabel);
 	}
 
 	{
@@ -229,23 +268,130 @@ public class PermitDialog extends JDialog
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
-		JButton cmdAction = new JButton("Save");
-		cmdAction.addActionListener(new ActionListener()
-		{
-		    public void actionPerformed(ActionEvent e)
-		    {
-			setVisible(false);
+	JButton	cmdAction = new JButton("Save");
+		cmdAction.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				             //code to handle your button click event
+				        	if(getTitle()=="Create Permit") {
+								int permitType = comboBox.getSelectedIndex();
 
-			// TODO the method for saving new/updating existing permits
+							
+							
+							
+							
+							
+								
+								switch (permitType){
+								
+								case 0:
+								JOptionPane.showMessageDialog(null, "Please select a permit ", "Error", JOptionPane.ERROR_MESSAGE);	
+								
+								break;
+								
+								case 1:
+									
+								
+			
+									Day_visitor_permit dvp = new Day_visitor_permit(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()), txtVisiting.getText(), new Date(Integer.parseInt(txtIssueDate.getText())));
+									
+									if (currentPerList.add(txtYourName.getText(), dvp)) {
+										
+										JOptionPane.showMessageDialog(null, "permit added successfully", "success", JOptionPane.INFORMATION_MESSAGE);
+										setVisible(false);
+									}
+									else 
+										JOptionPane.showMessageDialog(null, "error adding permit", "error", JOptionPane.ERROR_MESSAGE);
+										
+									addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
+									
+								break;	
+								
+									
+								
+								case 2: 
+									
+									
+									University_member_permit ump = new University_member_permit(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()), new Date(Integer.parseInt(txtIssueDate.getText())));
+									
+									
+									
+									if (currentPerList.add(txtYourName.getText(), ump)) {
+									
+						
+										JOptionPane.showMessageDialog(null, "permit added successfully", "success", JOptionPane.INFORMATION_MESSAGE);
+										setVisible(false);
+									}
+									else 
+										JOptionPane.showMessageDialog(null, "error adding permit", "error", JOptionPane.ERROR_MESSAGE);
+									
+							
+									addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
+										
+										
+										    
+											
+										
+											
+										
+								break;	
+								
+								case 3: 
+			
+									
+			
+			
+									Regular_visitor_permit rvm = new Regular_visitor_permit(txtYourName.getText(),new Vehicle_info(txtRegNo.getText()), txtVisiting.getText(), new Date(Integer.parseInt(txtIssueDate.getText())), new Date(Integer.parseInt(txtEndDate.getText())));
+									
+									if (currentPerList.add(txtYourName.getText(), rvm)) {
+										
+										JOptionPane.showMessageDialog(null, "permit added successfully", "success", JOptionPane.INFORMATION_MESSAGE);
+										setVisible(false);
+									}
+									else 
+										JOptionPane.showMessageDialog(null, "error adding permit", "error", JOptionPane.ERROR_MESSAGE);
+									
+									addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
+									
+								break;
+								
+								case 4: 
+									Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
+									
+									if (currentPerList.add(txtYourName.getText(), pvp)) {
+										
+										JOptionPane.showMessageDialog(null, "permit added successfully", "success", JOptionPane.INFORMATION_MESSAGE);
+										setVisible(false);
+									}
+									else 
+										JOptionPane.showMessageDialog(null, "error adding permit", "error", JOptionPane.ERROR_MESSAGE);
+									
+									addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));	
+									
+								break;
+								
+									
+								
+								}
+								
+								
+								
+								
+							}
+							
 
-		    }
+						    }
+				    
+
+						
+			
 		});
-
 		buttonPane.add(cmdAction);
-		getRootPane().setDefaultButton(cmdAction);
+		
 	    }
 
-	    {
+	{
 		JButton cmdCancel = new JButton("Cancel");
 
 		cmdCancel.addActionListener(new ActionListener()
@@ -256,10 +402,58 @@ public class PermitDialog extends JDialog
 
 		    }
 		});
+		
 		buttonPane.add(cmdCancel);
 	    }
+	
+	}
+    }
+    
+	    
+	    
+    
+  
+    
+        
+        
+    
+    
+    
+    
+	private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
+		txtVisiting.setVisible(b1);
+		txtEndDate.setVisible(b2);
+		txtIssueDate.setVisible(b3);
+		lblVisiting.setVisible(b4);
+		lblEndDate.setVisible(b5);
+		lblIssueDate.setVisible(b6);
 	}
 
+	
+	private void addToVehicleList(String name, Vehicle_info regNo) {
+		if(regNo.toString().contains(","))
+		{
+		int commaoccurs=-1;
+		for (int i = 0 ; i < regNo.toString().length(); i++) {
+			
+			if(regNo.toString().charAt(i)==',') {
+				Vehicle_info vh = new Vehicle_info(regNo.toString().substring(commaoccurs+1,i));
+				
+				currentVehList.add(vh, name);
+				commaoccurs=i;
+				
+				
+				
+			}
+			
+		} 
+		Vehicle_info vh = new Vehicle_info(regNo.toString().substring(commaoccurs+1));
+		currentVehList.add(vh, name);
+			
+			
+		} else {
+			
+			currentVehList.add(regNo, name);
+		}
+	}
     }
-
-}

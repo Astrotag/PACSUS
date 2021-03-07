@@ -7,7 +7,12 @@ package pacsus.main;
  */
 public class University_member_permit extends Permit
 {
-    /**
+    public University_member_permit(String permitHolder, Vehicle_info permittedVehicles,Date date) {
+		super(permitHolder, permittedVehicles);
+		this.lnkDate = date;
+	}
+
+	/**
      * The date that this permit was issued. This information is required in case a
      * member of the University leaves the University part way through the year and
      * becomes eligible for a pro-rata rebate.

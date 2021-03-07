@@ -7,4 +7,9 @@ package pacsus.main;
  */
 public class Permanent_visitor_permit extends Permit
 {
+
+	public Permanent_visitor_permit(String permitHolder, Vehicle_info permittedVehicles) {
+		super(permitHolder, permittedVehicles);
+	
+	}
 }
