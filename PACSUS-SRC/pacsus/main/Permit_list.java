@@ -30,26 +30,24 @@ public class Permit_list
      * @supplierCardinality 0..*
      * @directed
      */
-    private java.util.Hashtable<String,Permit> lnkPermit;
+    private java.util.Hashtable<String, Permit> lnkPermit;
 
-	public Permit_list() 
+    public Permit_list()
+    {
+	lnkPermit = new Hashtable<String, Permit>();
+	System.out.println(lnkPermit.toString());
+    }
+
+    public boolean add(String key, Permit p)
+    {
+	if (!lnkPermit.containsKey(key))
 	{
-lnkPermit = new Hashtable<String,Permit>();	
-
+	    lnkPermit.put(key, p);
+	    return true;
 	}
-public boolean add(String key, Permit p ) 
-{
-	if(!lnkPermit.containsKey(key)) {
-	lnkPermit.put(key,p);
-	return true;
-	}
-		
-	else 
-		return false;
-}
-	
 
-
-
+	else
+	    return false;
+    }
 
 }
