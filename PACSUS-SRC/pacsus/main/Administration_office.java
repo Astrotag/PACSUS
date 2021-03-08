@@ -467,24 +467,24 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	
 	if (e.getSource().equals(permitTypes))
 	{
-		if(permitTypes.getSelectedIndex()==1) {
+		if(permitTypes.getSelectedIndex()==0) {
 			//TODO display boxes appropriate for day visitor permit
 			//only need host name, name and date
 		
 			visibilityChanger(true,false,true,true,false,true);
 		}
 		
-		else if(permitTypes.getSelectedIndex()==2) {
+		else if(permitTypes.getSelectedIndex()==1) {
 			//TODO display boxes appropriate for uni member permit
 			visibilityChanger(false,false,true,false,false,true);
 		}
 		
-		else if(permitTypes.getSelectedIndex()==3) {
+		else if(permitTypes.getSelectedIndex()==2) {
 			//TODO display boxes appropriate for regular visitor permit
 			visibilityChanger(true,true,true,true,true,true);
 		}
 		
-		else if(permitTypes.getSelectedIndex()==4) {
+		else if(permitTypes.getSelectedIndex()==3) {
 			//TODO display boxes appropriate for permanent visitor permit
 			visibilityChanger(false,false,false,false,false,false);
 		}
