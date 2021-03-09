@@ -69,8 +69,7 @@ abstract public class Permit
      */
     private Vehicle_info vehicleUsedToday;
 
-
-	/**
+    /**
      * This holds references to all the Vehicle_info instances for the vehicles
      * registered to this permit. Note that any vehicle can be registered to only
      * one permit, but many vehicles may be registered to the same permit. This
@@ -83,12 +82,18 @@ abstract public class Permit
      * @supplierCardinality 0..*
      */
     private Vehicle_info permittedVehicles;
-   
-    public Permit(String permitHolder, Vehicle_info permittedVehicles) {
-		super();
-		this.permitHolder = permitHolder;
-		this.permittedVehicles = permittedVehicles;
-	}
 
-    
+    public Permit(String permitHolder, Vehicle_info permittedVehicles)
+    {
+	super();
+	this.permitHolder = permitHolder;
+	this.permittedVehicles = permittedVehicles;
+    }
+
+    @Override
+    public String toString()
+    {
+	return "Permit :" + permitHolder + " : " + permittedVehicles;
+    }
+
 }
