@@ -158,6 +158,9 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	int date = lnkSystem_status.getDate().getDayNumber();
 	System.out.println(date);
 	setTitle(date);
+	
+	active = lnkSystem_status.getSystemStatus();
+	System.out.println("System Changed");
     }
 
     @Override

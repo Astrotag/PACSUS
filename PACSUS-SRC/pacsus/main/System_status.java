@@ -48,8 +48,17 @@ public class System_status extends Observable
     	return systemActive ? "Active" : "Deactivated";
     }
     
+    /**
+     * @return String for boolean value
+     */
+    public boolean getSystemStatus() {
+    	return systemActive ? true : false;
+    }
+    
     public void setSystemActive(boolean status) {
     	this.systemActive = status;
+    	setChanged();
+    	notifyObservers();
     }
     
     public void nextDay() {
