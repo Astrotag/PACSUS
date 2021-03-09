@@ -90,10 +90,42 @@ abstract public class Permit
 	this.permittedVehicles = permittedVehicles;
     }
 
+    public int getWarnings()
+    {
+	return warnings;
+    }
+
+    public void setWarnings(int warnings)
+    {
+	this.warnings += warnings;
+	checkSuspended();
+    }
+
+    public void checkSuspended()
+    {
+	if (this.warnings == 3)
+	{
+	    setSuspended(true);
+	}
+	else {
+	    setSuspended(false);
+	}
+    }
+
+    public boolean isSuspended()
+    {
+	return suspended;
+    }
+
+    public void setSuspended(boolean suspended)
+    {
+	this.suspended = suspended;
+    }
+
     @Override
     public String toString()
     {
-	return "Permit :" + permitHolder + " : " + permittedVehicles;
+	return "Permit:" + permitHolder + "-" + permittedVehicles;
     }
 
 }
