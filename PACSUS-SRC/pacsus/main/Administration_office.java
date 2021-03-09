@@ -73,7 +73,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      */
     private System_status lnkSystem_status;
 
-    private JButton newPermitButton, warningButton, unsuspendButton, cancelButton, editButton;
+    private JButton newPermitButton, addWarningButton, removeWarningButton, unsuspendButton, cancelButton, editButton;
 
     String[] permitStrings;
     /**
@@ -213,13 +213,20 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	permitStrings = new String[lnkPermit_list.size()];
 	permitStrings = lnkPermit_list.populateList();
 	popCombo();
+
 	warningPanel.add(allPermits, gbc);
 
+	gbc.gridx = 0;
+	gbc.gridy = 4;
+	addWarningButton = new JButton("Issue Warning");
+	warningPanel.add(addWarningButton, gbc);
+	addWarningButton.addActionListener(this);
+
 	gbc.gridx = 1;
-	gbc.gridy = 1;
-	warningButton = new JButton("Issue Warning");
-	warningPanel.add(warningButton, gbc);
-	warningButton.addActionListener(this);
+	gbc.gridy = 4;
+	removeWarningButton = new JButton("Remove Warning");
+	warningPanel.add(removeWarningButton, gbc);
+	removeWarningButton.addActionListener(this);
 	return warningPanel;
     }
 
@@ -465,17 +472,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    createPermit();
 	}
 
-	if (e.getSource().equals(warningButton))
+	if (e.getSource().equals(addWarningButton))
 	{
+	    addWarning();
+	}
 
-	    for (String string : permitStrings)
-	    {
-		System.out.println(string);
-	    }
+	if (e.getSource().equals(removeWarningButton))
+	{
+	    removeWarning();
 	}
 
 	if (e.getSource().equals(unsuspendButton))
-
 	{
 
 	}
@@ -518,6 +525,28 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		visibilityChanger(false, false, false, false, false, false);
 	    }
 	}
+    }
+
+    private void removeWarning()
+    {
+	int selected = allPermits.getSelectedIndex();
+
+	String name = permitStrings[selected];
+	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	lnkPermit_list.warnings(name, 0);
+
+    }
+
+    private void addWarning()
+    {
+	int selected = allPermits.getSelectedIndex();
+
+	String name = permitStrings[selected];
+	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	lnkPermit_list.warnings(name, 1);
+
     }
 
     private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6)

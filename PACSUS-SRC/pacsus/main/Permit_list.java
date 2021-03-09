@@ -57,9 +57,9 @@ public class Permit_list
     {
 	Object[] keys = lnkPermit.keySet().toArray();
 	Object[] permits = lnkPermit.values().toArray();
-	
+
 	String[] strings = new String[keys.length];
-	
+
 	for (int i = 0; i < keys.length; i++)
 	{
 	    System.out.println(keys[i]);
@@ -69,8 +69,38 @@ public class Permit_list
 
 	return strings;
     }
-    
-    public int size() {
+
+    public int size()
+    {
 	return lnkPermit.size();
+    }
+
+    /**
+     * A public method which takes in the key value for the permit, finds the
+     * associated permit and either removes or adds a warning.
+     * 
+     * @param key - The name of the permit holder
+     * @param type - value to check if adding or removing a permit
+     */
+    public void warnings(String key, int type)
+    {
+	if (type == 1)
+	{
+	    if (lnkPermit.get(key).getWarnings() < 3)
+	    {
+		lnkPermit.get(key).setWarnings(1);
+	    }
+	}
+
+	else
+	{
+	    if (lnkPermit.get(key).getWarnings() > 0)
+	    {
+		lnkPermit.get(key).setWarnings(-1);
+	    }
+	}
+	
+	//For testing purposes
+	System.out.println(lnkPermit.get(key) + " " + lnkPermit.get(key).getWarnings());
     }
 }
