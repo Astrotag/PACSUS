@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -76,7 +75,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JButton newPermitButton, warningButton, unsuspendButton, cancelButton, editButton;
 
-    String[] permitStrings = new String[5];
+    String[] permitStrings;
     /**
      * Generated Constructor
      * 
@@ -134,6 +133,16 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	setSize(600, 300);
 
 	setVisible(true);
+
+    }
+
+    private void populatePermitList()
+    {
+	lnkPermit_list.add("Greig", new University_member_permit("Greig", new Vehicle_info("YT14HBB"), new Date(1)));
+	lnkPermit_list.add("Joanes", new University_member_permit("Joanes", new Vehicle_info("SL07HAU"), new Date(1)));
+	lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
+	lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
+	lnkPermit_list.add("Stuart", new University_member_permit("Stuart", new Vehicle_info("HG04YUY"), new Date(1)));
     }
 
     /**
@@ -200,6 +209,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridx = 1;
 	gbc.gridy = 0;
 	allPermits = new JComboBox<String>();
+	populatePermitList();
+	permitStrings = new String[lnkPermit_list.size()];
+	permitStrings = lnkPermit_list.populateList();
 	popCombo();
 	warningPanel.add(allPermits, gbc);
 

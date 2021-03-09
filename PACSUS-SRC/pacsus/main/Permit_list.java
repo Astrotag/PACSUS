@@ -64,9 +64,13 @@ public class Permit_list
 	{
 	    System.out.println(keys[i]);
 	    System.out.println(permits[i].toString());
-	    strings[i] = " " + permits[i].toString();
+	    strings[i] = "" + permits[i].toString();
 	}
 
 	return strings;
+    }
+    
+    public int size() {
+	return lnkPermit.size();
     }
 }
