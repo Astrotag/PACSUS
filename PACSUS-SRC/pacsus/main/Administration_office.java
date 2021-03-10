@@ -451,7 +451,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		switch (permitType) {
 
 		case 0:
-
+		
+	         if(!validateInputs(0)) {
+	        	 return;
+	         }
 			Day_visitor_permit dvp = new Day_visitor_permit(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()),
 					txtVisitingDate.getText(), new Date(Integer.parseInt(txtIssueDate.getText())));
 
@@ -466,6 +469,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 		case 1:
 
+			if(!validateInputs(1)) {
+	        	 return;
+	         }
 			University_member_permit ump = new University_member_permit(txtYourName.getText(),
 					new Vehicle_info(txtRegNo.getText()), new Date(Integer.parseInt(txtIssueDate.getText())));
 
@@ -481,6 +487,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 		case 2:
 
+			if(!validateInputs(2)) {
+	        	 return;
+	         }
 			Regular_visitor_permit rvm = new Regular_visitor_permit(txtYourName.getText(),
 					new Vehicle_info(txtRegNo.getText()), txtVisitingDate.getText(),
 					new Date(Integer.parseInt(txtIssueDate.getText())),
@@ -497,6 +506,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 			break;
 
 		case 3:
+			if(!validateInputs(3)) {
+	        	 return;
+	         }
 			Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtYourName.getText(),
 					new Vehicle_info(txtRegNo.getText()));
 
@@ -516,11 +528,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	}
 
 	/**
-	 * TODO - Niall
-	 * 
-	 * @param text
-	 * @param vehicle_info
-	 */
+     * addToVehicleList - 
+     * this method adds all vehicles added to the permit and seperates each car from commas and then adds the separate vehicles to
+     * the list 
+     * @author NP
+     * @param name - this is the name of the permit holder
+     * @param vehicle_info - all the registration numbers from the permit
+     */
 	private void addToVehicleList(String name, Vehicle_info vehicle_info) {
 		if (vehicle_info.toString().contains(",")) {
 			int commaoccurs = -1;
@@ -681,7 +695,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		lnkPermit_list.warnings(name, 1);
 
 	}
-
+	
+	/**
+     * @author NP
+     * this lovely method is an absolute abomination of a method ensures the user doesn't pointlessly enter info the permit type doesn;t need
+     * @param b1
+     * @param b2
+     * @param b3
+     * @param b4
+     * @param b5
+     * @param b6
+     */
 	private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
 		txtVisitingDate.setVisible(b1);
 		txtEndDate.setVisible(b2);
@@ -690,4 +714,104 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		lblEndDate.setVisible(b5);
 		lblIssueDate.setVisible(b6);
 	}
+
+	 /**
+     * @author NP
+     * I wish users were not so prone to making stupid mistakes or this method would not be necessary
+     * good luck reading this code lmao
+     * 
+     * what it essentially does is it validates what has been put into the text boxes and checks if it is what the permit needs
+     * @param permitType - the type of permit being validated 
+     * @return
+     */
+	 private boolean validateInputs(int permitType) 
+	    {
+			
+	    	boolean valid = false;
+	    	 if(!txtYourName.getText().matches("[A-Z][a-z]+")) {
+	    		JOptionPane.showMessageDialog(null, "Name should contain a uppercase letter and lower case letters", "Format Error", JOptionPane.ERROR_MESSAGE);
+	    		return valid;
+	    	}
+	    	
+	    	 if(txtRegNo.getText().length()<5) {
+	    		JOptionPane.showMessageDialog(null, "Registration number must be 5 characters or more ", "Format Error", JOptionPane.ERROR_MESSAGE);
+	    		return valid;
+	    	}
+	    	
+	    	
+	    	switch( permitType){
+	    	case 0:
+	    		if(!(txtIssueDate.getText().matches("^[0-9]{1,3}")&&(txtVisitingDate.getText().matches("^[0-9]{1,3}")))) 
+	    		{
+	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error", JOptionPane.ERROR_MESSAGE);
+	        			return valid;
+	    			
+	    		}
+	    		else if(((Integer.parseInt(txtIssueDate.getText())<1)||(Integer.parseInt(txtIssueDate.getText())>365)
+	    				)||((Integer.parseInt(txtVisitingDate.getText())<1||Integer.parseInt(txtVisitingDate.getText())>365))) {
+	    			
+	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
+	        		
+	    			
+	    			
+	    		}
+	    		else {
+	    			valid  = true;;
+	    		}
+	    		
+	    		
+	    		break;
+	    		
+	    	case 1:
+	    		if(!txtIssueDate.getText().matches("^[0-9]{1,3}")) {
+	    			
+	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Date Error", JOptionPane.ERROR_MESSAGE);
+	        		return valid;
+	    			
+	    			
+	    		}
+	    		else if(Integer.parseInt(txtIssueDate.getText())<1||Integer.parseInt(txtIssueDate.getText())>365) {
+	    			
+	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
+	        		return valid;	
+	    			
+	    			
+	    		}
+	    		else
+	    		{
+	    		valid =  true;	
+	    		}
+	    			
+	    		
+	    	case 2:
+	     		if(!txtIssueDate.getText().matches("^[0-9]{1,3}")||!txtVisitingDate.getText().matches("^[0-9]{1,3}")||!txtEndDate.getText().matches("^[0-9]{1,3}") ) 
+	    		{
+	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error", JOptionPane.ERROR_MESSAGE);
+	        			return valid;
+	    		}
+	     		
+	     		
+	     		else if((Integer.parseInt(txtIssueDate.getText())<1||Integer.parseInt(txtIssueDate.getText())>365
+	    				)||(Integer.parseInt(txtVisitingDate.getText())<1||Integer.parseInt(txtVisitingDate.getText())>365)||
+	     				(Integer.parseInt(txtEndDate.getText())<1||Integer.parseInt(txtEndDate.getText())>365)) {
+	    			
+	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
+	        			return valid;
+	    			
+	    			
+	        		
+	    		}
+	     		else{ 
+	     		valid =  true;
+	     		}
+	     		
+	     		
+	    	case 3:
+	    		valid =  true;
+	     		
+	    	}
+				return valid;
+			
+	    	
+		}
 }
