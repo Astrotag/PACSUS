@@ -109,7 +109,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
     private void loadGUI()
     {
 	setTitle(1);
-	setLocation(750, 40);
+	setLocation(400, 40);
 	setSize(350, 150);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	Container window = getContentPane();

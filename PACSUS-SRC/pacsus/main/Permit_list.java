@@ -103,4 +103,17 @@ public class Permit_list
 	//For testing purposes
 	System.out.println(lnkPermit.get(key) + " " + lnkPermit.get(key).getWarnings());
     }
+    
+    public Permit getPermit(String key){
+    	return lnkPermit.get(key);
+    }
+   
+    public boolean update(String key, Permit p) {
+    	if(lnkPermit.containsKey(key)) {
+    		lnkPermit.replace(key, p);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 }
