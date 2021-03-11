@@ -1,5 +1,6 @@
 package pacsus.main;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -38,667 +39,735 @@ import javax.swing.JTextField;
  * 
  * @stereotype boundary
  */
-public class Administration_office extends JFrame implements Observer, ActionListener {
-	/**
-	 * Each instance of Administration_office has a navigable association to the
-	 * permit list so that it can enquire about/add/delete/modify permits.
-	 * 
-	 * @supplierCardinality 1
-	 * @clientCardinality 1..*
-	 * @label Administration functions
-	 * @directed
-	 */
-	private Permit_list lnkPermit_list;
+public class Administration_office extends JFrame implements Observer, ActionListener
+{
+    /**
+     * Each instance of Administration_office has a navigable association to the
+     * permit list so that it can enquire about/add/delete/modify permits.
+     * 
+     * @supplierCardinality 1
+     * @clientCardinality 1..*
+     * @label Administration functions
+     * @directed
+     */
+    private Permit_list lnkPermit_list;
 
-	/**
-	 * Each instance of Administration_office has a navigable association to the
-	 * vehicle list so that it can enquire about/add/delete/modify vehicle details.
-	 * 
-	 * @clientCardinality 1..*
-	 * @supplierCardinality 1
-	 * @label Administration functions
-	 * @directed
-	 */
-	private Vehicle_list lnkVehicle_list;
+    /**
+     * Each instance of Administration_office has a navigable association to the
+     * vehicle list so that it can enquire about/add/delete/modify vehicle details.
+     * 
+     * @clientCardinality 1..*
+     * @supplierCardinality 1
+     * @label Administration functions
+     * @directed
+     */
+    private Vehicle_list lnkVehicle_list;
 
-	/**
-	 * Each instance of Administration_office has a navigable association to the
-	 * system status so that it can find out status information about the system.
-	 * 
-	 * @clientCardinality 1..*
-	 * @supplierCardinality 1
-	 * @label See date
-	 * @directed
-	 */
-	private System_status lnkSystem_status;
+    /**
+     * Each instance of Administration_office has a navigable association to the
+     * system status so that it can find out status information about the system.
+     * 
+     * @clientCardinality 1..*
+     * @supplierCardinality 1
+     * @label See date
+     * @directed
+     */
+    private System_status lnkSystem_status;
 
-	private JButton newPermitButton, addWarningButton, removeWarningButton, unsuspendButton, cancelButton, editButton, editPermitButton;
+    private JButton newPermitButton, addWarningButton, removeWarningButton, unsuspendButton, cancelButton, editButton,
+	    editPermitButton;
 
-	String[] permitStrings;
-	/**
-	 * Generated Constructor
-	 * 
-	 * @param systemStatus
-	 * @param vehicleList
-	 * @param permitList
-	 */
+    String[] permitStrings;
+    /**
+     * Generated Constructor
+     * 
+     * @param systemStatus
+     * @param vehicleList
+     * @param permitList
+     */
 
 //    private ChoicePane choicePane;
 //    private PermitDialog permitDialog;
 //    private JLabel label = new JLabel();
 
-	private JComboBox<String> permitTypes, allPermits;
+    private JComboBox<String> permitTypesNewPermit, permitTypesEdit, allPermitsWarning, allPermitsEdit;
 
-	private JTextField txtYourName, txtRegNo, txtIssueDate, txtEndDate, txtVisitingDate;
-	private JLabel lblYourName, lblRegNo, lblIssueDate, lblVisiting, lblEndDate, lblPermitTypes, lblAllPermits;
-	private JPanel editPanel;
+    private JTextField txtNameNewPermit, txtRegNoNewPermit, txtIssueDateNewPermit, txtEndDateNewPermit, txtVisDateNewPermit;
+    private JTextField txtNameEdit, txtRegNoEdit, txtIssueDateEdit, txtEndDateEdit, txtVisDateEdit;
+    private JLabel lblYourName, lblRegNo, lblIssueDate, lblVisiting, lblEndDate, lblPermitTypes, lblAllPermits;
+    private JPanel editPanel;
+    JTabbedPane tabbedPane;
 
-	public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList) {
-		this.lnkVehicle_list = vehicleList;
-		this.lnkSystem_status = systemStatus;
-		this.lnkPermit_list = permitList;
+
+    public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
+    {
+	this.lnkVehicle_list = vehicleList;
+	this.lnkSystem_status = systemStatus;
+	this.lnkPermit_list = permitList;
 //	choicePane = new ChoicePane();
 //	permitDialog = new PermitDialog(lnkPermit_list, lnkVehicle_list);
 
-		lnkSystem_status.addObserver(this);
+	lnkSystem_status.addObserver(this);
 
-		loadGUI();
+	loadGUI();
+    }
+
+    private void loadGUI()
+    {
+	tabbedPane = new JTabbedPane();
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setTitle(1);
+
+	JPanel newPermitPanel = createPermitPanel();
+
+	JPanel warningPanel = createWarningPanel();
+
+	JPanel unsuspendPanel = createSuspendedPanel();
+
+	JPanel cancelPermit = createCancelPanel();
+
+	JPanel editPanel = createEditPermitPanel();
+
+	tabbedPane.addTab("New Permit", newPermitPanel);
+	tabbedPane.addTab("Issue Warning", warningPanel);
+	tabbedPane.addTab("Unsuspend Permit", unsuspendPanel);
+	tabbedPane.addTab("Cancel Permit", cancelPermit);
+	tabbedPane.addTab("Edit Permit", editPanel);
+
+	add(tabbedPane);
+	setSize(600, 300);
+	setLocation(400, 195);
+
+	setVisible(true);
+
+    }
+
+    private void populatePermitList()
+    {
+	lnkPermit_list.add("Greig", new University_member_permit("Greig", new Vehicle_info("YT14HBB"), new Date(1)));
+	lnkPermit_list.add("Joanes", new University_member_permit("Joanes", new Vehicle_info("SL07HAU"), new Date(1)));
+	lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
+	lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
+	lnkPermit_list.add("Stuart", new University_member_permit("Stuart", new Vehicle_info("HG04YUY"), new Date(1)));
+    }
+
+    /**
+     * Creates the UI elements for the Edit panel
+     * 
+     * @return - JPanel for Edit
+     */
+    private JPanel createEditPermitPanel()
+    {
+	editPanel = new JPanel();
+	allPermitsEdit = new JComboBox<String>();
+	
+	populatePermitList();
+	
+	permitStrings = new String[lnkPermit_list.size()];
+	permitStrings = lnkPermit_list.populateList();
+	
+	popCombo();
+	
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	int left = 0, right = 1, line = 0;
+
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblAllPermits = new JLabel("All Current Permits: ");
+	editPanel.add(allPermitsEdit, gbc);
+
+	line++;
+	gbc.gridx = right;
+	gbc.gridy = line;
+	editButton = new JButton("Select");
+	editPanel.add(editButton);
+	editButton.addActionListener(this);
+
+	GridBagLayout gbl = new GridBagLayout();
+	editPanel.setLayout(gbl);
+
+	permitTypesEdit = new JComboBox<String>(new String[]
+	{ "Day Permit", "Permanent Vistior", "Regular Vistor", "University Member" });
+	gbc.gridx = left;
+	gbc.gridy = line + 1;
+	
+	lblPermitTypes = new JLabel("Permit Types: ");
+	editPanel.add(lblPermitTypes, gbc);
+
+	line++;
+	gbc.gridx = right;
+	gbc.gridy = line;
+	editPanel.add(permitTypesEdit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	permitTypesEdit.addActionListener(this);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblYourName = new JLabel("Name: ");
+	editPanel.add(lblYourName, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtNameEdit = new JTextField();
+	txtNameEdit.setEditable(false);
+	editPanel.add(txtNameEdit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblRegNo = new JLabel("Registration No: ");
+	editPanel.add(lblRegNo, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtRegNoEdit = new JTextField();
+	editPanel.add(txtRegNoEdit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblIssueDate = new JLabel("Date Issued: ");
+	editPanel.add(lblIssueDate, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtIssueDateEdit = new JTextField();
+	editPanel.add(txtIssueDateEdit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblEndDate = new JLabel("End Date: ");
+	editPanel.add(lblEndDate, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtEndDateEdit = new JTextField();
+	editPanel.add(txtEndDateEdit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisiting = new JLabel("Visiting Date: ");
+	editPanel.add(lblVisiting, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisDateEdit = new JTextField();
+	editPanel.add(txtVisDateEdit, gbc);
+
+	line++;
+	gbc.gridx = right;
+	gbc.gridy = line;
+	editPermitButton = new JButton("New Permit");
+	editPanel.add(editPermitButton, gbc);
+	editPermitButton.addActionListener(this);
+	return editPanel;
+    }
+
+    /**
+     * Creates the UI elements for the Cancel panel
+     * 
+     * @return - JPanel for Cancel
+     */
+    private JPanel createCancelPanel()
+    {
+	JPanel cancelPermit = new JPanel();
+	cancelButton = new JButton("Cancel Permit");
+	cancelPermit.add(cancelButton);
+	cancelButton.addActionListener(this);
+	return cancelPermit;
+    }
+
+    /**
+     * Creates the UI elements for the Suspended panel
+     * 
+     * @return - JPanel for unsuspend
+     */
+    private JPanel createSuspendedPanel()
+    {
+	JPanel unsuspendPanel = new JPanel();
+	unsuspendButton = new JButton("Unsuspend Permit");
+	unsuspendPanel.add(unsuspendButton);
+	unsuspendButton.addActionListener(this);
+	return unsuspendPanel;
+    }
+
+    /**
+     * Creates the UI elements for the warning panel
+     * 
+     * @return - JPanel for warning
+     */
+    private JPanel createWarningPanel()
+    {
+	JPanel warningPanel = new JPanel();
+	GridBagLayout gbl = new GridBagLayout();
+	warningPanel.setLayout(gbl);
+
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+
+	lblAllPermits = new JLabel("All Current Permits: ");
+	warningPanel.add(lblAllPermits, gbc);
+
+	gbc.gridx = 1;
+	gbc.gridy = 0;
+	allPermitsWarning = new JComboBox<String>();
+	populatePermitList();
+	permitStrings = new String[lnkPermit_list.size()];
+	permitStrings = lnkPermit_list.populateList();
+	
+	warningPanel.add(allPermitsWarning, gbc);
+
+	gbc.gridx = 0;
+	gbc.gridy = 4;
+	addWarningButton = new JButton("Issue Warning");
+	warningPanel.add(addWarningButton, gbc);
+	addWarningButton.addActionListener(this);
+
+	gbc.gridx = 1;
+	gbc.gridy = 4;
+	removeWarningButton = new JButton("Remove Warning");
+	warningPanel.add(removeWarningButton, gbc);
+	removeWarningButton.addActionListener(this);
+	return warningPanel;
+    }
+
+    private void popCombo()
+    {
+	allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
+	allPermitsEdit.setModel(new DefaultComboBoxModel<String>(permitStrings));
+    }
+
+    /**
+     * Creates the UI elements for the create permit panel
+     * 
+     * @return - JPanel for creating a permit
+     * @return
+     */
+    private JPanel createPermitPanel()
+    {
+	JPanel newPermitPanel = new JPanel();
+	GridBagLayout gbl = new GridBagLayout();
+	newPermitPanel.setLayout(gbl);
+
+	int left = 0, right = 1, line = 0;
+	;
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	gbc.gridx = left;
+	gbc.gridy = line;
+
+	lblPermitTypes = new JLabel("Permit Types: ");
+	newPermitPanel.add(lblPermitTypes, gbc);
+
+	permitTypesNewPermit = new JComboBox<String>(new String[]
+		{ "Day Permit", "Permanent Vistior", "Regular Vistor", "University Member" });
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+
+	permitTypesNewPermit.addActionListener(this);
+
+	gbc.gridx = 1;
+	gbc.gridy = 0;
+	newPermitPanel.add(permitTypesNewPermit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblYourName = new JLabel("Name: ");
+	newPermitPanel.add(lblYourName, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtNameNewPermit = new JTextField();
+	newPermitPanel.add(txtNameNewPermit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblRegNo = new JLabel("Registration No: ");
+	newPermitPanel.add(lblRegNo, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtRegNoNewPermit = new JTextField();
+	newPermitPanel.add(txtRegNoNewPermit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblIssueDate = new JLabel("Date Issued: ");
+	newPermitPanel.add(lblIssueDate, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtIssueDateNewPermit = new JTextField();
+	newPermitPanel.add(txtIssueDateNewPermit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblEndDate = new JLabel("End Date: ");
+	newPermitPanel.add(lblEndDate, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtEndDateNewPermit = new JTextField();
+	newPermitPanel.add(txtEndDateNewPermit, gbc);
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisiting = new JLabel("Visiting Date: ");
+	newPermitPanel.add(lblVisiting, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisDateNewPermit = new JTextField();
+	newPermitPanel.add(txtVisDateNewPermit, gbc);
+
+	line++;
+	gbc.gridx = right;
+	gbc.gridy = line;
+	newPermitButton = new JButton("New Permit");
+	newPermitPanel.add(newPermitButton, gbc);
+	newPermitButton.addActionListener(this);
+
+	return newPermitPanel;
+    }
+
+    /**
+     * TODO
+     * 
+     * @param date
+     */
+    private void setTitle(int date)
+    {
+	setTitle("Administration Office: Date - " + date);
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+	int date = lnkSystem_status.getDate().getDayNumber();
+	setTitle(date);
+    }
+
+    /**
+     * TODO
+     */
+    private void createPermit()
+    {
+	int permitType = permitTypesNewPermit.getSelectedIndex();
+
+	switch (permitType)
+	{
+
+	case 0:
+
+	    if (!validateInputs(0))
+	    {
+		return;
+	    }
+	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()),
+		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+
+	    if (lnkPermit_list.add(txtNameNewPermit.getText(), dvp))
+	    {
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+
+	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+
+	    break;
+
+	case 1:
+
+	    if (!validateInputs(1))
+	    {
+		return;
+	    }
+	    University_member_permit ump = new University_member_permit(txtNameNewPermit.getText(),
+		    new Vehicle_info(txtRegNoNewPermit.getText()), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+
+	    if (lnkPermit_list.add(txtNameNewPermit.getText(), ump))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+
+	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+
+	    break;
+
+	case 2:
+
+	    if (!validateInputs(2))
+	    {
+		return;
+	    }
+	    Regular_visitor_permit rvm = new Regular_visitor_permit(txtNameNewPermit.getText(),
+		    new Vehicle_info(txtRegNoNewPermit.getText()), txtVisDateNewPermit.getText(),
+		    new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
+		    new Date(Integer.parseInt(txtEndDateNewPermit.getText())));
+
+	    if (lnkPermit_list.add(txtNameNewPermit.getText(), rvm))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+
+	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+
+	    break;
+
+	case 3:
+	    if (!validateInputs(3))
+	    {
+		return;
+	    }
+	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtNameNewPermit.getText(),
+		    new Vehicle_info(txtRegNoNewPermit.getText()));
+
+	    if (lnkPermit_list.add(txtNameNewPermit.getText(), pvp))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+
+	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+
+	    break;
 	}
 
-	private void loadGUI() {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setTitle(1);
-
-		JTabbedPane tabbedPane = new JTabbedPane();
-
-		JPanel newPermitPanel = createPermitPanel();
-
-		JPanel warningPanel = createWarningPanel();
-
-		JPanel unsuspendPanel = createSuspendedPanel();
-
-		JPanel cancelPermit = createCancelPanel();
-
-		JPanel editPanel = createEditPermitPanel();
-
-		tabbedPane.addTab("New Permit", newPermitPanel);
-		tabbedPane.addTab("Issue Warning", warningPanel);
-		tabbedPane.addTab("Unsuspend Permit", unsuspendPanel);
-		tabbedPane.addTab("Cancel Permit", cancelPermit);
-		tabbedPane.addTab("Edit Permit", editPanel);
-
-		add(tabbedPane);
-		setSize(600, 300);
-		setLocation(400, 195);
-
-		setVisible(true);
-
+	permitStrings = lnkPermit_list.populateList();
+	for (String string : permitStrings)
+	{
+	    System.out.println(string);
 	}
-
-	private void populatePermitList() {
-		lnkPermit_list.add("Greig", new University_member_permit("Greig", new Vehicle_info("YT14HBB"), new Date(1)));
-		lnkPermit_list.add("Joanes", new University_member_permit("Joanes", new Vehicle_info("SL07HAU"), new Date(1)));
-		lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
-		lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
-		lnkPermit_list.add("Stuart", new University_member_permit("Stuart", new Vehicle_info("HG04YUY"), new Date(1)));
-	}
-
-	/**
-	 * Creates the UI elements for the Edit panel
-	 * 
-	 * @return - JPanel for Edit
-	 */
-	private JPanel createEditPermitPanel() {
-		editPanel = new JPanel();
-		allPermits = new JComboBox<String>();
-		populatePermitList();
-		permitStrings = new String[lnkPermit_list.size()];
-		permitStrings = lnkPermit_list.populateList();
-		popCombo();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		int left = 0, right = 1, line = 0;
-		
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblAllPermits = new JLabel("All Current Permits: ");
-		editPanel.add(allPermits, gbc);
-		
-		line++;
-		gbc.gridx = right;
-		gbc.gridy = line;
-		editButton = new JButton("Select");
-		editPanel.add(editButton);
-		editButton.addActionListener(this);
-		
-		GridBagLayout gbl = new GridBagLayout();
-		editPanel.setLayout(gbl);
-
-		permitTypes = new JComboBox<String>(new String[] { "Day Permit", "Permanent Vistior", "Regular Vistor", "University Member" });
-		gbc.gridx = left;
-		gbc.gridy = line+1;
-		lblPermitTypes = new JLabel("Permit Types: ");
-		editPanel.add(lblPermitTypes, gbc);
-
-		line++;
-		gbc.gridx = right;
-		gbc.gridy = line;
-		editPanel.add(permitTypes, gbc);		
-		
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		permitTypes.addActionListener(this);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblYourName = new JLabel("Name: ");
-		editPanel.add(lblYourName, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtYourName = new JTextField();
-		txtYourName.setEditable(false);
-		editPanel.add(txtYourName, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblRegNo = new JLabel("Registration No: ");
-		editPanel.add(lblRegNo, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtRegNo = new JTextField();
-		editPanel.add(txtRegNo, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblIssueDate = new JLabel("Date Issued: ");
-		editPanel.add(lblIssueDate, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtIssueDate = new JTextField();
-		editPanel.add(txtIssueDate, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblEndDate = new JLabel("End Date: ");
-		editPanel.add(lblEndDate, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtEndDate = new JTextField();
-		editPanel.add(txtEndDate, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblVisiting = new JLabel("Visiting Date: ");
-		editPanel.add(lblVisiting, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtVisitingDate = new JTextField();
-		editPanel.add(txtVisitingDate, gbc);
-
-		line++;
-		gbc.gridx = right;
-		gbc.gridy = line;
-		editPermitButton = new JButton("New Permit");
-		editPanel.add(editPermitButton, gbc);
-		editPermitButton.addActionListener(this);
-		return editPanel;
-	}
-
-	/**
-	 * Creates the UI elements for the Cancel panel
-	 * 
-	 * @return - JPanel for Cancel
-	 */
-	private JPanel createCancelPanel() {
-		JPanel cancelPermit = new JPanel();
-		cancelButton = new JButton("Cancel Permit");
-		cancelPermit.add(cancelButton);
-		cancelButton.addActionListener(this);
-		return cancelPermit;
-	}
-
-	/**
-	 * Creates the UI elements for the Suspended panel
-	 * 
-	 * @return - JPanel for unsuspend
-	 */
-	private JPanel createSuspendedPanel() {
-		JPanel unsuspendPanel = new JPanel();
-		unsuspendButton = new JButton("Unsuspend Permit");
-		unsuspendPanel.add(unsuspendButton);
-		unsuspendButton.addActionListener(this);
-		return unsuspendPanel;
-	}
-
-	/**
-	 * Creates the UI elements for the warning panel
-	 * 
-	 * @return - JPanel for warning
-	 */
-	private JPanel createWarningPanel() {
-		JPanel warningPanel = new JPanel();
-		GridBagLayout gbl = new GridBagLayout();
-		warningPanel.setLayout(gbl);
-
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-
-		lblAllPermits = new JLabel("All Current Permits: ");
-		warningPanel.add(lblAllPermits, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		allPermits = new JComboBox<String>();
-		populatePermitList();
-		permitStrings = new String[lnkPermit_list.size()];
-		permitStrings = lnkPermit_list.populateList();
-		popCombo();
-
-		warningPanel.add(allPermits, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		addWarningButton = new JButton("Issue Warning");
-		warningPanel.add(addWarningButton, gbc);
-		addWarningButton.addActionListener(this);
-
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		removeWarningButton = new JButton("Remove Warning");
-		warningPanel.add(removeWarningButton, gbc);
-		removeWarningButton.addActionListener(this);
-		return warningPanel;
-	}
-
-	private void popCombo() {
-		allPermits.setModel(new DefaultComboBoxModel<String>(permitStrings));
-	}
-
-	/**
-	 * Creates the UI elements for the create permit panel
-	 * 
-	 * @return - JPanel for creating a permit
-	 * @return
-	 */
-	private JPanel createPermitPanel() {
-		JPanel newPermitPanel = new JPanel();
-		GridBagLayout gbl = new GridBagLayout();
-		newPermitPanel.setLayout(gbl);
-
-		int left = 0, right = 1, line = 0;
-		;
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = left;
-		gbc.gridy = line;
-
-		lblPermitTypes = new JLabel("Permit Types: ");
-		newPermitPanel.add(lblPermitTypes, gbc);
-
-		permitTypes = new JComboBox<String>(
-				new String[] { "Day Permit", "Permanent Vistior", "Regular Vistor", "University Member" });
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-
-		permitTypes.addActionListener(this);
-
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		newPermitPanel.add(permitTypes, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblYourName = new JLabel("Name: ");
-		newPermitPanel.add(lblYourName, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtYourName = new JTextField();
-		newPermitPanel.add(txtYourName, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblRegNo = new JLabel("Registration No: ");
-		newPermitPanel.add(lblRegNo, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtRegNo = new JTextField();
-		newPermitPanel.add(txtRegNo, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblIssueDate = new JLabel("Date Issued: ");
-		newPermitPanel.add(lblIssueDate, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtIssueDate = new JTextField();
-		newPermitPanel.add(txtIssueDate, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblEndDate = new JLabel("End Date: ");
-		newPermitPanel.add(lblEndDate, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtEndDate = new JTextField();
-		newPermitPanel.add(txtEndDate, gbc);
-
-		line++;
-		gbc.gridx = left;
-		gbc.gridy = line;
-		lblVisiting = new JLabel("Visiting Date: ");
-		newPermitPanel.add(lblVisiting, gbc);
-
-		gbc.gridx = right;
-		gbc.gridy = line;
-		txtVisitingDate = new JTextField();
-		newPermitPanel.add(txtVisitingDate, gbc);
-
-		line++;
-		gbc.gridx = right;
-		gbc.gridy = line;
-		newPermitButton = new JButton("New Permit");
-		newPermitPanel.add(newPermitButton, gbc);
-		newPermitButton.addActionListener(this);
-
-		return newPermitPanel;
-	}
-
-	/**
-	 * TODO
-	 * 
-	 * @param date
-	 */
-	private void setTitle(int date) {
-		setTitle("Administration Office: Date - " + date);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		int date = lnkSystem_status.getDate().getDayNumber();
-		setTitle(date);
-	}
-
-	/**
-	 * TODO
-	 */
-	private void createPermit() {
-		int permitType = permitTypes.getSelectedIndex();
-
-		switch (permitType) {
-
-		case 0:
-		
-	         if(!validateInputs(0)) {
-	        	 return;
-	         }
-			Day_visitor_permit dvp = new Day_visitor_permit(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()),
-					txtVisitingDate.getText(), new Date(Integer.parseInt(txtIssueDate.getText())));
-
-			if (lnkPermit_list.add(txtYourName.getText(), dvp)) {
-				JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} else
-				JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-
-			addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
-
-			break;
-
-		case 1:
-
-			if(!validateInputs(1)) {
-	        	 return;
-	         }
-			University_member_permit ump = new University_member_permit(txtYourName.getText(),
-					new Vehicle_info(txtRegNo.getText()), new Date(Integer.parseInt(txtIssueDate.getText())));
-
-			if (lnkPermit_list.add(txtYourName.getText(), ump)) {
-
-				JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} else
-				JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-
-			addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
-
-			break;
-
-		case 2:
-
-			if(!validateInputs(2)) {
-	        	 return;
-	         }
-			Regular_visitor_permit rvm = new Regular_visitor_permit(txtYourName.getText(),
-					new Vehicle_info(txtRegNo.getText()), txtVisitingDate.getText(),
-					new Date(Integer.parseInt(txtIssueDate.getText())),
-					new Date(Integer.parseInt(txtEndDate.getText())));
-
-			if (lnkPermit_list.add(txtYourName.getText(), rvm)) {
-
-				JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} else
-				JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-
-			addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
-
-			break;
-
-		case 3:
-			if(!validateInputs(3)) {
-	        	 return;
-	         }
-			Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtYourName.getText(),
-					new Vehicle_info(txtRegNo.getText()));
-
-			if (lnkPermit_list.add(txtYourName.getText(), pvp)) {
-
-				JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-			} else
-				JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-
-			addToVehicleList(txtYourName.getText(), new Vehicle_info(txtRegNo.getText()));
-
-			break;
-		}
-
-		permitStrings = lnkPermit_list.populateList();
-		popCombo();
-	}
-
-	/**
-     * addToVehicleList - 
-     * this method adds all vehicles added to the permit and seperates each car from commas and then adds the separate vehicles to
-     * the list 
+	popCombo();
+    }
+
+    /**
+     * addToVehicleList - this method adds all vehicles added to the permit and
+     * seperates each car from commas and then adds the separate vehicles to the
+     * list
+     * 
      * @author NP
-     * @param name - this is the name of the permit holder
+     * @param name         - this is the name of the permit holder
      * @param vehicle_info - all the registration numbers from the permit
      */
-	private void addToVehicleList(String name, Vehicle_info vehicle_info) {
-		if (vehicle_info.toString().contains(",")) {
-			int commaoccurs = -1;
-			for (int i = 0; i < vehicle_info.toString().length(); i++) {
+    private void addToVehicleList(String name, Vehicle_info vehicle_info)
+    {
+	if (vehicle_info.toString().contains(","))
+	{
+	    int commaoccurs = -1;
+	    for (int i = 0; i < vehicle_info.toString().length(); i++)
+	    {
 
-				if (vehicle_info.toString().charAt(i) == ',') {
-					Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1, i));
-					System.out.println("Vehicle: " + vh + " Name: " + name);
-					lnkVehicle_list.add(vh, name);
-					commaoccurs = i;
-				}
-			}
-
-			Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1));
-			System.out.println("Vehicle: " + vh + " Name: " + name);
-			lnkVehicle_list.add(vh, name);
+		if (vehicle_info.toString().charAt(i) == ',')
+		{
+		    Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1, i));
+		    System.out.println("Vehicle: " + vh + " Name: " + name);
+		    lnkVehicle_list.add(vh, name);
+		    commaoccurs = i;
 		}
+	    }
+
+	    Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1));
+	    System.out.println("Vehicle: " + vh + " Name: " + name);
+	    lnkVehicle_list.add(vh, name);
+	}
+    }
+
+    private String editPermitSelectKey()
+    {
+	String selectedName = allPermitsWarning.getSelectedItem().toString();
+	int i = selectedName.indexOf(":") + 1;
+	int i2 = selectedName.indexOf("-");
+	String key = selectedName.substring(i, i2);
+	return key;
+    }
+
+    private String editPermitSelectReg()
+    {
+	String selectedReg = allPermitsWarning.getSelectedItem().toString();
+	int i3 = selectedReg.indexOf("-") + 1;
+	String reg = selectedReg.substring(i3);
+	return reg;
+    }
+
+    private void editPermit(String key)
+    {
+	int permitType = permitTypesNewPermit.getSelectedIndex();
+	switch (permitType)
+	{
+	case 0:
+	    Day_visitor_permit dvp = new Day_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
+		    txtVisDateEdit.getText(), new Date(Integer.parseInt(txtIssueDateEdit.getText())));
+	    if (lnkPermit_list.update(key, dvp))
+	    {
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    break;
+	case 1:
+	    University_member_permit ump = new University_member_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
+		    new Date(Integer.parseInt(txtIssueDateEdit.getText())));
+	    if (lnkPermit_list.update(key, ump))
+	    {
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    break;
+	case 2:
+	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
+		    txtVisDateEdit.getText(), new Date(Integer.parseInt(txtIssueDateEdit.getText())),
+		    new Date(Integer.parseInt(txtEndDateEdit.getText())));
+	    if (lnkPermit_list.update(key, rvm))
+	    {
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    break;
+	case 3:
+	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    if (lnkPermit_list.update(key, pvp))
+	    {
+		JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    else
+		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    break;
 	}
 
-	
-	private String editPermitSelectKey() {
-		String selectedName = allPermits.getSelectedItem().toString();
-		int i = selectedName.indexOf(":") + 1;
-		int i2 = selectedName.indexOf("-");
-		String key = selectedName.substring(i, i2);
-		return key;
-	}
-	
-	private String editPermitSelectReg() {
-		String selectedReg = allPermits.getSelectedItem().toString();
-		int i3 = selectedReg.indexOf("-") + 1;
-		String reg = selectedReg.substring(i3);
-		return reg;
+	permitStrings = lnkPermit_list.populateList();
+	popCombo();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+	if (e.getSource().equals(newPermitButton))
+	{
+	    
+	    createPermit();
 	}
 
-	private void editPermit(String key) {
-		int permitType = permitTypes.getSelectedIndex();
-		switch (permitType) {
-			case 0:
-				Day_visitor_permit dvp = new Day_visitor_permit(key, 
-						new Vehicle_info(txtRegNo.getText()), 
-						txtVisitingDate.getText(), 
-						new Date(Integer.parseInt(txtIssueDate.getText())));
-				if (lnkPermit_list.update(key, dvp)) {
-					JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-				} else
-					JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-				addToVehicleList(key, new Vehicle_info(txtRegNo.getText()));
-			break;
-			case 1:
-				University_member_permit ump = new University_member_permit(key, 
-						new Vehicle_info(txtRegNo.getText()), 
-						new Date(Integer.parseInt(txtIssueDate.getText())));
-				if (lnkPermit_list.update(key, ump)) {
-					JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-				} else
-					JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-				addToVehicleList(key, new Vehicle_info(txtRegNo.getText()));
-			break;
-			case 2:
-				Regular_visitor_permit rvm = new Regular_visitor_permit(key,
-						new Vehicle_info(txtRegNo.getText()), txtVisitingDate.getText(),
-						new Date(Integer.parseInt(txtIssueDate.getText())),
-						new Date(Integer.parseInt(txtEndDate.getText())));
-				if (lnkPermit_list.update(key, rvm)) {
-					JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-				} else
-					JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-				addToVehicleList(key, new Vehicle_info(txtRegNo.getText()));
-			break;
-			case 3:
-				Permanent_visitor_permit pvp = new Permanent_visitor_permit(key,
-						new Vehicle_info(txtRegNo.getText()));
-				if (lnkPermit_list.update(key, pvp)) {
-					JOptionPane.showMessageDialog(null, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
-				} else
-					JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
-				addToVehicleList(key, new Vehicle_info(txtRegNo.getText()));
-			break;
-		}
-
-		permitStrings = lnkPermit_list.populateList();
-		popCombo();
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(newPermitButton)) {
-			createPermit();
-		}
-
-		if (e.getSource().equals(addWarningButton)) {
-			addWarning();
-		}
-
-		if (e.getSource().equals(removeWarningButton)) {
-			removeWarning();
-		}
-
-		if (e.getSource().equals(unsuspendButton)) {
-
-		}
-
-		if (e.getSource().equals(cancelButton)) {
-
-		}
-
-		if (e.getSource().equals(editButton)) {
-			String key = editPermitSelectKey(), reg = editPermitSelectReg();
-			txtYourName.setText(key); txtRegNo.setText(reg);
-		}
-
-		if (e.getSource().equals(editPermitButton)) {
-			editPermit(editPermitSelectKey());
-		}
-
-		if (e.getSource().equals(permitTypes)) {
-			if (permitTypes.getSelectedIndex() == 0) {
-				// TODO display boxes appropriate for day visitor permit
-				// only need host name, name and date
-
-				visibilityChanger(true, false, true, true, false, true);
-			}
-
-			else if (permitTypes.getSelectedIndex() == 1) {
-				// TODO display boxes appropriate for uni member permit
-				visibilityChanger(false, false, true, false, false, true);
-			}
-
-			else if (permitTypes.getSelectedIndex() == 2) {
-				// TODO display boxes appropriate for regular visitor permit
-				visibilityChanger(true, true, true, true, true, true);
-			}
-
-			else if (permitTypes.getSelectedIndex() == 3) {
-				// TODO display boxes appropriate for permanent visitor permit
-				visibilityChanger(false, false, false, false, false, false);
-			}
-		}
+	if (e.getSource().equals(addWarningButton))
+	{
+	    addWarning();
 	}
 
-	private void removeWarning() {
-		int selected = allPermits.getSelectedIndex();
+	if (e.getSource().equals(removeWarningButton))
+	{
+	    removeWarning();
+	}
 
-		String name = permitStrings[selected];
-		name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
-
-		lnkPermit_list.warnings(name, 0);
+	if (e.getSource().equals(unsuspendButton))
+	{
 
 	}
 
-	private void addWarning() {
-		int selected = allPermits.getSelectedIndex();
-
-		String name = permitStrings[selected];
-		name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
-
-		lnkPermit_list.warnings(name, 1);
+	if (e.getSource().equals(cancelButton))
+	{
 
 	}
-	
-	/**
-     * @author NP
-     * this lovely method is an absolute abomination of a method ensures the user doesn't pointlessly enter info the permit type doesn;t need
+
+	if (e.getSource().equals(editButton))
+	{
+	    System.out.println(txtNameEdit.getText());
+	    String key = editPermitSelectKey(), reg = editPermitSelectReg();
+	    txtNameEdit.setText(key);
+	    txtRegNoEdit.setText(reg);
+	}
+
+	if (e.getSource().equals(editPermitButton))
+	{
+	    editPermit(editPermitSelectKey());
+	}
+
+//	if (e.getSource().equals(permitTypesNewPermit))
+//	{
+//	    if (permitTypesNewPermit.getSelectedIndex() == 0)
+//	    {
+//		// TODO display boxes appropriate for day visitor permit
+//		// only need host name, name and date
+//
+//		visibilityChanger(true, false, true, true, false, true);
+//	    }
+//
+//	    else if (permitTypesNewPermit.getSelectedIndex() == 1)
+//	    {
+//		// TODO display boxes appropriate for uni member permit
+//		visibilityChanger(false, false, true, false, false, true);
+//	    }
+//
+//	    else if (permitTypesNewPermit.getSelectedIndex() == 2)
+//	    {
+//		// TODO display boxes appropriate for regular visitor permit
+//		visibilityChanger(true, true, true, true, true, true);
+//	    }
+//
+//	    else if (permitTypesNewPermit.getSelectedIndex() == 3)
+//	    {
+//		// TODO display boxes appropriate for permanent visitor permit
+//		visibilityChanger(false, false, false, false, false, false);
+//	    }
+//	}
+    }
+
+    private void removeWarning()
+    {
+	int selected = allPermitsWarning.getSelectedIndex();
+
+	String name = permitStrings[selected];
+	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	lnkPermit_list.warnings(name, 0);
+
+    }
+
+    private void addWarning()
+    {
+	int selected = allPermitsWarning.getSelectedIndex();
+
+	String name = permitStrings[selected];
+	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	lnkPermit_list.warnings(name, 1);
+
+    }
+
+    /**
+     * @author NP this lovely method is an absolute abomination of a method ensures
+     *         the user doesn't pointlessly enter info the permit type doesn;t need
      * @param b1
      * @param b2
      * @param b3
@@ -706,112 +775,124 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @param b5
      * @param b6
      */
-	private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
-		txtVisitingDate.setVisible(b1);
-		txtEndDate.setVisible(b2);
-		txtIssueDate.setVisible(b3);
-		lblVisiting.setVisible(b4);
-		lblEndDate.setVisible(b5);
-		lblIssueDate.setVisible(b6);
-	}
+//    private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6)
+//    {
+//	txtVisDateNewPermit.setVisible(b1);
+//	txtEndDateNewPermit.setVisible(b2);
+//	txtIssueDateNewPermit.setVisible(b3);
+//	lblVisiting.setVisible(b4);
+//	lblEndDate.setVisible(b5);
+//	lblIssueDate.setVisible(b6);
+//    }
 
-	 /**
-     * @author NP
-     * I wish users were not so prone to making stupid mistakes or this method would not be necessary
-     * good luck reading this code lmao
+    /**
+     * @author NP I wish users were not so prone to making stupid mistakes or this
+     *         method would not be necessary good luck reading this code lmao
      * 
-     * what it essentially does is it validates what has been put into the text boxes and checks if it is what the permit needs
-     * @param permitType - the type of permit being validated 
+     *         what it essentially does is it validates what has been put into the
+     *         text boxes and checks if it is what the permit needs
+     * @param permitType - the type of permit being validated
      * @return
      */
-	 private boolean validateInputs(int permitType) 
+    private boolean validateInputs(int permitType)
+    {
+
+	boolean valid = false;
+	System.out.println(txtNameNewPermit.getText());
+	if (!txtNameNewPermit.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
+	{
+	    JOptionPane.showMessageDialog(null, "Name should contain a uppercase letter and lower case letters",
+		    "Format Error", JOptionPane.ERROR_MESSAGE);
+	    return valid;
+	}
+
+	if (txtRegNoNewPermit.getText().length() < 5)
+	{
+	    JOptionPane.showMessageDialog(null, "Registration number must be 5 characters or more ", "Format Error",
+		    JOptionPane.ERROR_MESSAGE);
+	    return valid;
+	}
+
+	switch (permitType)
+	{
+	case 0:
+	    if (!(txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}") && (txtVisDateNewPermit.getText().matches("^[0-9]{1,3}"))))
 	    {
-			
-	    	boolean valid = false;
-	    	 if(!txtYourName.getText().matches("[A-Z][a-z]+")) {
-	    		JOptionPane.showMessageDialog(null, "Name should contain a uppercase letter and lower case letters", "Format Error", JOptionPane.ERROR_MESSAGE);
-	    		return valid;
-	    	}
-	    	
-	    	 if(txtRegNo.getText().length()<5) {
-	    		JOptionPane.showMessageDialog(null, "Registration number must be 5 characters or more ", "Format Error", JOptionPane.ERROR_MESSAGE);
-	    		return valid;
-	    	}
-	    	
-	    	
-	    	switch( permitType){
-	    	case 0:
-	    		if(!(txtIssueDate.getText().matches("^[0-9]{1,3}")&&(txtVisitingDate.getText().matches("^[0-9]{1,3}")))) 
-	    		{
-	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error", JOptionPane.ERROR_MESSAGE);
-	        			return valid;
-	    			
-	    		}
-	    		else if(((Integer.parseInt(txtIssueDate.getText())<1)||(Integer.parseInt(txtIssueDate.getText())>365)
-	    				)||((Integer.parseInt(txtVisitingDate.getText())<1||Integer.parseInt(txtVisitingDate.getText())>365))) {
-	    			
-	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
-	        		
-	    			
-	    			
-	    		}
-	    		else {
-	    			valid  = true;;
-	    		}
-	    		
-	    		
-	    		break;
-	    		
-	    	case 1:
-	    		if(!txtIssueDate.getText().matches("^[0-9]{1,3}")) {
-	    			
-	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Date Error", JOptionPane.ERROR_MESSAGE);
-	        		return valid;
-	    			
-	    			
-	    		}
-	    		else if(Integer.parseInt(txtIssueDate.getText())<1||Integer.parseInt(txtIssueDate.getText())>365) {
-	    			
-	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
-	        		return valid;	
-	    			
-	    			
-	    		}
-	    		else
-	    		{
-	    		valid =  true;	
-	    		}
-	    			
-	    		
-	    	case 2:
-	     		if(!txtIssueDate.getText().matches("^[0-9]{1,3}")||!txtVisitingDate.getText().matches("^[0-9]{1,3}")||!txtEndDate.getText().matches("^[0-9]{1,3}") ) 
-	    		{
-	    			JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error", JOptionPane.ERROR_MESSAGE);
-	        			return valid;
-	    		}
-	     		
-	     		
-	     		else if((Integer.parseInt(txtIssueDate.getText())<1||Integer.parseInt(txtIssueDate.getText())>365
-	    				)||(Integer.parseInt(txtVisitingDate.getText())<1||Integer.parseInt(txtVisitingDate.getText())>365)||
-	     				(Integer.parseInt(txtEndDate.getText())<1||Integer.parseInt(txtEndDate.getText())>365)) {
-	    			
-	    			JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error", JOptionPane.ERROR_MESSAGE);
-	        			return valid;
-	    			
-	    			
-	        		
-	    		}
-	     		else{ 
-	     		valid =  true;
-	     		}
-	     		
-	     		
-	    	case 3:
-	    		valid =  true;
-	     		
-	    	}
-				return valid;
-			
-	    	
-		}
+		JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+
+	    }
+	    else if (((Integer.parseInt(txtIssueDateNewPermit.getText()) < 1)
+		    || (Integer.parseInt(txtIssueDateNewPermit.getText()) > 365))
+		    || ((Integer.parseInt(txtVisDateNewPermit.getText()) < 1
+			    || Integer.parseInt(txtVisDateNewPermit.getText()) > 365)))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
+			JOptionPane.ERROR_MESSAGE);
+
+	    }
+	    else
+	    {
+		valid = true;
+
+	    }
+
+	    break;
+
+	case 1:
+	    if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}"))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Date Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+
+	    }
+	    else if (Integer.parseInt(txtIssueDateNewPermit.getText()) < 1 || Integer.parseInt(txtIssueDateNewPermit.getText()) > 365)
+	    {
+
+		JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+
+	    }
+	    else
+	    {
+		valid = true;
+	    }
+
+	case 2:
+	    if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}") || !txtVisDateNewPermit.getText().matches("^[0-9]{1,3}")
+		    || !txtEndDateNewPermit.getText().matches("^[0-9]{1,3}"))
+	    {
+		JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+	    }
+
+	    else if ((Integer.parseInt(txtIssueDateNewPermit.getText()) < 1 || Integer.parseInt(txtIssueDateNewPermit.getText()) > 365)
+		    || (Integer.parseInt(txtVisDateNewPermit.getText()) < 1
+			    || Integer.parseInt(txtVisDateNewPermit.getText()) > 365)
+		    || (Integer.parseInt(txtEndDateNewPermit.getText()) < 1 || Integer.parseInt(txtEndDateNewPermit.getText()) > 365))
+	    {
+
+		JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+
+	    }
+	    else
+	    {
+		valid = true;
+	    }
+
+	case 3:
+	    valid = true;
+
+	}
+	return valid;
+
+    }
 }

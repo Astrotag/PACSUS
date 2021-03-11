@@ -107,7 +107,8 @@ abstract public class Permit
 	{
 	    setSuspended(true);
 	}
-	else {
+	else
+	{
 	    setSuspended(false);
 	}
     }

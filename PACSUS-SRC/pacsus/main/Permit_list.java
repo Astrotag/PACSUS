@@ -79,7 +79,7 @@ public class Permit_list
      * A public method which takes in the key value for the permit, finds the
      * associated permit and either removes or adds a warning.
      * 
-     * @param key - The name of the permit holder
+     * @param key  - The name of the permit holder
      * @param type - value to check if adding or removing a permit
      */
     public void warnings(String key, int type)
@@ -99,21 +99,26 @@ public class Permit_list
 		lnkPermit.get(key).setWarnings(-1);
 	    }
 	}
-	
-	//For testing purposes
-	System.out.println(lnkPermit.get(key) + " " + lnkPermit.get(key).getWarnings());
+
+	// For testing purposes
+	//System.out.println(lnkPermit.get(key) + " " + lnkPermit.get(key).getWarnings());
     }
-    
-    public Permit getPermit(String key){
-    	return lnkPermit.get(key);
+
+    public Permit getPermit(String key)
+    {
+	return lnkPermit.get(key);
     }
-   
-    public boolean update(String key, Permit p) {
-    	if(lnkPermit.containsKey(key)) {
-    		lnkPermit.replace(key, p);
-    		return true;
-    	} else {
-    		return false;
-    	}
+
+    public boolean update(String key, Permit p)
+    {
+	if (lnkPermit.containsKey(key))
+	{
+	    lnkPermit.replace(key, p);
+	    return true;
+	}
+	else
+	{
+	    return false;
+	}
     }
 }
