@@ -125,10 +125,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JPanel unsuspendPanel = createSuspendedPanel();
 
 		JPanel cancelPermit = createCancelPanel();
+		
+		JPanel statusPanel = createStatusPanel();
 
 		JPanel editPanel = createEditPermitPanel();
 
-		JPanel statusPanel = createStatusPanel();
+		
 
 		tabbedPane.addTab("New Permit", newPermitPanel);
 		tabbedPane.addTab("Issue Warning", warningPanel);
@@ -140,6 +142,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		add(tabbedPane);
 		setSize(700, 300);
 		setLocation(400, 195);
+		
+		setVisible(true);
 	}
 
 	private JPanel createStatusPanel() {
@@ -159,7 +163,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		gbc.gridx = right;
 		gbc.gridy = line;
 		allPermitsStatus = new JComboBox<String>();
-		popCombo();
 		statusPanel.add(allPermitsStatus, gbc);
 		statusButton = new JButton("Select");
 		statusPanel.add(statusButton);
@@ -320,7 +323,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		allPermitsCancel = new JComboBox<String>();
-		popCombo();
 		cancelPanel.add(allPermitsCancel, gbc);
 		GridBagLayout gbl = new GridBagLayout();
 		cancelPanel.setLayout(gbl);
