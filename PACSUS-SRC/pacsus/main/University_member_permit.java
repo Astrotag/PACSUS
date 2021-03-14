@@ -24,4 +24,9 @@ public class University_member_permit extends Permit
      * @directed
      */
     private Date lnkDate;
+    
+    @Override
+    public String getStatus() {
+    	return super.getStatus() + "\nDate permit was issued: " + lnkDate.getDayNumber();
+    }
 }
