@@ -129,9 +129,10 @@ abstract public class Permit
 	return "Permit:" + permitHolder + "-" + permittedVehicles;
     }
 
-	public String getStatus() {
-		return "Permit Holder Name: " + permitHolder + "\nNumber of Warnings: " + warnings +
-				"\nSuspended: " + suspended + "\nNumber of Entries: " + noOfEntries;
-	}
+    public String getStatus()
+    {
+	return "Permit Holder Name: " + permitHolder + "\nNumber of Warnings: " + warnings + "\nSuspended: " + suspended
+		+ "\nNumber of Entries: " + noOfEntries;
+    }
 
 }
