@@ -81,7 +81,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     private String[] permitStrings;
 
     private JComboBox<String> permitTypesNewPermit, permitTypesEdit, allPermitsWarning, allPermitsEdit,
-	    allPermitsCancel, allPermitsStatus;
+	    allPermitsCancel, allPermitsStatus, allPermitsSuspended;
 
     private JTextField txtNameNewPermit, txtRegNoNewPermit, txtIssueDateNewPermit, txtEndDateNewPermit,
 	    txtVisDateNewPermit;
@@ -338,10 +338,30 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      */
     private JPanel createSuspendedPanel()
     {
-	JPanel unsuspendPanel = new JPanel();
+	unsuspendPanel = new JPanel();
+	
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+
+	lblAllPermits = new JLabel("All Current Permits: ");
+	unsuspendPanel.add(lblAllPermits, gbc);
+
+	gbc.gridx = 1;
+	gbc.gridy = 0;
+	allPermitsSuspended = new JComboBox<String>();
+	unsuspendPanel.add(allPermitsSuspended, gbc);
+	GridBagLayout gbl = new GridBagLayout();
+	unsuspendPanel.setLayout(gbl);
+
+	gbc.gridx = 0;
+	gbc.gridy = 4;
+
 	unsuspendButton = new JButton("Unsuspend Permit");
 	unsuspendPanel.add(unsuspendButton);
 	unsuspendButton.addActionListener(this);
+	
 	return unsuspendPanel;
     }
 
@@ -393,6 +413,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	allPermitsEdit.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsCancel.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsStatus.setModel(new DefaultComboBoxModel<String>(permitStrings));
+	allPermitsSuspended.setModel(new DefaultComboBoxModel<String>(permitStrings));
     }
 
     /**
@@ -750,7 +771,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	if (e.getSource().equals(unsuspendButton))
 	{
-
+	    permitSuspension();
 	}
 
 	if (e.getSource().equals(cancelButton))
@@ -785,6 +806,16 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	{
 	    checkVisability(permitTypesEdit);
 	}
+    }
+
+    private void permitSuspension()
+    {
+	String selectedName = allPermitsSuspended.getSelectedItem().toString();
+	int i = selectedName.indexOf(":") + 1;
+	int i2 = selectedName.indexOf("-");
+	String key = selectedName.substring(i, i2);
+	
+	lnkPermit_list.unsuspendPermit(key);
     }
 
     /**
