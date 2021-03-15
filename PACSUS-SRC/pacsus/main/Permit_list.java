@@ -37,7 +37,7 @@ public class Permit_list
     public Permit_list()
     {
 	lnkPermit = new Hashtable<String, Permit>();
-	System.out.println(lnkPermit.toString());
+	//System.out.println(lnkPermit.toString());
     }
 
     public boolean add(String key, Permit p)
@@ -62,8 +62,8 @@ public class Permit_list
 
 	for (int i = 0; i < keys.length; i++)
 	{
-	    System.out.println(keys[i]);
-	    System.out.println(permits[i].toString());
+	    //System.out.println(keys[i]);
+	    //System.out.println(permits[i].toString());
 	    strings[i] = "" + permits[i].toString();
 	}
 
