@@ -59,5 +59,17 @@ public boolean add(Vehicle_info key, String info)
 	
 	
 }
+
+@SuppressWarnings("unlikely-arg-type")
+public boolean containsKey(String key) {
+	if(lnkVehicle.containsKey(key)) {
+		return true;
+	}
+	else 
+	return false;	
+	
+	
+}
+
 }
 
