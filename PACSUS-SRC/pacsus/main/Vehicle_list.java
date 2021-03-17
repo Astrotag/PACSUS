@@ -39,25 +39,65 @@ public class Vehicle_list
      */
     private java.util.Hashtable<Vehicle_info, String> lnkVehicle;
 
-public Vehicle_list() 
-{
+    public Vehicle_list()
+    {
 	lnkVehicle = new Hashtable<Vehicle_info, String>();
-}
+    }
 
-public boolean add(Vehicle_info key, String info)
-{
-	if(!lnkVehicle.containsKey(key)) {
-		lnkVehicle.put(key, info);
+    public boolean add(Vehicle_info key, String info)
+    {
+	if (!lnkVehicle.containsValue(info))
+	{
+	    lnkVehicle.put(key, info);
+	    System.out.println("Added: " + key + " " + info);
+	    return true;
+
+	}
+	else
+	{
+	    System.out.println("Not added");
+	    return false;
+	}
+
+    }
+
+    public Hashtable<Vehicle_info, String> updateList()
+    {
+	return this.lnkVehicle;
+    }
+
+//    public boolean containsKey(Vehicle_info key)
+//    {
+//	if (lnkVehicle.containsKey(key))
+//	{
+//	    System.out.println("Key: " + key + " was contained");
+//	    return true;
+//	}
+//	else
+//	{
+//	    System.out.println("fuck you");
+//	    return false;
+//	}
+//    }
+
+    public boolean findVehicle(String regNo)
+    {
+	Object[] vh = lnkVehicle.keySet().toArray();
+
+	for (Object object : vh)
+	{
+	    if (object.toString().equals(regNo))
+	    {
 		return true;
-		
+	    }
 	}
-	else {
-		return false;
-	}
-	
-	
-	
-	
-}
-}
+	return false;
+    }
 
+    @Override
+    public String toString()
+    {
+	return "Vehicle_list [lnkVehicle=" + lnkVehicle + "]";
+    }
+
+}
