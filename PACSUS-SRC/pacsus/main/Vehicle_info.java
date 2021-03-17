@@ -37,19 +37,20 @@ public class Vehicle_info
      */
     private Permit lnkPermit;
 
-	
+    public Vehicle_info(String regNo)
+    {
+	super();
+	this.regNo = regNo;
+    }
 
-	public Vehicle_info(String regNo) {
-		super();
-		this.regNo = regNo;
-	}
-    
-	public void setLnkPermit(Permit lnkPermit) {
-		this.lnkPermit = lnkPermit;
-	}
-	
-	public String toString() {
-		return regNo;
-	}
-	
+    public void setLnkPermit(Permit lnkPermit)
+    {
+	this.lnkPermit = lnkPermit;
+    }
+
+    public String toString()
+    {
+	return regNo;
+    }
+
 }

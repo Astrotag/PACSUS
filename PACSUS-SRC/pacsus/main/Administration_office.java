@@ -136,6 +136,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	add(tabbedPane);
 	setSize(700, 300);
 	setLocation(400, 195);
+	populatePermitList();
 
 	setVisible(true);
     }
@@ -176,6 +177,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
 	lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
 	lnkPermit_list.add("Stuart", new University_member_permit("Stuart", new Vehicle_info("HG04YUY"), new Date(1)));
+	
+	addToVehicleList("YT14HBB", "Greig");
+	addToVehicleList("SL07HAU", "Joanes");
+	addToVehicleList("NC02XZT", "Ryan");
+	addToVehicleList("TF08GVX", "Niall");
+	addToVehicleList("HG04YUY", "Stuart");
+	
     }
 
     /**
@@ -187,8 +195,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     {
 	editPanel = new JPanel();
 	allPermitsEdit = new JComboBox<String>();
-
-	populatePermitList();
 
 	permitStrings = new String[lnkPermit_list.size()];
 	permitStrings = lnkPermit_list.populateList();
@@ -339,7 +345,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     private JPanel createSuspendedPanel()
     {
 	unsuspendPanel = new JPanel();
-	
+
 	GridBagConstraints gbc = new GridBagConstraints();
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	gbc.gridx = 0;
@@ -361,7 +367,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	unsuspendButton = new JButton("Unsuspend Permit");
 	unsuspendPanel.add(unsuspendButton);
 	unsuspendButton.addActionListener(this);
-	
+
 	return unsuspendPanel;
     }
 
@@ -387,7 +393,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridx = 1;
 	gbc.gridy = 0;
 	allPermitsWarning = new JComboBox<String>();
-	populatePermitList();
 	permitStrings = new String[lnkPermit_list.size()];
 	permitStrings = lnkPermit_list.populateList();
 
@@ -561,7 +566,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    else
 		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 
-	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
 	    break;
 
@@ -583,7 +588,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    else
 		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 
-	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
 	    break;
 
@@ -606,7 +611,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    else
 		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 
-	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
 	    break;
 
@@ -626,7 +631,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    else
 		JOptionPane.showMessageDialog(null, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 
-	    addToVehicleList(txtNameNewPermit.getText(), new Vehicle_info(txtRegNoNewPermit.getText()));
+	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
 	    permitStrings = lnkPermit_list.populateList();
 	    popCombo();
@@ -638,30 +643,37 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * commas and then adds the separate vehicles to the list
      * 
      * @author NP
-     * @param name         - this is the name of the permit holder
+     * @param info         - this is the name of the permit holder
      * @param vehicle_info - all the registration numbers from the permit
      */
-    private void addToVehicleList(String name, Vehicle_info vehicle_info)
+    private void addToVehicleList(String vehicle_info, String info)
     {
-	if (vehicle_info.toString().contains(","))
+	if (vehicle_info.contains(","))
 	{
 	    int commaoccurs = -1;
-	    for (int i = 0; i < vehicle_info.toString().length(); i++)
+	    for (int i = 0; i < vehicle_info.length(); i++)
 	    {
 
-		if (vehicle_info.toString().charAt(i) == ',')
+		if (vehicle_info.charAt(i) == ',')
 		{
-		    Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1, i));
+		    Vehicle_info vh = new Vehicle_info(vehicle_info.substring(commaoccurs + 1, i));
 		    // System.out.println("Vehicle: " + vh + " Name: " + name);
-		    lnkVehicle_list.add(vh, name);
+		    lnkVehicle_list.add(vh, info);
 		    commaoccurs = i;
 		}
 	    }
 
-	    Vehicle_info vh = new Vehicle_info(vehicle_info.toString().substring(commaoccurs + 1));
+	    Vehicle_info vh = new Vehicle_info(vehicle_info.substring(commaoccurs + 1));
 	    // System.out.println("Vehicle: " + vh + " Name: " + name);
-	    lnkVehicle_list.add(vh, name);
+	    lnkVehicle_list.add(vh, info);
 	}
+	else
+	{
+	    Vehicle_info vh = new Vehicle_info(vehicle_info);
+	    // System.out.println("Vehicle: " + vh + " Name: " + name);
+	    lnkVehicle_list.add(vh, info);
+	}
+
     }
 
     /**
@@ -710,7 +722,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(null, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    addToVehicleList(key, txtRegNoEdit.getText());
 	    break;
 	case 1:
 	    University_member_permit ump = new University_member_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
@@ -721,7 +733,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(null, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    addToVehicleList(key, txtRegNoEdit.getText());
 	    break;
 	case 2:
 	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
@@ -733,7 +745,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(null, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    addToVehicleList(key, txtRegNoEdit.getText());
 	    break;
 	case 3:
 	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()));
@@ -743,7 +755,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(null, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, new Vehicle_info(txtRegNoEdit.getText()));
+	    addToVehicleList(key, txtRegNoEdit.getText());
 	    break;
 	}
 
@@ -814,7 +826,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	int i = selectedName.indexOf(":") + 1;
 	int i2 = selectedName.indexOf("-");
 	String key = selectedName.substring(i, i2);
-	
+
 	lnkPermit_list.unsuspendPermit(key);
     }
 
