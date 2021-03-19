@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -58,13 +59,15 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 	 * @directed
 	 */
 	private System_status lnkSystem_status;
-	
+
 	private Permit_list lnkPermit_list;
 
 	private JComboBox<String> allPermitsWarning;
 	private JTextField barrierStatus, warningStatus;
-	private JButton activateButton, deactivateButton, issueWarning;
+	private JButton activateButton, deactivateButton, issueWarning, logButton;
+	private JTextArea logTxt;
 	private String[] permitStrings;
+
 
 	/**
 	 * Generated Constructor
@@ -74,7 +77,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 	 */
 	public Campus_security(System_status systemStatus, Vehicle_list vehicleList) {
 		lnkPermit_list = new Permit_list();
-		
+
 		// Record references to the parent controller and the model
 		this.lnkVehicle_list = vehicleList;
 		this.lnkSystem_status = systemStatus;
@@ -85,7 +88,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 	private void loadGUI() {
 		setTitle(1);
 		setLocation(40, 195);
-		setSize(350, 300);
+		setSize(350, 600);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBackground(Color.white);
@@ -106,7 +109,15 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		deactivateButton = new JButton("Deactivate\n");
 		statusPanelButtons.add(deactivateButton);
 		deactivateButton.addActionListener(this);
+
+		logButton = new JButton("Barrier Log\n");
+		statusPanelButtons.add(logButton);
+		logButton.addActionListener(this);
 		add(statusPanelButtons);
+
+
+		logTxt = new JTextArea("");
+		add(logTxt);
 
 		add(Box.createRigidArea(new Dimension(0, 30)));
 
@@ -118,7 +129,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		allPermitsWarning = new JComboBox<String>();		
 
 		popcornChicken();
-		
+
 		allPermitsWarning.setMaximumSize(new Dimension(150, 20));
 		vWPanelRegs.add(allPermitsWarning);
 		vehicleWarningPanel.add(vWPanelRegs);
@@ -139,16 +150,16 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		add(Box.createRigidArea(new Dimension(0, 150)));
 		setVisible(true);
 	}
-	
+
 	private void popcornChicken() {
 		ArrayList<String> regList = lnkVehicle_list.getRegs();
-		
+
 		permitStrings = new String[regList.size()];
-		
+
 		for (int i = 0; i < regList.size(); i++) {
 			permitStrings[i] = regList.get(i);
 		}
-		
+
 		allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	}
 
@@ -166,7 +177,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		 */
 		popcornChicken();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(activateButton)) {
@@ -181,14 +192,24 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 			barrierStatus.setForeground(Color.RED);
 		}
 
+		if (e.getSource().equals(logButton)) {
+			logTxt.setText("");
+			String[] log = lnkSystem_status.getLog();
+			for (String string : log) {
+				if(string!=null) {
+					logTxt.append(string+"\n");
+				}
+			}
+		}
+
 		// CHANGE: Included Permit within class to retrieve permit
 		if (e.getSource().equals(issueWarning)) {
 			int selected = allPermitsWarning.getSelectedIndex();
 			String regNo = permitStrings[selected];
-			
+
 			Permit selectedPermit = lnkVehicle_list.getVehiclePermit(regNo);
 			String name = selectedPermit.getPermitHolder();
-			
+
 			lnkPermit_list.warnings(name, 1);
 		}
 	}
