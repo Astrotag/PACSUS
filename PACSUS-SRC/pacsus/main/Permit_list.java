@@ -129,4 +129,8 @@ public class Permit_list {
 		return false;
 	}
 
+	public void newDay(Date date) {
+		
+	}
+	
 }

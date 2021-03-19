@@ -12,4 +12,8 @@ public class Permanent_visitor_permit extends Permit
 		super(permitHolder, permittedVehicles);
 	
 	}
+	
+    public void checkPermanentVisitorPermitDate() {
+    	
+    }
 }

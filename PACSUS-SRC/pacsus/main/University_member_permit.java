@@ -11,7 +11,11 @@ public class University_member_permit extends Permit
 		super(permitHolder, permittedVehicles);
 		this.lnkDate = date;
 	}
-
+    
+    public void checkUniversityMemberPermitDate() {
+    	
+    }
+    
 	/**
      * The date that this permit was issued. This information is required in case a
      * member of the University leaves the University part way through the year and

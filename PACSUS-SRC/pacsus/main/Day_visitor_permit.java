@@ -33,6 +33,13 @@ public class Day_visitor_permit extends Permit
 		this.lnkDate = date;
 	}
     
+    public void checkValidDayPermit() {
+    	
+    	
+    	
+    }
+    
+    
     @Override
     public String getStatus() {
     	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate of visit: "
