@@ -12,45 +12,51 @@ package pacsus.main;
  * other attributes that the University may from time to time find useful (such
  * as car make, model, colour...).
  */
-public class Vehicle_info
-{
-    /**
-     * The vehicle's registration number.
-     */
-    private String regNo;
+public class Vehicle_info {
+	/**
+	 * The vehicle's registration number.
+	 */
+	private String regNo;
 
-    /**
-     * Each vehicle (and so each registration number) is associated with exactly one
-     * permit, which describes its authorization to enter the campus (or not!).
-     *
-     * This attribute references the permit associated with this vehicle. It alows
-     * the permit status of any vehicle to be accessed via the Vehicle_list knowing
-     * only the registration number - for example for barrier checks, recording
-     * warnings, and so on.
-     *
-     * Note that many vehicles may be associated with the same permit.
-     * 
-     * @supplierCardinality 1
-     * @clientCardinality 1..*
-     * @label Allowed entry by
-     * @directed
-     */
-    private Permit lnkPermit;
+	/**
+	 * Each vehicle (and so each registration number) is associated with exactly one
 
-    public Vehicle_info(String regNo)
-    {
-	super();
-	this.regNo = regNo;
-    }
+	 * permit, which describes its authorisation to enter the campus (or not!).
+	 *
+	 * This attribute references the permit associated with this vehicle. It allows
+	 * the permit status of any vehicle to be accessed via the Vehicle_list knowing
+	 * only the registration number - for example for barrier checks, recording
+	 * warnings, and so on.
+	 *
+	 * Note that many vehicles may be associated with the same permit.
+	 * 
+	 * @supplierCardinality 1
+	 * @clientCardinality 1..*
+	 * @label Allowed entry by
+	 * @directed
+	 */
+	//TODO this is never ever set, this is ALWAYS null.
+	private Permit lnkPermit;
 
-    public void setLnkPermit(Permit lnkPermit)
-    {
-	this.lnkPermit = lnkPermit;
-    }
+	public Vehicle_info(String regNo) {
+		super();
+		this.regNo = regNo;
+	}
 
-    public String toString()
-    {
-	return regNo;
-    }
+	public void setLnkPermit(Permit lnkPermit) {
+		this.lnkPermit = lnkPermit;
+	}
+
+	public Permit getPermit() {
+		return this.lnkPermit;
+	}
+	
+	public String getReg() {
+		return regNo;
+	}
+
+	public String toString() {
+		return regNo;
+	}
 
 }
