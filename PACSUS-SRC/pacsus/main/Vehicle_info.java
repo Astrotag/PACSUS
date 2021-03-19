@@ -54,9 +54,4 @@ public class Vehicle_info {
 	public String getReg() {
 		return regNo;
 	}
-
-	public String toString() {
-		return regNo;
-	}
-
 }
