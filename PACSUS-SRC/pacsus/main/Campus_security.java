@@ -128,8 +128,8 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		JPanel vWPanelRegs = new JPanel();
 		allPermitsWarning = new JComboBox<String>();		
 
-		popcornChicken();
-
+		popCombo();
+		
 		allPermitsWarning.setMaximumSize(new Dimension(150, 20));
 		vWPanelRegs.add(allPermitsWarning);
 		vehicleWarningPanel.add(vWPanelRegs);
@@ -151,7 +151,9 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		setVisible(true);
 	}
 
-	private void popcornChicken() {
+	
+	private void popCombo() {
+
 		ArrayList<String> regList = lnkVehicle_list.getRegs();
 
 		permitStrings = new String[regList.size()];
@@ -172,10 +174,9 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		int date = lnkSystem_status.getDate().getDayNumber();
 		setTitle(date);
 		/*
-		 * TODO notify observers when a new permit is added, or else this method won't get called and then
-		 * there will be a lack of popcornChicken :(.
+		 * TODO notify observers when a new permit is added, or else this method won't get called 
 		 */
-		popcornChicken();
+		popCombo();
 	}
 
 	@Override
