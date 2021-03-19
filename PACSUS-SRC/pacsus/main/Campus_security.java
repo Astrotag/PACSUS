@@ -161,8 +161,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener 
 		int date = lnkSystem_status.getDate().getDayNumber();
 		setTitle(date);
 		/*
-		 * TODO notify observers when a new permit is added, or else this method won't get called and then
-		 * there will be a lack of popcornChicken :(.
+		 * TODO notify observers when a new permit is added, or else this method won't get called 
 		 */
 		popCombo();
 	}
