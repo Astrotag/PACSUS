@@ -136,6 +136,10 @@ public class Timer extends JFrame implements ActionListener
 	    System.out.println("New day button pressed. Value: " + today.getDayNumber());
 	    setTitle();
 	    cancelOutOfDatePermits();
+	    
+	    if(today.getDayNumber()==1) {
+	    	lnkPermit_list.yearReset();
+	    }
 	}
 
     } // actionPerformed

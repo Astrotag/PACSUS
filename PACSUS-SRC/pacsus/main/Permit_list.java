@@ -172,4 +172,32 @@ public class Permit_list
 	});
 	return list;
     }
+    
+    public void yearReset(){
+
+    	//TODO add a call to the day reset once implemented
+    	Object ks[]=  lnkPermit.keySet().toArray(); 
+    	for(Object o : ks) {
+    		
+    	if (lnkPermit.get(o.toString()).isSuspended()) {
+    		lnkPermit.get(o.toString()).setSuspended(false);
+    		}
+    		
+    	if(lnkPermit.get(o.toString()).getWarnings()>1) {
+    		lnkPermit.get(o.toString()).setWarnings(0);
+    	}
+    	
+    	if(lnkPermit.get(o.toString()).getNoOfEntries()>1) {
+    		lnkPermit.get(o.toString()).setNoOfEntries(0);
+    	
+    	
+    	}
+    	
+    	}
+    	
+
+    System.out.println("year reset");
+    }
+    
+    
 }

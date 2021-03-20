@@ -35,6 +35,8 @@ abstract public class Permit {
 	 */
 	private int noOfEntries = 0;
 
+	
+
 	/**
 	 * Counts the number of warnings issued to vehicles registered on this permit.
 	 */
@@ -129,4 +131,11 @@ abstract public class Permit {
 	
 	abstract Date getDate();
 
-}
+
+public int getNoOfEntries() {
+		return noOfEntries;
+	}
+
+	public void setNoOfEntries(int noOfEntries) {
+		this.noOfEntries = noOfEntries;
+	}}
