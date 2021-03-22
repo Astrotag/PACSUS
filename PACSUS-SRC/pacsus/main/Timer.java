@@ -142,6 +142,7 @@ public class Timer extends JFrame implements ActionListener
     
     private void cancelOutOfDatePermits() {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Day_visitor_permit");
+	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
 	
 	for (Permit permit : list)
 	{

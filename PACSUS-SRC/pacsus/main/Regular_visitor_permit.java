@@ -54,8 +54,7 @@ public class Regular_visitor_permit extends Permit
 	@Override
 	public Date getDate()
 	{
-	    // TODO Auto-generated method stub
-	    return null;
+	    return lnkEndDate;
 	}
 }
 
