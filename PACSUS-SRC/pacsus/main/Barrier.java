@@ -169,25 +169,37 @@ public class Barrier extends JFrame implements Observer, ActionListener {
 			// lnkVehicle_list = lnkVehicle_list.updateList();
 			System.out.println(lnkVehicle_list.toString());
 			String regText = regField.getText();
-			
+
 			if(!lnkSystem_status.getSystemStatus()) {
 				JOptionPane.showMessageDialog(this, "System Deactivated. Vehicle may pass.", "Barrier",
 						JOptionPane.WARNING_MESSAGE);
 				label.setText("PASS");
 				label.setForeground(Color.green);
 			} else {
-				if (lnkVehicle_list.findVehicle(regText)) {
-					JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
-							JOptionPane.INFORMATION_MESSAGE);
-					label.setText("PASS");
-					label.setForeground(Color.green);
-				} else {
-					JOptionPane.showMessageDialog(this, "ACCESS DENIED! This registration plate is not in the list.", "Barrier",
+				String log;
+				if(!regText.equals("")) {
+					if (lnkVehicle_list.findVehicle(regText)) {
+						JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
+								JOptionPane.INFORMATION_MESSAGE);
+						label.setText("PASS");
+						label.setForeground(Color.green);
+						log="Vehicle: " + regText + " entered." + " Date: " + lnkSystem_status.getDate().getDayNumber();
+					} else {
+						JOptionPane.showMessageDialog(this, "ACCESS DENIED! This registration plate is not in the list.", "Barrier",
+								JOptionPane.ERROR_MESSAGE);
+						label.setText("STOP");
+						label.setForeground(Color.red);
+						log="Vehicle: " + regText + " couldn't enter." + " Date: " + lnkSystem_status.getDate().getDayNumber();
+					}
+					// Add entry to log
+					lnkSystem_status.addEntryLog(log);
+				} else
+				{
+					JOptionPane.showMessageDialog(this, "Please enter registration number.", "Barrier",
 							JOptionPane.ERROR_MESSAGE);
-					label.setText("STOP");
-					label.setForeground(Color.red);
 				}
 			}
+
 		}
 
 		if (e.getSource().equals(passedButton)) {
@@ -198,6 +210,7 @@ public class Barrier extends JFrame implements Observer, ActionListener {
 				raised = false;
 				updateBarrier();
 				regField.setText("");
+
 			}
 		}
 	}

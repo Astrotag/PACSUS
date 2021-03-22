@@ -12,4 +12,15 @@ public class Permanent_visitor_permit extends Permit
 		super(permitHolder, permittedVehicles);
 	
 	}
+	
+    public void checkPermanentVisitorPermitDate() {
+    	
+    }
+
+    @Override
+    Date getDate()
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
 }

@@ -35,6 +35,8 @@ abstract public class Permit {
 	 */
 	private int noOfEntries = 0;
 
+	
+
 	/**
 	 * Counts the number of warnings issued to vehicles registered on this permit.
 	 */
@@ -119,12 +121,21 @@ abstract public class Permit {
 
 	@Override
 	public String toString() {
-		return "Permit:" + permitHolder + "-" + permittedVehicles;
+		return "Permit:" + permitHolder + "-" + permittedVehicles.getReg();
 	}
 
 	public String getStatus() {
 		return "Permit Holder Name: " + permitHolder + "\nNumber of Warnings: " + warnings + "\nSuspended: " + suspended
 				+ "\nNumber of Entries: " + noOfEntries;
 	}
+	
+	abstract Date getDate();
 
-}
+
+public int getNoOfEntries() {
+		return noOfEntries;
+	}
+
+	public void setNoOfEntries(int noOfEntries) {
+		this.noOfEntries = noOfEntries;
+	}}

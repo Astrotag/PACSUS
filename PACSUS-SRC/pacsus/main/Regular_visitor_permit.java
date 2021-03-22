@@ -50,5 +50,11 @@ public class Regular_visitor_permit extends Permit
 		return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate visit starts: "
 					+ lnkStartDate.getDayNumber() + "\nDate visit ends: " + lnkEndDate.getDayNumber();
 	}
+
+	@Override
+	public Date getDate()
+	{
+	    return lnkEndDate;
+	}
 }
 

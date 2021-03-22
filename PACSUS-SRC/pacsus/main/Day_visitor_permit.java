@@ -27,12 +27,18 @@ public class Day_visitor_permit extends Permit
     private Date lnkDate;
     
     
+    public Date getDate()
+    {
+        return lnkDate;
+    }
+
     public Day_visitor_permit(String permitHolder, Vehicle_info permittedVehicles,String visiting, Date date) {
 		super(permitHolder, permittedVehicles);
 		this.hostName = visiting;
 		this.lnkDate = date;
 	}
     
+     
     @Override
     public String getStatus() {
     	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate of visit: "

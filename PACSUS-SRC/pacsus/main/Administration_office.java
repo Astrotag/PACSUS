@@ -171,7 +171,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		lnkPermit_list.add("Joanes", new University_member_permit("Joanes", new Vehicle_info("SL07HAU"), new Date(1)));
 		lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
 		lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
-		lnkPermit_list.add("Stuart", new University_member_permit("Stuart", new Vehicle_info("HG04YUY"), new Date(1)));
+		lnkPermit_list.add("Stuart", new Day_visitor_permit("Stuart", new Vehicle_info("HG04YUY"), "David", new Date(1)));
 
 		addToVehicleList("Greig", "YT14HBB");
 		addToVehicleList("Joanes", "SL07HAU");
