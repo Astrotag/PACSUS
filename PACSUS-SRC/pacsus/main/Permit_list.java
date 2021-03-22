@@ -170,7 +170,6 @@ public class Permit_list
 
     public void yearReset()
     {
-
 	// TODO add a call to the day reset once implemented
 	Object ks[] = lnkPermit.keySet().toArray();
 	for (Object o : ks)
