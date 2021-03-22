@@ -183,11 +183,11 @@ public class Permit_list
     		lnkPermit.get(o.toString()).setSuspended(false);
     		}
     		
-    	if(lnkPermit.get(o.toString()).getWarnings()>1) {
+    	if(lnkPermit.get(o.toString()).getWarnings()>=1) {
     		lnkPermit.get(o.toString()).setWarnings(0);
     	}
     	
-    	if(lnkPermit.get(o.toString()).getNoOfEntries()>1) {
+    	if(lnkPermit.get(o.toString()).getNoOfEntries()>=1) {
     		lnkPermit.get(o.toString()).setNoOfEntries(0);
     	
     	
