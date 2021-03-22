@@ -55,14 +55,16 @@ public class Permit_list
 
     public String[] populateList()
     {
-	Object[] keys = lnkPermit.keySet().toArray();
-	Object[] permits = lnkPermit.values().toArray();
+//	Object[] keys = lnkPermit.keySet().toArray();
+//	Object[] permits = lnkPermit.values().toArray();
+	ArrayList<Permit> allPermits = getPermitsByType("");
 
-	String[] strings = new String[keys.length];
+	String[] strings = new String[allPermits.size()];
 
-	for (int i = 0; i < keys.length; i++)
+	for (int i = 0; i < strings.length; i++)
 	{
-	    strings[i] = "" + permits[i].toString();
+	    System.err.println(i);
+	    strings[i] = "" + allPermits.get(i).toString();
 	}
 
 	return strings;
