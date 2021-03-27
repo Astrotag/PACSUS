@@ -55,14 +55,16 @@ public class Permit_list
 
     public String[] populateList()
     {
-	Object[] keys = lnkPermit.keySet().toArray();
-	Object[] permits = lnkPermit.values().toArray();
+//	Object[] keys = lnkPermit.keySet().toArray();
+//	Object[] permits = lnkPermit.values().toArray();
+	ArrayList<Permit> allPermits = getPermitsByType("");
 
-	String[] strings = new String[keys.length];
+	String[] strings = new String[allPermits.size()];
 
-	for (int i = 0; i < keys.length; i++)
+	for (int i = 0; i < strings.length; i++)
 	{
-	    strings[i] = "" + permits[i].toString();
+	    System.err.println(i);
+	    strings[i] = "" + allPermits.get(i).toString();
 	}
 
 	return strings;
@@ -142,28 +144,23 @@ public class Permit_list
      */
     public boolean deletePermit(String key)
     {
-	//System.out.println(lnkPermit.size());
+	// System.out.println(lnkPermit.size());
 	Permit permit = getPermit(key);
 	if (lnkPermit.remove(key) != null)
 	{
-	    //System.out.println(lnkPermit.size());
+	    // System.out.println(lnkPermit.size());
 	    return true;
 	}
 	return false;
     }
 
-    public void newDay(Date date)
-    {
-
-    }
-
     public ArrayList<Permit> getPermitsByType(String permitType)
     {
 	ArrayList<Permit> list = new ArrayList<Permit>();
-	
+
 	lnkPermit.forEach((k, v) ->
 	{
-	    //System.out.println(v.getClass().toString());
+	    // System.out.println(v.getClass().toString());
 	    if (v.getClass().toString().contains(permitType))
 	    {
 		list.add(v);
@@ -172,32 +169,33 @@ public class Permit_list
 	});
 	return list;
     }
-    
-    public void yearReset(){
 
-    	//TODO add a call to the day reset once implemented
-    	Object ks[]=  lnkPermit.keySet().toArray(); 
-    	for(Object o : ks) {
-    		
-    	if (lnkPermit.get(o.toString()).isSuspended()) {
-    		lnkPermit.get(o.toString()).setSuspended(false);
-    		}
-    		
-    	if(lnkPermit.get(o.toString()).getWarnings()>=1) {
-    		lnkPermit.get(o.toString()).setWarnings(0);
-    	}
-    	
-    	if(lnkPermit.get(o.toString()).getNoOfEntries()>=1) {
-    		lnkPermit.get(o.toString()).setNoOfEntries(0);
-    	
-    	
-    	}
-    	
-    	}
-    	
+    public void yearReset()
+    {
+	// TODO add a call to the day reset once implemented
+	Object ks[] = lnkPermit.keySet().toArray();
+	for (Object o : ks)
+	{
 
-    System.out.println("year reset");
+	    if (lnkPermit.get(o.toString()).isSuspended())
+	    {
+		lnkPermit.get(o.toString()).setSuspended(false);
+	    }
+
+	    if (lnkPermit.get(o.toString()).getWarnings() >= 1)
+	    {
+		lnkPermit.get(o.toString()).setWarnings(0);
+	    }
+
+	    if (lnkPermit.get(o.toString()).getNoOfEntries() >= 1)
+	    {
+		lnkPermit.get(o.toString()).setNoOfEntries(0);
+
+	    }
+
+	}
+
+	System.out.println("year reset");
     }
-    
-    
+
 }
