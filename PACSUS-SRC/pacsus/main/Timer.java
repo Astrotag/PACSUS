@@ -130,12 +130,12 @@ public class Timer extends JFrame implements ActionListener
     {
 	if (e.getSource().equals(newDay))
 	{
+	    cancelOutOfDatePermits();
 	    lnkSystem_status.nextDay();
 	    today = lnkSystem_status.getDate();
 	    currentDay.setText("Current Day: " + today.getDayNumber());
 	    System.out.println("New day button pressed. Value: " + today.getDayNumber());
 	    setTitle();
-	    cancelOutOfDatePermits();
 	    
 	    if(today.getDayNumber()==1) {
 	    	lnkPermit_list.yearReset();
@@ -150,7 +150,7 @@ public class Timer extends JFrame implements ActionListener
 	
 	for (Permit permit : list)
 	{
-	    if (permit.getDate().getDayNumber() < today.getDayNumber())
+	    if (permit.getDate().getDayNumber() < today.getDayNumber() + 1)
 	    {
 		if (lnkPermit_list.deletePermit(permit.getPermitHolder()))
 		{

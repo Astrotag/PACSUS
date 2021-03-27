@@ -180,7 +180,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	lnkPermit_list.add("Stuart",
 		new Day_visitor_permit("Stuart", new Vehicle_info("HG04YUY"), "David", new Date(1)));
 
-	System.out.println("PopPermitList");
+	//System.out.println("PopPermitList");
 	addToVehicleList("Greig", "YT14HBB");
 	addToVehicleList("Joanes", "SL07HAU");
 	addToVehicleList("Ryan", "NC02XZT");
@@ -417,12 +417,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private void popCombo()
     {
-	System.out.println(permitStrings.length);
-	for (int i = 0; i < permitStrings.length; i++)
-	{
-	    System.err.println(permitStrings[i]);
-	}
-
 	allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsEdit.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsCancel.setModel(new DefaultComboBoxModel<String>(permitStrings));
@@ -544,6 +538,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     {
 	int date = lnkSystem_status.getDate().getDayNumber();
 	setTitle(date);
+	
+	permitStrings = lnkPermit_list.populateList();
+	System.err.println(permitStrings.length);
+	popCombo();
     }
 
     /**
