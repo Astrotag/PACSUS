@@ -151,15 +151,14 @@ public class Permit_list
     public ArrayList<Permit> getPermitsByType(String permitType)
     {
 	ArrayList<Permit> list = new ArrayList<Permit>();
-
 	lnkPermit.forEach((k, v) ->
 	{
-	    // System.out.println(v.getClass().toString());
 	    if (v.getClass().toString().contains(permitType))
 	    {
 		list.add(v);
+		System.out.println("Added");
 	    }
-
+	    
 	});
 	return list;
     }
@@ -189,7 +188,14 @@ public class Permit_list
 
 	}
 
-	//System.out.println("year reset");
+	// System.out.println("year reset");
     }
 
+    public void setPermitsHasEntered()
+    {
+	lnkPermit.forEach((k, v) ->
+	{
+	    v.setEnteredToday(false);
+	});
+    }
 }

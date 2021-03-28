@@ -195,6 +195,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 		{
 		    if (lnkVehicle_list.findVehicle(regText))
 		    {
+			lnkVehicle_list.getVehiclePermit(regText).setEnteredToday(true);
 			JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
 				JOptionPane.INFORMATION_MESSAGE);
 			label.setText("PASS");
@@ -207,6 +208,13 @@ public class Barrier extends JFrame implements Observer, ActionListener
 			JOptionPane.showMessageDialog(this,
 				"ACCESS DENIED! This registration plate is not in the list.", "Barrier",
 				JOptionPane.ERROR_MESSAGE);
+			
+			if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
+			{
+			    JOptionPane.showMessageDialog(this,
+					"ACCESS DENIED! This vehicle has already entered", "Barrier",
+					JOptionPane.ERROR_MESSAGE);
+			}
 			label.setText("STOP");
 			label.setForeground(Color.red);
 			log = "Vehicle: " + regText + " couldn't enter." + " Date: "
