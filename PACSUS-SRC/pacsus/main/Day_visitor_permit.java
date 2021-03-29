@@ -7,9 +7,8 @@ package pacsus.main;
  */
 public class Day_visitor_permit extends Permit
 {
-   
 
-	/**
+    /**
      * The name of the University member hosting the visit.
      */
     private String hostName;
@@ -25,23 +24,23 @@ public class Day_visitor_permit extends Permit
      * @directed
      */
     private Date lnkDate;
-    
-    
+
     public Date getDate()
     {
-        return lnkDate;
+	return lnkDate;
     }
 
-    public Day_visitor_permit(String permitHolder, Vehicle_info permittedVehicles,String visiting, Date date) {
-		super(permitHolder, permittedVehicles);
-		this.hostName = visiting;
-		this.lnkDate = date;
-	}
-    
-     
+    public Day_visitor_permit(String permitHolder, Vehicle_info permittedVehicles, String visiting, Date date)
+    {
+	super(permitHolder, permittedVehicles);
+	this.hostName = visiting;
+	this.lnkDate = date;
+    }
+
     @Override
-    public String getStatus() {
-    	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate of visit: "
-    			+ lnkDate.getDayNumber();
+    public String getStatus()
+    {
+	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate of visit: "
+		+ lnkDate.getDayNumber();
     }
 }

@@ -45,173 +45,205 @@ import javax.swing.JTextField;
  * 
  * @stereotype boundary
  */
-public class Barrier extends JFrame implements Observer, ActionListener {
-	/**
-	 * Each instance of Barrier has a navigable association to the permit list so
-	 * that when a vehicle's registration number has been recognized by the camera,
-	 * the barrier can check whether to raise itself or not by checking the status
-	 * of that vehicle's permit.
-	 * 
-	 * @clientCardinality 1..*
-	 * @supplierCardinality 1
-	 * @label Access permits
-	 * @directed
-	 */
-	private Vehicle_list lnkVehicle_list;
+public class Barrier extends JFrame implements Observer, ActionListener
+{
+    /**
+     * Each instance of Barrier has a navigable association to the permit list so
+     * that when a vehicle's registration number has been recognized by the camera,
+     * the barrier can check whether to raise itself or not by checking the status
+     * of that vehicle's permit.
+     * 
+     * @clientCardinality 1..*
+     * @supplierCardinality 1
+     * @label Access permits
+     * @directed
+     */
+    private Vehicle_list lnkVehicle_list;
 
-	/**
-	 * Each instance of Barrier has a navigable association to the system status so
-	 * that it can check whether the barrier system as a whole is active or
-	 * inactive, and so that it can send event messages to be recorded in the log.
-	 * 
-	 * @clientCardinality 1..*
-	 * @supplierCardinality 1
-	 * @label Fetch system status info
-	 * @directed
-	 */
-	private System_status lnkSystem_status;
+    /**
+     * Each instance of Barrier has a navigable association to the system status so
+     * that it can check whether the barrier system as a whole is active or
+     * inactive, and so that it can send event messages to be recorded in the log.
+     * 
+     * @clientCardinality 1..*
+     * @supplierCardinality 1
+     * @label Fetch system status info
+     * @directed
+     */
+    private System_status lnkSystem_status;
 
-	/**
-	 * This attribute indicates the active/inactive state of the barrier system - as
-	 * notified by the system status when it changes (Barrier Observes System
-	 * status). If false then the barrier must be up. If true then the barrier
-	 * position is determined by attribute raised.
-	 */
-	private boolean active = false;
+    /**
+     * This attribute indicates the active/inactive state of the barrier system - as
+     * notified by the system status when it changes (Barrier Observes System
+     * status). If false then the barrier must be up. If true then the barrier
+     * position is determined by attribute raised.
+     */
+    private boolean active = false;
 
-	/**
-	 * If the barrier system is active, this attribute indicates whether the barrier
-	 * is currently in its raised or lowered position. The position is controlled by
-	 * the result of checking a registration number with the permitted vehicles
-	 * list, and the "vehicle clear" button.
-	 */
-	private boolean raised = true;
+    /**
+     * If the barrier system is active, this attribute indicates whether the barrier
+     * is currently in its raised or lowered position. The position is controlled by
+     * the result of checking a registration number with the permitted vehicles
+     * list, and the "vehicle clear" button.
+     */
+    private boolean raised = true;
 
-	private JTextField regField;
-	private JButton enterButton, passedButton;
-	private JLabel label;
+    private JTextField regField;
+    private JButton enterButton, passedButton;
+    private JLabel label;
 
-	/**
-	 * Generated Constructor
-	 * 
-	 * @param systemStatus
-	 * @param vehicleList
-	 */
-	public Barrier(System_status systemStatus, Vehicle_list vehicleList) {
-		// Record references to the parent controller and the model
-		this.lnkVehicle_list = vehicleList;
-		this.lnkSystem_status = systemStatus;
+    /**
+     * Generated Constructor
+     * 
+     * @param systemStatus
+     * @param vehicleList
+     */
+    public Barrier(System_status systemStatus, Vehicle_list vehicleList)
+    {
+	// Record references to the parent controller and the model
+	this.lnkVehicle_list = vehicleList;
+	this.lnkSystem_status = systemStatus;
 
-		lnkSystem_status.addObserver(this);
-		loadGUI();
+	lnkSystem_status.addObserver(this);
+	loadGUI();
+    }
+
+    private void loadGUI()
+    {
+	setTitle(1);
+	setLocation(400, 40);
+	setSize(350, 150);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	Container window = getContentPane();
+	window.setLayout(new FlowLayout()); // The default is that JFrame uses BorderLayout
+
+	// Set up view GUI
+	setBackground(Color.white);
+	add(new JLabel("Barrier"));
+	// Barrier label
+	label = new JLabel();
+	updateBarrier();
+	add(label);
+
+	regField = new JTextField("", 15);
+	add(regField);
+
+	enterButton = new JButton("Enter Registration");
+	add(enterButton);
+	enterButton.addActionListener(this);
+
+	passedButton = new JButton("Vehicle Passed");
+	add(passedButton);
+	passedButton.addActionListener(this);
+
+	setVisible(true);
+    }
+
+    private void updateBarrier()
+    {
+	if (raised)
+	{
+	    label.setText("PASS");
+	    label.setForeground(Color.green);
 	}
-
-	private void loadGUI() {
-		setTitle(1);
-		setLocation(400, 40);
-		setSize(350, 150);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		Container window = getContentPane();
-		window.setLayout(new FlowLayout()); // The default is that JFrame uses BorderLayout
-
-		// Set up view GUI
-		setBackground(Color.white);
-		add(new JLabel("Barrier"));
-		// Barrier label
-		label = new JLabel();
-		updateBarrier();
-		add(label);
-
-		regField = new JTextField("", 15);
-		add(regField);
-
-		enterButton = new JButton("Enter Registration");
-		add(enterButton);
-		enterButton.addActionListener(this);
-
-		passedButton = new JButton("Vehicle Passed");
-		add(passedButton);
-		passedButton.addActionListener(this);
-
-		setVisible(true);
+	else
+	{
+	    label.setText("STOP");
+	    label.setForeground(Color.red);
 	}
+    }
 
-	private void updateBarrier() {
-		if (raised) {
+    private void setTitle(int date)
+    {
+	setTitle("Barrier: Date - " + date);
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+	int date = lnkSystem_status.getDate().getDayNumber();
+	System.out.println(date);
+	setTitle(date);
+
+	active = lnkSystem_status.getSystemStatus();
+	System.out.println("System Changed");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+	// TODO further checks are needed to determine if the vehicle can pass, if it is
+	// a valid vehicle etc.
+	if (e.getSource().equals(enterButton))
+	{
+	    // System.out.println(lnkVehicle_list.updateList().toString());
+	    // lnkVehicle_list = lnkVehicle_list.updateList();
+	    // System.out.println(lnkVehicle_list.toString());
+	    String regText = regField.getText();
+
+	    if (!lnkSystem_status.getSystemStatus())
+	    {
+		JOptionPane.showMessageDialog(this, "System Deactivated. Vehicle may pass.", "Barrier",
+			JOptionPane.WARNING_MESSAGE);
+		label.setText("PASS");
+		label.setForeground(Color.green);
+	    }
+	    else
+	    {
+		String log;
+		if (!regText.equals(""))
+		{
+		    if (lnkVehicle_list.findVehicle(regText))
+		    {
+			lnkVehicle_list.getVehiclePermit(regText).setEnteredToday(true);
+			JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
+				JOptionPane.INFORMATION_MESSAGE);
 			label.setText("PASS");
 			label.setForeground(Color.green);
-		} else {
+			log = "Vehicle: " + regText + " entered." + " Date: "
+				+ lnkSystem_status.getDate().getDayNumber();
+		    }
+		    else
+		    {
+			JOptionPane.showMessageDialog(this,
+				"ACCESS DENIED! This registration plate is not in the list.", "Barrier",
+				JOptionPane.ERROR_MESSAGE);
+			
+			if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
+			{
+			    JOptionPane.showMessageDialog(this,
+					"ACCESS DENIED! This vehicle has already entered", "Barrier",
+					JOptionPane.ERROR_MESSAGE);
+			}
 			label.setText("STOP");
 			label.setForeground(Color.red);
+			log = "Vehicle: " + regText + " couldn't enter." + " Date: "
+				+ lnkSystem_status.getDate().getDayNumber();
+		    }
+		    // Add entry to log
+		    lnkSystem_status.addEntryLog(log);
 		}
-	}
-
-	private void setTitle(int date) {
-		setTitle("Barrier: Date - " + date);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		int date = lnkSystem_status.getDate().getDayNumber();
-		System.out.println(date);
-		setTitle(date);
-
-		active = lnkSystem_status.getSystemStatus();
-		System.out.println("System Changed");
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO further checks are needed to determine if the vehicle can pass, if it is
-		// a valid vehicle etc.
-		if (e.getSource().equals(enterButton)) {
-			System.out.println(lnkVehicle_list.updateList().toString());
-			// lnkVehicle_list = lnkVehicle_list.updateList();
-			System.out.println(lnkVehicle_list.toString());
-			String regText = regField.getText();
-
-			if(!lnkSystem_status.getSystemStatus()) {
-				JOptionPane.showMessageDialog(this, "System Deactivated. Vehicle may pass.", "Barrier",
-						JOptionPane.WARNING_MESSAGE);
-				label.setText("PASS");
-				label.setForeground(Color.green);
-			} else {
-				String log;
-				if(!regText.equals("")) {
-					if (lnkVehicle_list.findVehicle(regText)) {
-						JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
-								JOptionPane.INFORMATION_MESSAGE);
-						label.setText("PASS");
-						label.setForeground(Color.green);
-						log="Vehicle: " + regText + " entered." + " Date: " + lnkSystem_status.getDate().getDayNumber();
-					} else {
-						JOptionPane.showMessageDialog(this, "ACCESS DENIED! This registration plate is not in the list.", "Barrier",
-								JOptionPane.ERROR_MESSAGE);
-						label.setText("STOP");
-						label.setForeground(Color.red);
-						log="Vehicle: " + regText + " couldn't enter." + " Date: " + lnkSystem_status.getDate().getDayNumber();
-					}
-					// Add entry to log
-					lnkSystem_status.addEntryLog(log);
-				} else
-				{
-					JOptionPane.showMessageDialog(this, "Please enter registration number.", "Barrier",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-
+		else
+		{
+		    JOptionPane.showMessageDialog(this, "Please enter registration number.", "Barrier",
+			    JOptionPane.ERROR_MESSAGE);
 		}
+	    }
 
-		if (e.getSource().equals(passedButton)) {
-			// This button simulates when a car goes through
-			// First check if barrier system is active
-			if (active) {
-				// Set raised to false and update JLabel
-				raised = false;
-				updateBarrier();
-				regField.setText("");
-
-			}
-		}
 	}
+
+	if (e.getSource().equals(passedButton))
+	{
+	    // This button simulates when a car goes through
+	    // First check if barrier system is active
+	    if (active)
+	    {
+		// Set raised to false and update JLabel
+		raised = false;
+		updateBarrier();
+		regField.setText("");
+
+	    }
+	}
+    }
 }

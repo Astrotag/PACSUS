@@ -113,9 +113,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	tabbedPane = new JTabbedPane();
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	setTitle(1);
-	
+
 	populatePermitList();
-	
+
 	newPermitPanel = createPermitPanel();
 
 	warningPanel = createWarningPanel();
@@ -180,7 +180,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	lnkPermit_list.add("Stuart",
 		new Day_visitor_permit("Stuart", new Vehicle_info("HG04YUY"), "David", new Date(1)));
 
-	System.out.println("PopPermitList");
+	// System.out.println("PopPermitList");
 	addToVehicleList("Greig", "YT14HBB");
 	addToVehicleList("Joanes", "SL07HAU");
 	addToVehicleList("Ryan", "NC02XZT");
@@ -418,11 +418,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     private void popCombo()
     {
 	System.out.println(permitStrings.length);
-	for (int i = 0; i < permitStrings.length; i++)
-	{
-	    System.err.println(permitStrings[i]);
-	}
-
 	allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsEdit.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsCancel.setModel(new DefaultComboBoxModel<String>(permitStrings));
@@ -544,12 +539,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     {
 	int date = lnkSystem_status.getDate().getDayNumber();
 	setTitle(date);
+
+	permitStrings = lnkPermit_list.populateList();
+	System.err.println(permitStrings.length);
+	popCombo();
     }
 
     /**
      * A method which will take the input from the New Permit tab and place the data
      * in the appropriate class to create a new permit. It also adds the vehicles
      * entered to a vehicle list when required.
+     * 
      */
     private void createPermit()
     {
@@ -573,7 +573,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    else
+	    {
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 
 	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
@@ -595,7 +597,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    else
+	    {
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 
 	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
@@ -614,11 +618,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), rvm))
 	    {
-
 		JOptionPane.showMessageDialog(this, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    else
+	    {
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 
 	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
@@ -634,17 +639,20 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), pvp))
 	    {
-
 		JOptionPane.showMessageDialog(this, "Permit added", "Success", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    else
+	    {
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 
 	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
 
-	    permitStrings = lnkPermit_list.populateList();
-	    popCombo();
+	    break;
 	}
+
+	permitStrings = lnkPermit_list.populateList();
+	popCombo();
     }
 
     /**
@@ -969,6 +977,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * 
      *         what it essentially does is it validates what has been put into the
      *         text boxes and checks if it is what the permit needs
+     * 
+     *         {@link https://www.regexlib.com/REDetails.aspx?regexp_id=595 -
+     *         Regular expression used to validate registrations}
+     * 
      * @param permitType - the type of permit being validated
      * @return
      */
@@ -984,10 +996,11 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    return valid;
 	}
 
-	if (txtRegNoNewPermit.getText().length() < 5)
+	if (txtRegNoNewPermit.getText().length() < 5 && txtRegNoNewPermit.getText()
+		.matches("^([A-HK-PRSVWY][A-HJ-PR-Y])\\s?([0][2-9]|[1-9][0-9])\\s?[A-HJ-PR-Z]{3}$"))
 	{
-	    JOptionPane.showMessageDialog(this, "Registration number must be 5 characters or more ", "Format Error",
-		    JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "Issue creating permit. Check that the license plate entered is valid",
+		    "Format Error", JOptionPane.ERROR_MESSAGE);
 	    return valid;
 	}
 

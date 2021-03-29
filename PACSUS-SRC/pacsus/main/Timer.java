@@ -1,9 +1,10 @@
 package pacsus.main;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -86,8 +87,6 @@ public class Timer extends JFrame implements ActionListener
      */
     public Timer(System_status systemStatus, Permit_list permitList)
     {
-	// TODO Auto-generated constructor stub
-
 	// Make the links to System_Status and Permit_List
 	lnkSystem_status = systemStatus;
 	lnkPermit_list = permitList;
@@ -130,12 +129,13 @@ public class Timer extends JFrame implements ActionListener
     {
 	if (e.getSource().equals(newDay))
 	{
+	    cancelOutOfDatePermits();
+	    setHasEnteredToday();
 	    lnkSystem_status.nextDay();
 	    today = lnkSystem_status.getDate();
 	    currentDay.setText("Current Day: " + today.getDayNumber());
 	    System.out.println("New day button pressed. Value: " + today.getDayNumber());
 	    setTitle();
-	    cancelOutOfDatePermits();
 	    
 	    if(today.getDayNumber()==1) {
 	    	lnkPermit_list.yearReset();
@@ -144,13 +144,18 @@ public class Timer extends JFrame implements ActionListener
 
     } // actionPerformed
     
+    private void setHasEnteredToday()
+    {
+	lnkPermit_list.setPermitsHasEntered();
+    }
+
     private void cancelOutOfDatePermits() {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Day_visitor_permit");
 	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
 	
 	for (Permit permit : list)
 	{
-	    if (permit.getDate().getDayNumber() < today.getDayNumber())
+	    if (permit.getDate().getDayNumber() < today.getDayNumber() + 1)
 	    {
 		if (lnkPermit_list.deletePermit(permit.getPermitHolder()))
 		{

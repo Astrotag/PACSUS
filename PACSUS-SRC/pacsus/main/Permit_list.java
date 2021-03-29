@@ -55,15 +55,12 @@ public class Permit_list
 
     public String[] populateList()
     {
-//	Object[] keys = lnkPermit.keySet().toArray();
-//	Object[] permits = lnkPermit.values().toArray();
 	ArrayList<Permit> allPermits = getPermitsByType("");
 
 	String[] strings = new String[allPermits.size()];
 
 	for (int i = 0; i < strings.length; i++)
 	{
-	    System.err.println(i);
 	    strings[i] = "" + allPermits.get(i).toString();
 	}
 
@@ -144,11 +141,8 @@ public class Permit_list
      */
     public boolean deletePermit(String key)
     {
-	// System.out.println(lnkPermit.size());
-	Permit permit = getPermit(key);
 	if (lnkPermit.remove(key) != null)
 	{
-	    // System.out.println(lnkPermit.size());
 	    return true;
 	}
 	return false;
@@ -157,15 +151,14 @@ public class Permit_list
     public ArrayList<Permit> getPermitsByType(String permitType)
     {
 	ArrayList<Permit> list = new ArrayList<Permit>();
-
 	lnkPermit.forEach((k, v) ->
 	{
-	    // System.out.println(v.getClass().toString());
 	    if (v.getClass().toString().contains(permitType))
 	    {
 		list.add(v);
+		System.out.println("Added");
 	    }
-
+	    
 	});
 	return list;
     }
@@ -195,7 +188,14 @@ public class Permit_list
 
 	}
 
-	System.out.println("year reset");
+	// System.out.println("year reset");
     }
 
+    public void setPermitsHasEntered()
+    {
+	lnkPermit.forEach((k, v) ->
+	{
+	    v.setEnteredToday(false);
+	});
+    }
 }
