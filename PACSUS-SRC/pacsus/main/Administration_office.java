@@ -201,7 +201,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	University_member_permit np = new University_member_permit("Niall", vi_4, new Date(1));
 	lnkPermit_list.add(np.getPermitHolder(), np);
 	vi_4.setLnkPermit(np);
-
 	Vehicle_info vi_5 = new Vehicle_info("SH07TTH");
 	Day_visitor_permit st = new Day_visitor_permit("Stuart", vi_5, "David", new Date(1));
 	lnkPermit_list.add(st.getPermitHolder(), st);
@@ -622,7 +621,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    Vehicle_info vi = new Vehicle_info(txtRegNoNewPermit.getText());
 	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(), vi,
-		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtVisDateNewPermit.getText())));
 	    vi.setLnkPermit(dvp);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), dvp))
