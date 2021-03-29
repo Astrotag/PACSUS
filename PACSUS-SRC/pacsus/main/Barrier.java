@@ -195,13 +195,32 @@ public class Barrier extends JFrame implements Observer, ActionListener
 		{
 		    if (lnkVehicle_list.findVehicle(regText))
 		    {
+		    	if(!lnkVehicle_list.getVehiclePermit(regText).isEnteredToday()) {
+		    		
+		    		
+		    	
+		    	
 			lnkVehicle_list.getVehiclePermit(regText).setEnteredToday(true);
 			JOptionPane.showMessageDialog(this, "The vehicle may pass.", "Barrier",
 				JOptionPane.INFORMATION_MESSAGE);
 			label.setText("PASS");
 			label.setForeground(Color.green);
 			log = "Vehicle: " + regText + " entered." + " Date: "
-				+ lnkSystem_status.getDate().getDayNumber();
+				+ lnkSystem_status.getDate().getDayNumber();}
+		    	
+		    	else {
+		    		JOptionPane.showMessageDialog(this,
+		    				"ACCESS DENIED! Permit has already been used today.", "Barrier",
+		    				JOptionPane.ERROR_MESSAGE);
+		    			
+		    		
+		    		label.setText("STOP");
+					label.setForeground(Color.red);
+					log = "Vehicle: " + regText + " couldn't enter." + " Date: "
+						+ lnkSystem_status.getDate().getDayNumber();
+				    
+		    	}
+		    	
 		    }
 		    else
 		    {
@@ -209,17 +228,15 @@ public class Barrier extends JFrame implements Observer, ActionListener
 				"ACCESS DENIED! This registration plate is not in the list.", "Barrier",
 				JOptionPane.ERROR_MESSAGE);
 			
-			if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
-			{
-			    JOptionPane.showMessageDialog(this,
-					"ACCESS DENIED! This vehicle has already entered", "Barrier",
-					JOptionPane.ERROR_MESSAGE);
-			}
 			label.setText("STOP");
 			label.setForeground(Color.red);
 			log = "Vehicle: " + regText + " couldn't enter." + " Date: "
 				+ lnkSystem_status.getDate().getDayNumber();
+		    
+		    
+		    
 		    }
+		
 		    // Add entry to log
 		    lnkSystem_status.addEntryLog(log);
 		}
