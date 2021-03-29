@@ -99,9 +99,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JTextField txtVisitingEdit;
 
-	private JTextField txtVisitingNameNew;
+    private JTextField txtVisitingNameNew;
 
-	private JLabel lblVisitingNameNew;
+    private JLabel lblVisitingNameNew;
 
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
@@ -556,7 +556,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateNewPermit = new JTextField();
 	newPermitPanel.add(txtVisDateNewPermit, gbc);
-	
 
 	line++;
 	gbc.gridx = left;
@@ -924,25 +923,25 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    // TODO display boxes appropriate for day visitor permit
 	    // only need host name, name and date
 
-	    visibilityChanger(true, false, true, true, false, true,true);
+	    visibilityChanger(true, false, true, true, false, true, true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 1)
 	{
 	    // TODO display boxes appropriate for uni member permit
-	    visibilityChanger(false, false, true, false, false, true,false);
+	    visibilityChanger(false, false, true, false, false, true, false);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 2)
 	{
 	    // TODO display boxes appropriate for regular visitor permit
-	    visibilityChanger(true, true, true, true, true, true,true);
+	    visibilityChanger(true, true, true, true, true, true, true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 3)
 	{
 	    // TODO display boxes appropriate for permanent visitor permit
-	    visibilityChanger(false, false, false, false, false, false,false);
+	    visibilityChanger(false, false, false, false, false, false, false);
 	}
     }
 
@@ -1040,12 +1039,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	}
     }
 
-    
-    
-    
     /**
      * @author NP I wish users were not so prone to making stupid mistakes or this
-     *         method would not be necessary good luck reading this code 
+     *         method would not be necessary good luck reading this code
      * 
      *         what it essentially does is it validates what has been put into the
      *         text boxes and checks if it is what the permit needs
@@ -1079,12 +1075,14 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	switch (permitType)
 	{
 	case 0:
-		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
-			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
-				    "Format Error", JOptionPane.ERROR_MESSAGE);
-			    return valid;
-		}
-		
+	    if (!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
+	    {
+		JOptionPane.showMessageDialog(this,
+			"Visitor name should contain a uppercase letter and lower case letters", "Format Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+	    }
+
 	    if (!(txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    && (txtVisDateNewPermit.getText().matches("^[0-9]{1,3}"))))
 	    {
@@ -1135,13 +1133,14 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 
 	case 2:
-		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
-		{
-			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
-				    "Format Error", JOptionPane.ERROR_MESSAGE);
-			    return valid;
-		}
-		if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
+	    if (!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
+	    {
+		JOptionPane.showMessageDialog(this,
+			"Visitor name should contain a uppercase letter and lower case letters", "Format Error",
+			JOptionPane.ERROR_MESSAGE);
+		return valid;
+	    }
+	    if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtVisDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtEndDateNewPermit.getText().matches("^[0-9]{1,3}"))
 	    {

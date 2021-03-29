@@ -136,26 +136,27 @@ public class Timer extends JFrame implements ActionListener
 	    currentDay.setText("Current Day: " + today.getDayNumber());
 	    System.out.println("New day button pressed. Value: " + today.getDayNumber());
 	    setTitle();
-	    
-	    if(today.getDayNumber()==1) {
-	    	System.out.println("new year");
-	    	
-	    	yearReset();
+
+	    if (today.getDayNumber() == 1)
+	    {
+		System.out.println("new year");
+
+		yearReset();
 	    }
 	}
 
     } // actionPerformed
-    
+
     private void setHasEnteredToday()
     {
 	lnkPermit_list.setPermitsHasEntered();
     }
-    
 
-    private void cancelOutOfDatePermits() {
+    private void cancelOutOfDatePermits()
+    {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Day_visitor_permit");
 	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
-	
+
 	for (Permit permit : list)
 	{
 	    if (permit.getDate().getDayNumber() < today.getDayNumber() + 1)
@@ -167,24 +168,25 @@ public class Timer extends JFrame implements ActionListener
 	    }
 	}
     }
-    
-    
-    private void yearReset() {
-    	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Permanent_visitor_permit");
-    	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
-    	list.addAll(lnkPermit_list.getPermitsByType("University_member_permit"));
-    	for (Permit permit : list)
-    	{
-    	 if (lnkPermit_list.getPermit(permit.getPermitHolder()).isSuspended()){
-    		 lnkPermit_list.unsuspendPermit(permit.getPermitHolder());
-    		 
-    	 }
-    	 else if (lnkPermit_list.getPermit(permit.getPermitHolder()).getWarnings()>=1) {
-    		 lnkPermit_list.resetWarnings(permit.getPermitHolder());
-    	 }
-    		
-    		
-    }
-    
+
+    private void yearReset()
+    {
+	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Permanent_visitor_permit");
+	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
+	list.addAll(lnkPermit_list.getPermitsByType("University_member_permit"));
+	for (Permit permit : list)
+	{
+	    if (lnkPermit_list.getPermit(permit.getPermitHolder()).isSuspended())
+	    {
+		lnkPermit_list.unsuspendPermit(permit.getPermitHolder());
+
+	    }
+	    else if (lnkPermit_list.getPermit(permit.getPermitHolder()).getWarnings() >= 1)
+	    {
+		lnkPermit_list.resetWarnings(permit.getPermitHolder());
+	    }
+
+	}
+
     }
 }
