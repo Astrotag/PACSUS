@@ -91,28 +91,4 @@ class Tests {
 		assertEquals(list.getPermitsByType("Regular_visitor_permit"), arrayList);
 
 	}
-	/**
-	 * This test check if yearReset() works
-	 */
-	@Test
-	void yearResetTest() {
-		Permit_list list = new Permit_list(); 
-		// Permanent_visitor_permit instance
-		Permanent_visitor_permit perm1 = new Permanent_visitor_permit("John", new Vehicle_info("1123"));
-		// Change the attributes to contain values that are not default.
-		perm1.setWarnings(1);
-		perm1.setNoOfEntries(5);
-		perm1.setSuspended(true);
-		// add to list
-		list.add("John", perm1);
-		// Call reset method
-		list.yearReset();
-		// Check if number of warnings is 0
-		assertEquals(0, perm1.getWarnings());
-		// Check if number of entries is back to 0
-		assertEquals(0, perm1.getNoOfEntries());
-		// Check if suspended is false
-		assertEquals(false, perm1.isSuspended());
-		
-	}
 }
