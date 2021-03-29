@@ -95,6 +95,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JTabbedPane tabbedPane;
 
+    private JLabel lblVisiting;
+
+    private JTextField txtVisitingEdit;
+
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
@@ -173,19 +177,43 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private void populatePermitList()
     {
-	lnkPermit_list.add("Greig", new University_member_permit("Greig", new Vehicle_info("YT14HBB"), new Date(1)));
-	lnkPermit_list.add("Joanes", new University_member_permit("Joanes", new Vehicle_info("SL07HAU"), new Date(1)));
-	lnkPermit_list.add("Ryan", new University_member_permit("Ryan", new Vehicle_info("NC02XZT"), new Date(1)));
-	lnkPermit_list.add("Niall", new University_member_permit("Niall", new Vehicle_info("TF08GVX"), new Date(1)));
-	lnkPermit_list.add("Stuart",
-		new Day_visitor_permit("Stuart", new Vehicle_info("HG04YUY"), "David", new Date(1)));
+	Vehicle_info vi = new Vehicle_info("YT14HBB");
+	University_member_permit gm = new University_member_permit("Greig", vi, new Date(1));
+	lnkPermit_list.add(gm.getPermitHolder(), gm);
+	vi.setLnkPermit(gm);
+
+	Vehicle_info vi_2 = new Vehicle_info("SL07HAU");
+	University_member_permit jk = new University_member_permit("Joanes", vi_2, new Date(1));
+	lnkPermit_list.add(jk.getPermitHolder(), jk);
+	vi_2.setLnkPermit(jk);
+
+	Vehicle_info vi_3 = new Vehicle_info("NC02XZT");
+	University_member_permit rk = new University_member_permit("Ryan", vi_3, new Date(1));
+	lnkPermit_list.add(rk.getPermitHolder(), rk);
+	vi_3.setLnkPermit(rk);
+
+	Vehicle_info vi_4 = new Vehicle_info("TF08GVX");
+	University_member_permit np = new University_member_permit("Niall", vi_4, new Date(1));
+	lnkPermit_list.add(np.getPermitHolder(), np);
+	vi_4.setLnkPermit(np);
+
+	Vehicle_info vi_5 = new Vehicle_info("SH07TTH");
+	Day_visitor_permit st = new Day_visitor_permit("Stuart", vi_5, "David", new Date(1));
+	lnkPermit_list.add(st.getPermitHolder(), st);
+	vi_5.setLnkPermit(st);
 
 	// System.out.println("PopPermitList");
-	addToVehicleList("Greig", "YT14HBB");
-	addToVehicleList("Joanes", "SL07HAU");
-	addToVehicleList("Ryan", "NC02XZT");
-	addToVehicleList("Niall", "TF08GVX");
-	addToVehicleList("Stuart", "HG04YUY");
+//	addToVehicleList("Greig", "YT14HBB");
+//	addToVehicleList("Joanes", "SL07HAU");
+//	addToVehicleList("Ryan", "NC02XZT");
+//	addToVehicleList("Niall", "TF08GVX");
+//	addToVehicleList("Stuart", "HG04YUY");
+
+	lnkVehicle_list.add(vi.getReg(), vi);
+	lnkVehicle_list.add(vi_2.getReg(), vi_2);
+	lnkVehicle_list.add(vi_3.getReg(), vi_3);
+	lnkVehicle_list.add(vi_4.getReg(), vi_4);
+	lnkVehicle_list.add(vi_5.getReg(), vi_5);
 
     }
 
@@ -298,6 +326,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateEdit = new JTextField();
 	editPanel.add(txtVisDateEdit, gbc);
+	
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisiting = new JLabel("Visiting: ");
+	editPanel.add(lblVisiting, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisitingEdit = new JTextField();
+	editPanel.add(txtVisitingEdit, gbc);
 
 	line++;
 	gbc.gridx = right;
@@ -564,9 +603,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    {
 		return;
 	    }
-	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(),
-		    new Vehicle_info(txtRegNoNewPermit.getText()), txtVisDateNewPermit.getText(),
-		    new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+	    Vehicle_info vi = new Vehicle_info(txtRegNoNewPermit.getText());
+	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(), vi,
+		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+	    vi.setLnkPermit(dvp);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), dvp))
 	    {
@@ -577,7 +617,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 
-	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    // addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    lnkVehicle_list.add(vi.getReg(), vi);
 
 	    break;
 
@@ -587,9 +628,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    {
 		return;
 	    }
-	    University_member_permit ump = new University_member_permit(txtNameNewPermit.getText(),
-		    new Vehicle_info(txtRegNoNewPermit.getText()),
+	    Vehicle_info vi_2 = new Vehicle_info(txtRegNoNewPermit.getText());
+	    University_member_permit ump = new University_member_permit(txtNameNewPermit.getText(), vi_2,
 		    new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+	    vi_2.setLnkPermit(ump);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), ump))
 	    {
@@ -601,7 +643,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 
-	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    // addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    lnkVehicle_list.add(vi_2.getReg(), vi_2);
 
 	    break;
 
@@ -611,10 +654,11 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    {
 		return;
 	    }
-	    Regular_visitor_permit rvm = new Regular_visitor_permit(txtNameNewPermit.getText(),
-		    new Vehicle_info(txtRegNoNewPermit.getText()), txtVisDateNewPermit.getText(),
-		    new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
+	    Vehicle_info vi_3 = new Vehicle_info(txtRegNoNewPermit.getText());
+	    Regular_visitor_permit rvm = new Regular_visitor_permit(txtNameNewPermit.getText(), vi_3,
+		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
 		    new Date(Integer.parseInt(txtEndDateNewPermit.getText())));
+	    vi_3.setLnkPermit(rvm);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), rvm))
 	    {
@@ -625,7 +669,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 
-	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    // addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    lnkVehicle_list.add(vi_3.getReg(), vi_3);
 
 	    break;
 
@@ -634,8 +679,9 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    {
 		return;
 	    }
-	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtNameNewPermit.getText(),
-		    new Vehicle_info(txtRegNoNewPermit.getText()));
+	    Vehicle_info vi_4 = new Vehicle_info(txtRegNoNewPermit.getText());
+	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(txtNameNewPermit.getText(), vi_4);
+	    vi_4.setLnkPermit(pvp);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), pvp))
 	    {
@@ -646,7 +692,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		JOptionPane.showMessageDialog(this, "Error adding permit", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 
-	    addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    // addToVehicleList(txtNameNewPermit.getText(), txtRegNoNewPermit.getText());
+	    lnkVehicle_list.add(vi_4.getReg(), vi_4);
 
 	    break;
 	}
@@ -665,35 +712,26 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @author NP
      * @param name         - this is the name of the permit holder
      * @param vehicle_info - all the registration numbers from the permit
+     *
+     *                     private void addToVehicleList(String vehicle_info, String
+     *                     name) { if (vehicle_info.contains(",")) { int commaoccurs
+     *                     = -1; for (int i = 0; i < vehicle_info.length(); i++) {
+     *                     if (vehicle_info.charAt(i) == ',') { Vehicle_info vh =
+     *                     new Vehicle_info(vehicle_info.substring(commaoccurs + 1,
+     *                     i)); // System.out.println("Vehicle: " + vh + " Name: " +
+     *                     name); lnkVehicle_list.add(name, vh); commaoccurs = i; }
+     *                     }
+     * 
+     *                     Vehicle_info vh = new
+     *                     Vehicle_info(vehicle_info.substring(commaoccurs + 1)); //
+     *                     System.out.println("Vehicle: " + vh + " Name: " + name);
+     *                     lnkVehicle_list.add(name, vh); } else { Vehicle_info vh =
+     *                     new Vehicle_info(vehicle_info); //
+     *                     System.out.println("Vehicle: " + vh + " Name: " + name);
+     *                     lnkVehicle_list.add(name, vh); }
+     * 
+     *                     }
      */
-    private void addToVehicleList(String vehicle_info, String name)
-    {
-	if (vehicle_info.contains(","))
-	{
-	    int commaoccurs = -1;
-	    for (int i = 0; i < vehicle_info.length(); i++)
-	    {
-		if (vehicle_info.charAt(i) == ',')
-		{
-		    Vehicle_info vh = new Vehicle_info(vehicle_info.substring(commaoccurs + 1, i));
-		    // System.out.println("Vehicle: " + vh + " Name: " + name);
-		    lnkVehicle_list.add(name, vh);
-		    commaoccurs = i;
-		}
-	    }
-
-	    Vehicle_info vh = new Vehicle_info(vehicle_info.substring(commaoccurs + 1));
-	    // System.out.println("Vehicle: " + vh + " Name: " + name);
-	    lnkVehicle_list.add(name, vh);
-	}
-	else
-	{
-	    Vehicle_info vh = new Vehicle_info(vehicle_info);
-	    // System.out.println("Vehicle: " + vh + " Name: " + name);
-	    lnkVehicle_list.add(name, vh);
-	}
-
-    }
 
     /**
      * Finds the name (key) of the selected permit in the allPermitsEdit combobox by
@@ -733,18 +771,21 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	switch (permitType)
 	{
 	case 0:
-	    Day_visitor_permit dvp = new Day_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
-		    txtVisDateEdit.getText(), new Date(Integer.parseInt(txtIssueDateEdit.getText())));
+	    Vehicle_info vi = new Vehicle_info(txtRegNoEdit.getText());
+	    Day_visitor_permit dvp = new Day_visitor_permit(key, vi, txtVisitingEdit.getText(),
+		    new Date(Integer.parseInt(txtIssueDateEdit.getText())));
 	    if (lnkPermit_list.update(key, dvp))
 	    {
 		JOptionPane.showMessageDialog(this, "Permit modified", "Success", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    else
 		JOptionPane.showMessageDialog(this, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, txtRegNoEdit.getText());
+	    // addToVehicleList(key, txtRegNoEdit.getText());
+	    lnkVehicle_list.add(vi.getReg(), vi);
 	    break;
 	case 1:
-	    University_member_permit ump = new University_member_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
+	    Vehicle_info vi_2 = new Vehicle_info(txtRegNoEdit.getText());
+	    University_member_permit ump = new University_member_permit(key, vi_2,
 		    new Date(Integer.parseInt(txtIssueDateEdit.getText())));
 	    if (lnkPermit_list.update(key, ump))
 	    {
@@ -752,11 +793,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(this, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, txtRegNoEdit.getText());
+	    // addToVehicleList(key, txtRegNoEdit.getText());
+	    lnkVehicle_list.add(vi_2.getReg(), vi_2);
 	    break;
 	case 2:
-	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()),
-		    txtVisDateEdit.getText(), new Date(Integer.parseInt(txtIssueDateEdit.getText())),
+	    Vehicle_info vi_3 = new Vehicle_info(txtRegNoEdit.getText());
+	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, vi_3, txtVisitingEdit.getText(),
+		    new Date(Integer.parseInt(txtIssueDateEdit.getText())),
 		    new Date(Integer.parseInt(txtEndDateEdit.getText())));
 	    if (lnkPermit_list.update(key, rvm))
 	    {
@@ -764,9 +807,11 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(this, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, txtRegNoEdit.getText());
+	    // addToVehicleList(key, txtRegNoEdit.getText());
+	    lnkVehicle_list.add(vi_3.getReg(), vi_3);
 	    break;
 	case 3:
+	    Vehicle_info vi_4 = new Vehicle_info(txtRegNoEdit.getText());
 	    Permanent_visitor_permit pvp = new Permanent_visitor_permit(key, new Vehicle_info(txtRegNoEdit.getText()));
 	    if (lnkPermit_list.update(key, pvp))
 	    {
@@ -774,7 +819,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    else
 		JOptionPane.showMessageDialog(this, "Error modifying permit", "Error", JOptionPane.ERROR_MESSAGE);
-	    addToVehicleList(key, txtRegNoEdit.getText());
+	    // addToVehicleList(key, txtRegNoEdit.getText());
+	    lnkVehicle_list.add(vi_4.getReg(), vi_4);
 	    break;
 	}
 
@@ -956,14 +1002,18 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    lblVisitingNewPermit.setVisible(b4);
 	    lblEndDateNewPermit.setVisible(b5);
 	    lblIssueDateNewPermit.setVisible(b6);
+
 	    break;
 	case 4:
 	    txtVisDateEdit.setVisible(b1);
+	    txtVisitingEdit.setVisible(b1);
+	    lblVisiting.setVisible(b1);
 	    txtEndDateEdit.setVisible(b2);
 	    txtIssueDateEdit.setVisible(b3);
 	    lblVisitingEdit.setVisible(b4);
 	    lblEndDateEdit.setVisible(b5);
 	    lblIssueDateEdit.setVisible(b6);
+
 	    break;
 
 	default:
