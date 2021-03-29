@@ -76,7 +76,7 @@ public class Vehicle_list
 
     public ArrayList<String> getRegs()
     {
-	//returned directly instead of making a variable. 
+	// returned directly instead of making a variable.
 	return new ArrayList<>(lnkVehicle.keySet());
     }
 
@@ -88,7 +88,7 @@ public class Vehicle_list
 
     public Permit getVehiclePermit(String regNo)
     {
-	//System.err.println(lnkVehicle.get(regNo).getPermit().toString());
+	// System.err.println(lnkVehicle.get(regNo).getPermit().toString());
 	return lnkVehicle.get(regNo).getPermit();
     }
 
