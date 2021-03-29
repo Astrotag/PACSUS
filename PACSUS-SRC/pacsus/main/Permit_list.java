@@ -171,7 +171,6 @@ public class Permit_list
 	return list;
     }
 
-    
     public void setPermitsHasEntered()
     {
 	lnkPermit.forEach((k, v) ->
