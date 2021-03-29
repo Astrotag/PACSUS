@@ -95,6 +95,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JTabbedPane tabbedPane;
 
+    private JLabel lblVisiting;
+
+    private JTextField txtVisitingEdit;
+
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
@@ -322,6 +326,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateEdit = new JTextField();
 	editPanel.add(txtVisDateEdit, gbc);
+	
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisiting = new JLabel("Visiting: ");
+	editPanel.add(lblVisiting, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisitingEdit = new JTextField();
+	editPanel.add(txtVisitingEdit, gbc);
 
 	line++;
 	gbc.gridx = right;
@@ -757,7 +772,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	{
 	case 0:
 	    Vehicle_info vi = new Vehicle_info(txtRegNoEdit.getText());
-	    Day_visitor_permit dvp = new Day_visitor_permit(key, vi, txtVisDateEdit.getText(),
+	    Day_visitor_permit dvp = new Day_visitor_permit(key, vi, txtVisitingEdit.getText(),
 		    new Date(Integer.parseInt(txtIssueDateEdit.getText())));
 	    if (lnkPermit_list.update(key, dvp))
 	    {
@@ -783,7 +798,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    break;
 	case 2:
 	    Vehicle_info vi_3 = new Vehicle_info(txtRegNoEdit.getText());
-	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, vi_3, txtVisDateEdit.getText(),
+	    Regular_visitor_permit rvm = new Regular_visitor_permit(key, vi_3, txtVisitingEdit.getText(),
 		    new Date(Integer.parseInt(txtIssueDateEdit.getText())),
 		    new Date(Integer.parseInt(txtEndDateEdit.getText())));
 	    if (lnkPermit_list.update(key, rvm))
@@ -987,14 +1002,18 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    lblVisitingNewPermit.setVisible(b4);
 	    lblEndDateNewPermit.setVisible(b5);
 	    lblIssueDateNewPermit.setVisible(b6);
+
 	    break;
 	case 4:
 	    txtVisDateEdit.setVisible(b1);
+	    txtVisitingEdit.setVisible(b1);
+	    lblVisiting.setVisible(b1);
 	    txtEndDateEdit.setVisible(b2);
 	    txtIssueDateEdit.setVisible(b3);
 	    lblVisitingEdit.setVisible(b4);
 	    lblEndDateEdit.setVisible(b5);
 	    lblIssueDateEdit.setVisible(b6);
+
 	    break;
 
 	default:
