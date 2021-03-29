@@ -99,6 +99,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JTextField txtVisitingEdit;
 
+	private JTextField txtVisitingNameNew;
+
+	private JLabel lblVisitingNameNew;
+
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
@@ -553,6 +557,18 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateNewPermit = new JTextField();
 	newPermitPanel.add(txtVisDateNewPermit, gbc);
+	
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisitingNameNew = new JLabel("Visiting: ");
+	newPermitPanel.add(lblVisitingNameNew, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisitingNameNew = new JTextField();
+	newPermitPanel.add(txtVisitingNameNew, gbc);
 
 	line++;
 	gbc.gridx = right;
@@ -606,7 +622,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    Vehicle_info vi = new Vehicle_info(txtRegNoNewPermit.getText());
 	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(), vi,
-		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
 	    vi.setLnkPermit(dvp);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), dvp))
@@ -657,7 +673,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    Vehicle_info vi_3 = new Vehicle_info(txtRegNoNewPermit.getText());
 	    Regular_visitor_permit rvm = new Regular_visitor_permit(txtNameNewPermit.getText(), vi_3,
-		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
+		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
 		    new Date(Integer.parseInt(txtEndDateNewPermit.getText())));
 	    vi_3.setLnkPermit(rvm);
 
@@ -909,25 +925,25 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    // TODO display boxes appropriate for day visitor permit
 	    // only need host name, name and date
 
-	    visibilityChanger(true, false, true, true, false, true);
+	    visibilityChanger(true, false, true, true, false, true,true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 1)
 	{
 	    // TODO display boxes appropriate for uni member permit
-	    visibilityChanger(false, false, true, false, false, true);
+	    visibilityChanger(false, false, true, false, false, true,false);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 2)
 	{
 	    // TODO display boxes appropriate for regular visitor permit
-	    visibilityChanger(true, true, true, true, true, true);
+	    visibilityChanger(true, true, true, true, true, true,true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 3)
 	{
 	    // TODO display boxes appropriate for permanent visitor permit
-	    visibilityChanger(false, false, false, false, false, false);
+	    visibilityChanger(false, false, false, false, false, false,false);
 	}
     }
 
@@ -992,7 +1008,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @param b5
      * @param b6
      */
-    private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6)
+    private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6, boolean b7)
     {
 	switch (tabbedPane.getSelectedIndex())
 	{
@@ -1005,7 +1021,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    lblVisitingNewPermit.setVisible(b4);
 	    lblEndDateNewPermit.setVisible(b5);
 	    lblIssueDateNewPermit.setVisible(b6);
-
+	    lblVisitingNameNew.setVisible(b7);
+	    txtVisitingNameNew.setVisible(b7);
 	    break;
 	case 4:
 	    txtVisDateEdit.setVisible(b1);
@@ -1024,9 +1041,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	}
     }
 
+    
+    
+    
     /**
      * @author NP I wish users were not so prone to making stupid mistakes or this
-     *         method would not be necessary good luck reading this code lmao
+     *         method would not be necessary good luck reading this code 
      * 
      *         what it essentially does is it validates what has been put into the
      *         text boxes and checks if it is what the permit needs
@@ -1060,6 +1080,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	switch (permitType)
 	{
 	case 0:
+		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
+			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
+				    "Format Error", JOptionPane.ERROR_MESSAGE);
+			    return valid;
+		}
+		
 	    if (!(txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    && (txtVisDateNewPermit.getText().matches("^[0-9]{1,3}"))))
 	    {
@@ -1110,7 +1136,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 
 	case 2:
-	    if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
+		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
+		{
+			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
+				    "Format Error", JOptionPane.ERROR_MESSAGE);
+			    return valid;
+		}
+		if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtVisDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtEndDateNewPermit.getText().matches("^[0-9]{1,3}"))
 	    {
