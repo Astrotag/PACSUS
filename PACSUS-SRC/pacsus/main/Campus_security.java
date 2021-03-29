@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -201,6 +202,10 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	{
 	    logTxt.setText("");
 	    String[] log = lnkSystem_status.getLog();
+	   if(log==null) {
+		   JOptionPane.showMessageDialog(this, "The log is empty", "Campus Security", JOptionPane.INFORMATION_MESSAGE);
+	 return;
+	   }
 	    for (String string : log)
 	    {
 		if (string != null)
