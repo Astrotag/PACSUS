@@ -91,5 +91,21 @@ public class Vehicle_list
 	// System.err.println(lnkVehicle.get(regNo).getPermit().toString());
 	return lnkVehicle.get(regNo).getPermit();
     }
+    
+    /**
+     * Removes a value from the hashtable with a key
+     * 
+     * @param key Name of the Permit holder
+     * @return True: if the value has been removed. False: if it hasn't.
+     */
+    public boolean deleteVehicle(String key)
+    {
+	if (lnkVehicle.remove(key) != null)
+	{
+	    //System.out.println("Removed: " + key);
+	    return true;
+	}
+	return false;
+    }
 
 }

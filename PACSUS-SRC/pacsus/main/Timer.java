@@ -138,7 +138,9 @@ public class Timer extends JFrame implements ActionListener
 	    setTitle();
 	    
 	    if(today.getDayNumber()==1) {
-	    	lnkPermit_list.yearReset();
+	    	System.out.println("new year");
+	    	
+	    	yearReset();
 	    }
 	}
 
@@ -148,6 +150,7 @@ public class Timer extends JFrame implements ActionListener
     {
 	lnkPermit_list.setPermitsHasEntered();
     }
+    
 
     private void cancelOutOfDatePermits() {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Day_visitor_permit");
@@ -163,5 +166,25 @@ public class Timer extends JFrame implements ActionListener
 		}
 	    }
 	}
+    }
+    
+    
+    private void yearReset() {
+    	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Permanent_visitor_permit");
+    	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
+    	list.addAll(lnkPermit_list.getPermitsByType("University_member_permit"));
+    	for (Permit permit : list)
+    	{
+    	 if (lnkPermit_list.getPermit(permit.getPermitHolder()).isSuspended()){
+    		 lnkPermit_list.unsuspendPermit(permit.getPermitHolder());
+    		 
+    	 }
+    	 else if (lnkPermit_list.getPermit(permit.getPermitHolder()).getWarnings()>=1) {
+    		 lnkPermit_list.resetWarnings(permit.getPermitHolder());
+    	 }
+    		
+    		
+    }
+    
     }
 }

@@ -99,6 +99,10 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private JTextField txtVisitingEdit;
 
+	private JTextField txtVisitingNameNew;
+
+	private JLabel lblVisitingNameNew;
+
     public Administration_office(System_status systemStatus, Vehicle_list vehicleList, Permit_list permitList)
     {
 	this.lnkVehicle_list = vehicleList;
@@ -144,6 +148,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	setLocation(400, 195);
 
 	setVisible(true);
+	checkVisability(permitTypesNewPermit);
     }
 
     private JPanel createStatusPanel()
@@ -196,7 +201,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	University_member_permit np = new University_member_permit("Niall", vi_4, new Date(1));
 	lnkPermit_list.add(np.getPermitHolder(), np);
 	vi_4.setLnkPermit(np);
-
 	Vehicle_info vi_5 = new Vehicle_info("SH07TTH");
 	Day_visitor_permit st = new Day_visitor_permit("Stuart", vi_5, "David", new Date(1));
 	lnkPermit_list.add(st.getPermitHolder(), st);
@@ -326,7 +330,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateEdit = new JTextField();
 	editPanel.add(txtVisDateEdit, gbc);
-	
+
 	line++;
 	gbc.gridx = left;
 	gbc.gridy = line;
@@ -552,6 +556,18 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateNewPermit = new JTextField();
 	newPermitPanel.add(txtVisDateNewPermit, gbc);
+	
+
+	line++;
+	gbc.gridx = left;
+	gbc.gridy = line;
+	lblVisitingNameNew = new JLabel("Visiting: ");
+	newPermitPanel.add(lblVisitingNameNew, gbc);
+
+	gbc.gridx = right;
+	gbc.gridy = line;
+	txtVisitingNameNew = new JTextField();
+	newPermitPanel.add(txtVisitingNameNew, gbc);
 
 	line++;
 	gbc.gridx = right;
@@ -605,7 +621,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    Vehicle_info vi = new Vehicle_info(txtRegNoNewPermit.getText());
 	    Day_visitor_permit dvp = new Day_visitor_permit(txtNameNewPermit.getText(), vi,
-		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())));
+		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtVisDateNewPermit.getText())));
 	    vi.setLnkPermit(dvp);
 
 	    if (lnkPermit_list.add(txtNameNewPermit.getText(), dvp))
@@ -656,7 +672,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 	    Vehicle_info vi_3 = new Vehicle_info(txtRegNoNewPermit.getText());
 	    Regular_visitor_permit rvm = new Regular_visitor_permit(txtNameNewPermit.getText(), vi_3,
-		    txtVisDateNewPermit.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
+		    txtVisitingNameNew.getText(), new Date(Integer.parseInt(txtIssueDateNewPermit.getText())),
 		    new Date(Integer.parseInt(txtEndDateNewPermit.getText())));
 	    vi_3.setLnkPermit(rvm);
 
@@ -908,25 +924,25 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    // TODO display boxes appropriate for day visitor permit
 	    // only need host name, name and date
 
-	    visibilityChanger(true, false, true, true, false, true);
+	    visibilityChanger(true, false, true, true, false, true,true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 1)
 	{
 	    // TODO display boxes appropriate for uni member permit
-	    visibilityChanger(false, false, true, false, false, true);
+	    visibilityChanger(false, false, true, false, false, true,false);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 2)
 	{
 	    // TODO display boxes appropriate for regular visitor permit
-	    visibilityChanger(true, true, true, true, true, true);
+	    visibilityChanger(true, true, true, true, true, true,true);
 	}
 
 	else if (permitTypes.getSelectedIndex() == 3)
 	{
 	    // TODO display boxes appropriate for permanent visitor permit
-	    visibilityChanger(false, false, false, false, false, false);
+	    visibilityChanger(false, false, false, false, false, false,false);
 	}
     }
 
@@ -991,7 +1007,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
      * @param b5
      * @param b6
      */
-    private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6)
+    private void visibilityChanger(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6, boolean b7)
     {
 	switch (tabbedPane.getSelectedIndex())
 	{
@@ -999,10 +1015,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    txtVisDateNewPermit.setVisible(b1);
 	    txtEndDateNewPermit.setVisible(b2);
 	    txtIssueDateNewPermit.setVisible(b3);
+	    txtVisitingEdit.setVisible(b1);
+	    lblVisiting.setVisible(b1);
 	    lblVisitingNewPermit.setVisible(b4);
 	    lblEndDateNewPermit.setVisible(b5);
 	    lblIssueDateNewPermit.setVisible(b6);
-
+	    lblVisitingNameNew.setVisible(b7);
+	    txtVisitingNameNew.setVisible(b7);
 	    break;
 	case 4:
 	    txtVisDateEdit.setVisible(b1);
@@ -1021,9 +1040,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	}
     }
 
+    
+    
+    
     /**
      * @author NP I wish users were not so prone to making stupid mistakes or this
-     *         method would not be necessary good luck reading this code lmao
+     *         method would not be necessary good luck reading this code 
      * 
      *         what it essentially does is it validates what has been put into the
      *         text boxes and checks if it is what the permit needs
@@ -1057,6 +1079,12 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	switch (permitType)
 	{
 	case 0:
+		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
+			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
+				    "Format Error", JOptionPane.ERROR_MESSAGE);
+			    return valid;
+		}
+		
 	    if (!(txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    && (txtVisDateNewPermit.getText().matches("^[0-9]{1,3}"))))
 	    {
@@ -1107,7 +1135,13 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    }
 
 	case 2:
-	    if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
+		if(!txtVisitingNameNew.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
+		{
+			JOptionPane.showMessageDialog(this, "Visitor name should contain a uppercase letter and lower case letters",
+				    "Format Error", JOptionPane.ERROR_MESSAGE);
+			    return valid;
+		}
+		if (!txtIssueDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtVisDateNewPermit.getText().matches("^[0-9]{1,3}")
 		    || !txtEndDateNewPermit.getText().matches("^[0-9]{1,3}"))
 	    {
@@ -1150,13 +1184,28 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	String name = permitStrings[selected];
 	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	String reg = permitStrings[selected];
+	reg = reg.substring(reg.indexOf('-') + 1);
+	System.out.println(reg);
 	if (JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this permit?", "WARNING",
 		JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 	{
 	    if (!lnkPermit_list.deletePermit(name))
+	    {
 		JOptionPane.showMessageDialog(this, "There has been an issue while deleting the permit.");
-	    ;
+	    }
+
+	    if (!lnkVehicle_list.deleteVehicle(reg))
+	    {
+		JOptionPane.showMessageDialog(this, "There has been an issue while deleting the vehicle.");
+	    }
 	}
+
+	// Use this to update the security class that there has been a change to the
+	// system.
+	lnkSystem_status.dataChanged();
+
 	// Update comboBox
 	permitStrings = new String[lnkPermit_list.size()];
 	permitStrings = lnkPermit_list.populateList();
