@@ -144,6 +144,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	setLocation(400, 195);
 
 	setVisible(true);
+	checkVisability(permitTypesNewPermit);
     }
 
     private JPanel createStatusPanel()
@@ -326,7 +327,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	gbc.gridy = line;
 	txtVisDateEdit = new JTextField();
 	editPanel.add(txtVisDateEdit, gbc);
-	
+
 	line++;
 	gbc.gridx = left;
 	gbc.gridy = line;
@@ -999,6 +1000,8 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    txtVisDateNewPermit.setVisible(b1);
 	    txtEndDateNewPermit.setVisible(b2);
 	    txtIssueDateNewPermit.setVisible(b3);
+	    txtVisitingEdit.setVisible(b1);
+	    lblVisiting.setVisible(b1);
 	    lblVisitingNewPermit.setVisible(b4);
 	    lblEndDateNewPermit.setVisible(b5);
 	    lblIssueDateNewPermit.setVisible(b6);
@@ -1150,13 +1153,28 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	String name = permitStrings[selected];
 	name = name.substring(name.indexOf(":") + 1, name.indexOf("-"));
+
+	String reg = permitStrings[selected];
+	reg = reg.substring(reg.indexOf('-') + 1);
+	System.out.println(reg);
 	if (JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this permit?", "WARNING",
 		JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 	{
 	    if (!lnkPermit_list.deletePermit(name))
+	    {
 		JOptionPane.showMessageDialog(this, "There has been an issue while deleting the permit.");
-	    ;
+	    }
+
+	    if (!lnkVehicle_list.deleteVehicle(reg))
+	    {
+		JOptionPane.showMessageDialog(this, "There has been an issue while deleting the vehicle.");
+	    }
 	}
+
+	// Use this to update the security class that there has been a change to the
+	// system.
+	lnkSystem_status.dataChanged();
+
 	// Update comboBox
 	permitStrings = new String[lnkPermit_list.size()];
 	permitStrings = lnkPermit_list.populateList();

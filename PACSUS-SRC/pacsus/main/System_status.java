@@ -71,6 +71,12 @@ public class System_status extends Observable
 	setChanged();
 	notifyObservers();
     }
+    
+    public void dataChanged()
+    {
+	setChanged();
+	notifyObservers();
+    }
 
     // public int getDate() {
     // return today.getDayNumber();
