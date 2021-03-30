@@ -86,7 +86,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
      * the result of checking a registration number with the permitted vehicles
      * list, and the "vehicle clear" button.
      */
-    private boolean raised = true;
+    private boolean raised = false;
 
     private JTextField regField;
     private JButton enterButton, passedButton;
@@ -122,7 +122,6 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	add(new JLabel("Barrier"));
 	// Barrier label
 	label = new JLabel();
-	updateBarrier();
 	add(label);
 
 	regField = new JTextField("", 15);
@@ -137,11 +136,12 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	passedButton.addActionListener(this);
 
 	setVisible(true);
+	updateBarrier();
     }
 
     private void updateBarrier()
     {
-	if (raised)
+	if (raised || !active)
 	{
 	    label.setText("PASS");
 	    label.setForeground(Color.green);
@@ -166,6 +166,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	setTitle(date);
 
 	active = lnkSystem_status.getSystemStatus();
+	updateBarrier();
     }
 
     @Override
