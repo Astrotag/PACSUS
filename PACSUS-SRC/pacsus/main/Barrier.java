@@ -166,7 +166,6 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	setTitle(date);
 
 	active = lnkSystem_status.getSystemStatus();
-	System.out.println("System Changed");
     }
 
     @Override
@@ -208,7 +207,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 				    + lnkSystem_status.getDate().getDayNumber();
 			}
 
-			else
+			else if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
 			{
 			    JOptionPane.showMessageDialog(this, "ACCESS DENIED! Permit has already been used today.",
 				    "Barrier", JOptionPane.ERROR_MESSAGE);
@@ -217,9 +216,17 @@ public class Barrier extends JFrame implements Observer, ActionListener
 			    label.setForeground(Color.red);
 			    log = "Vehicle: " + regText + " couldn't enter." + " Date: "
 				    + lnkSystem_status.getDate().getDayNumber();
-
 			}
+			else
+			{
+			    JOptionPane.showMessageDialog(this, "ACCESS DENIED! Permit is not valid today", "Barrier",
+				    JOptionPane.ERROR_MESSAGE);
 
+			    label.setText("STOP");
+			    label.setForeground(Color.red);
+			    log = "Vehicle: " + regText + " couldn't enter." + " Date: "
+				    + lnkSystem_status.getDate().getDayNumber();
+			}
 		    }
 		    else
 		    {
@@ -264,6 +271,24 @@ public class Barrier extends JFrame implements Observer, ActionListener
     private boolean checkVehiclesEntryDate(String regText)
     {
 	return lnkSystem_status.getDate().getDayNumber() == lnkVehicle_list.getVehiclePermit(regText).getDate()
-		.getDayNumber();
+		.getDayNumber() || checkVehiclesStartAndEndDate(regText);
+    }
+
+    private boolean checkVehiclesStartAndEndDate(String regText)
+    {
+	Regular_visitor_permit rvp = (Regular_visitor_permit) lnkVehicle_list.getVehiclePermit(regText);
+
+	// Make a check to see if the start date and end date exist
+	if (rvp.getStartDate().equals(null) || rvp.getDate().equals(null))
+	{
+	    return false;
+	}
+	// make the check to see if the current date is between the start and end date
+	else
+	{
+	    return lnkSystem_status.getDate().getDayNumber() <= rvp.getDate().getDayNumber()
+		    && lnkSystem_status.getDate().getDayNumber() >= rvp.getStartDate().getDayNumber();
+	}
+
     }
 }
