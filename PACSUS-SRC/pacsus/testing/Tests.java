@@ -25,14 +25,33 @@ class Tests {
 		// Check if add() adds successfully
 		// Add a test instance 
 		Permit_list list = new Permit_list(); 
+		// Permanent_visitor_permit instance
 		Permanent_visitor_permit perm1 = new Permanent_visitor_permit("John", new Vehicle_info("1123"));
+		// Day_visitor_permit
+		Day_visitor_permit perm2 = new Day_visitor_permit("Martin", new Vehicle_info("5521"), "Jonathan", new Date(2));
+		// University_member_permit
+		University_member_permit perm3 = new University_member_permit("Greig",  new Vehicle_info("8753"), new Date(5));
+		// Regular_visitor_permit
+		Regular_visitor_permit perm4 = new Regular_visitor_permit("Tomas", new Vehicle_info("76841"), "Andre",  new Date(1),  new Date(5));
+
+		// Check if works for Permanent_visitor_permit
 		assertEquals(true, list.add("John", perm1));
 
+		// Check if works for Day_visitor_permit
+		assertEquals(true, list.add("Martin", perm2));
+		
+		// Check if works for University_member_permit
+		assertEquals(true, list.add("Greig", perm3));
+		
+		// Check if works for Regular_visitor_permit
+		assertEquals(true, list.add("Tomas", perm4));
+
 		// Check if add() returns false if key already exists on hashtable
+		// Only will try once but should do the trick for the other types as well
 		assertEquals(false, list.add("John", perm1));
 	}
-	
-	
+
+
 	/**
 	 * This test if populateList() method returns a String array of permits in Permit_list
 	 */
@@ -57,7 +76,7 @@ class Tests {
 
 	}
 
-	
+
 	/**
 	 * This test check if warnings() successfully adds a warning when type==1
 	 * and also checks if when warnings are 3 doesn't go over it
@@ -88,8 +107,8 @@ class Tests {
 		assertEquals(2, perm1.getWarnings());
 
 	}
-	
-	
+
+
 	/**
 	 * This test checks if when unsuspendedPermit() is called, 
 	 * it successfully sets the warnings back to 0. 
@@ -106,22 +125,22 @@ class Tests {
 		// Add 2 warnings
 		list.warnings("John", 1);
 		list.warnings("John", 1);
-		
+
 		list.unsuspendPermit("John");
 		// Check if it didn't set back to 0
 		assertEquals(2, perm1.getWarnings());
-		
+
 		// add 1 more
 		list.warnings("John", 1);
 		// Unsuspended permit == 0 warnings
 		list.unsuspendPermit("John");
 		// Check if warnings are 0
 		assertEquals(0, perm1.getWarnings());
-		
+
 	}
 
 	/**
-	 * This test check if resetWarning resets the count of warnings back to 0
+	 * This test check if resetWarnings() resets the count of warnings back to 0
 	 * This method is called when a yearReset is called which makes everything
 	 * reset.
 	 */
@@ -216,7 +235,7 @@ class Tests {
 		assertEquals(arrayList, list.getPermitsByType("Regular_visitor_permit"));
 
 	}
-	
+
 	/**
 	 * This test checks if setPermitsHasEntered resets the attribute enteredToday of all permits to false
 	 */
@@ -230,7 +249,7 @@ class Tests {
 		perm1.setEnteredToday(true);
 		// reset to false
 		list.setPermitsHasEntered();
-		
+
 		assertEquals(false, perm1.isEnteredToday());
 	}
 }
