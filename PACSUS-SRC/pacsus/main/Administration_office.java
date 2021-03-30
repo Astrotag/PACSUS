@@ -714,6 +714,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 	    break;
 	}
 
+	lnkSystem_status.dataChanged();
 	permitStrings = lnkPermit_list.populateList();
 	popCombo();
     }
