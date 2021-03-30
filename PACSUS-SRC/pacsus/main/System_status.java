@@ -15,6 +15,7 @@ import java.util.Observable;
  *
  * There will only be one instance of this class.
  */
+
 public class System_status extends Observable
 {
     /**
@@ -43,6 +44,8 @@ public class System_status extends Observable
     private Date today = new Date();
 
     /**
+     * A simple method to get a String value for systems active status
+     * 
      * @return String for boolean value
      */
     public String getSystemActive()
@@ -51,6 +54,8 @@ public class System_status extends Observable
     }
 
     /**
+     * A method to get the boolean value of the systems active status
+     * 
      * @return String for boolean value
      */
     public boolean getSystemStatus()
@@ -58,6 +63,11 @@ public class System_status extends Observable
 	return systemActive ? true : false;
     }
 
+    /**
+     * A method to set the systems active status
+     * 
+     * @param true/false - value to set the system status
+     */
     public void setSystemActive(boolean status)
     {
 	this.systemActive = status;
@@ -65,28 +75,42 @@ public class System_status extends Observable
 	notifyObservers();
     }
 
+    /**
+     * A method called to notify the observers of a change of the date using the MVC
+     * model
+     */
     public void nextDay()
     {
 	today.increment();
 	setChanged();
 	notifyObservers();
     }
-    
+
+    /**
+     * A method which flags that the data has in some way been changed which allows
+     * different views to update their lists.
+     */
     public void dataChanged()
     {
 	setChanged();
 	notifyObservers();
     }
 
-    // public int getDate() {
-    // return today.getDayNumber();
-    // }
-
+    /**
+     * Returns the current date
+     * 
+     * @return the current date
+     */
     public Date getDate()
     {
 	return today;
     }
 
+    /**
+     * returns the log of vehicles which have attempted to enter, or have entered.
+     * 
+     * @return an array of strings provided by the permits
+     */
     public String[] getLog()
     {
 	if (systemActive)
@@ -95,6 +119,11 @@ public class System_status extends Observable
 	    return null;
     }
 
+    /**
+     * A method to add a new entry or attempt into the log for viewing.
+     * 
+     * @param entry - the string to be entered into the log
+     */
     public void addEntryLog(String entry)
     {
 	System.out.println(systemActive);
