@@ -96,6 +96,10 @@ public class Timer extends JFrame implements ActionListener
 
     }
 
+    /**
+     * A method to setup the Frames interface, position it's buttons and labels.
+     * Finally, setting it's visability to true.
+     */
     private void loadGUI()
     {
 	setTitle();
@@ -118,13 +122,18 @@ public class Timer extends JFrame implements ActionListener
 	setVisible(true);
     }
 
+    /**
+     * A method which sets the title of the window.
+     */
     private void setTitle()
     {
 	// Configure the window
 	setTitle("Timer Window: Day: " + today.getDayNumber());
     }
 
-    // Button click handling:
+    /**
+     * A implemented method to listen for button presses in the UI
+     */
     public void actionPerformed(ActionEvent e)
     {
 	if (e.getSource().equals(newDay))
@@ -147,11 +156,19 @@ public class Timer extends JFrame implements ActionListener
 
     } // actionPerformed
 
+    /**
+     * A method to be called to set a permit as not entered when a new day starts
+     */
     private void setHasEnteredToday()
     {
 	lnkPermit_list.setPermitsHasEntered();
     }
 
+    /**
+     * A method which takes permits which may expire, such as the Day and Regular
+     * vistiors and cancels them when they are out of date on the start of a new
+     * day.
+     */
     private void cancelOutOfDatePermits()
     {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Day_visitor_permit");
@@ -169,6 +186,10 @@ public class Timer extends JFrame implements ActionListener
 	}
     }
 
+    /**
+     * A method which takes types of permits, and resets their warnings and
+     * suspended status on the turn of a new year
+     */
     private void yearReset()
     {
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Permanent_visitor_permit");
