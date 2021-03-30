@@ -62,13 +62,13 @@ public class Vehicle_list
 	if (!lnkVehicle.containsValue(reg))
 	{
 	    lnkVehicle.put(reg, vh);
-	    System.out.println("Added: " + vh + " " + reg);
+	    
 	    return true;
 
 	}
 	else
 	{
-	    System.out.println("Not added");
+	    
 	    return false;
 	}
     }
@@ -137,7 +137,7 @@ public class Vehicle_list
     {
 	if (lnkVehicle.remove(key) != null)
 	{
-	    // System.out.println("Removed: " + key);
+	    
 	    return true;
 	}
 	return false;

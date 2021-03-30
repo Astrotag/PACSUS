@@ -143,12 +143,12 @@ public class Timer extends JFrame implements ActionListener
 	    lnkSystem_status.nextDay();
 	    today = lnkSystem_status.getDate();
 	    currentDay.setText("Current Day: " + today.getDayNumber());
-	    System.out.println("New day button pressed. Value: " + today.getDayNumber());
+	    
 	    setTitle();
 
 	    if (today.getDayNumber() == 1)
 	    {
-		System.out.println("new year");
+		
 
 		yearReset();
 	    }

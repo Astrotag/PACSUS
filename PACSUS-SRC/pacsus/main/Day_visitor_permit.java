@@ -25,11 +25,15 @@ public class Day_visitor_permit extends Permit
      */
     private Date lnkDate;
 
-    public Date getDate()
-    {
-	return lnkDate;
-    }
 
+
+    /**
+     * constructor for creating the day permit
+     * @param permitHolder name of the permit holder
+     * @param permittedVehicles the reg numbers of the vehicles permitted
+     * @param visiting name of the person your visiting
+     * @param date date of visit
+     */
     public Day_visitor_permit(String permitHolder, Vehicle_info permittedVehicles, String visiting, Date date)
     {
 	super(permitHolder, permittedVehicles);
@@ -37,10 +41,22 @@ public class Day_visitor_permit extends Permit
 	this.lnkDate = date;
     }
 
-    @Override
+    /**
+     * this method returns a string representation of the permits status
+     * @Override
+     * @return the permits status in string form
+     */
     public String getStatus()
     {
 	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate of visit: "
 		+ lnkDate.getDayNumber();
+    } 
+    
+    /**
+     * returns the lnkdate field
+     */
+    public Date getDate()
+    {
+	return lnkDate;
     }
 }

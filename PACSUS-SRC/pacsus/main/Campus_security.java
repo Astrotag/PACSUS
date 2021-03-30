@@ -61,18 +61,33 @@ public class Campus_security extends JFrame implements Observer, ActionListener
      * @directed
      */
     private System_status lnkSystem_status;
-
+    /**
+     * combobox to hold all permits in the list
+     */
     private JComboBox<String> allPermitsWarning;
+    /**
+     * text fields required for the GUI
+     */
     private JTextField barrierStatus, warningStatus;
+    /**
+     * buttons required for the GUI
+     */
     private JButton activateButton, deactivateButton, issueWarning, logButton;
+    /**
+     * text area to display the log
+     */
     private JTextArea logTxt;
+    
+    /**
+     * array to hold all permits for the combobox
+     */
     private String[] permitStrings;
 
     /**
-     * Generated Constructor
+     * main constructor for this class
      * 
-     * @param systemStatus
-     * @param vehicleList
+     * @param systemStatus current status of the system
+     * @param vehicleList list of permitted vehicles
      */
     public Campus_security(System_status systemStatus, Vehicle_list vehicleList)
     {
@@ -83,6 +98,9 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	loadGUI();
     }
 
+    /**
+     * this method initialises and displays the GUI
+     */
     private void loadGUI()
     {
 	setTitle(1);
@@ -149,6 +167,9 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	setVisible(true);
     }
 
+    /**
+     * this method populates the combo boxes
+     */
     private void popCombo()
     {
 
@@ -164,12 +185,20 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
     }
 
+    /**
+     * this method updates the title
+     * @param date the current date
+     */
     private void setTitle(int date)
     {
 	setTitle("Campus Security: Date - " + date);
     }
 
-    @Override
+    /**
+     * this method updates the title when the day changes
+     * @Override
+     */
+    
     public void update(Observable o, Object arg)
     {
 	int date = lnkSystem_status.getDate().getDayNumber();
@@ -181,9 +210,13 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	popCombo();
     }
 
-    @Override
+    /**
+     * this method handles a button click
+     * @Override
+     */
     public void actionPerformed(ActionEvent e)
     {
+    	//when the activate button is clicked
 	if (e.getSource().equals(activateButton))
 	{
 	    lnkSystem_status.setSystemActive(true);
@@ -191,6 +224,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	    barrierStatus.setForeground(Color.GREEN);
 	}
 
+	//when the deactivate button is clicked
 	if (e.getSource().equals(deactivateButton))
 	{
 	    lnkSystem_status.setSystemActive(false);
@@ -198,6 +232,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	    barrierStatus.setForeground(Color.RED);
 	}
 
+	//when the log button is clicked
 	if (e.getSource().equals(logButton))
 	{
 	    logTxt.setText("");
@@ -215,7 +250,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	    }
 	}
 
-	// CHANGE: Included Permit within class to retrieve permit
+	// when the issue warning button is clicked
 	if (e.getSource().equals(issueWarning))
 	{
 	    int selected = allPermitsWarning.getSelectedIndex();
