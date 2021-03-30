@@ -31,15 +31,24 @@ public class Permit_list
      * @supplierCardinality 0..*
      * @directed
      */
-
     private java.util.Hashtable<String, Permit> lnkPermit;
 
+    /**
+     * Constructor for the Permit_list class, initialises a new HashTable
+     */
     public Permit_list()
     {
 	lnkPermit = new Hashtable<String, Permit>();
-	// System.out.println(lnkPermit.toString());
     }
 
+    /**
+     * A method to add a new permit to the list checking if it hasn't already been
+     * added. Returning a true or false if it is/is not in the Table
+     * 
+     * @param key - The key for the HashTable, Permit Holder
+     * @param p   - The Permit to be added
+     * @return true/false - if it has or has not been added
+     */
     public boolean add(String key, Permit p)
     {
 	if (!lnkPermit.containsKey(key))
@@ -53,6 +62,11 @@ public class Permit_list
 	    return false;
     }
 
+    /**
+     * A method which gets an array of Strings to be used in the UI.
+     * 
+     * @return a String array of Permits.toString()
+     */
     public String[] populateList()
     {
 	ArrayList<Permit> allPermits = getPermitsByType("");
@@ -67,6 +81,11 @@ public class Permit_list
 	return strings;
     }
 
+    /**
+     * Returns the size of the HashTable
+     * 
+     * @return the size of the HashTable
+     */
     public int size()
     {
 	return lnkPermit.size();
@@ -96,38 +115,55 @@ public class Permit_list
 		lnkPermit.get(key).setWarnings(-1);
 	    }
 	}
-
-	// For testing purposes
-	// System.out.println(lnkPermit.get(key) + " " +
-	// lnkPermit.get(key).getWarnings());
     }
 
+    /**
+     * Find a permit with the given key, and remove it's warnings to unsuspend it.
+     * 
+     * @param key - The permit holder
+     */
     public void unsuspendPermit(String key)
     {
-
 	if (lnkPermit.get(key).getWarnings() == 3)
 	{
 	    lnkPermit.get(key).setWarnings(-3);
 	}
-
-	// For testing purposes
-	// System.out.println(lnkPermit.get(key) + " " +
-	// lnkPermit.get(key).getWarnings());
-    }
-    
-    public void resetWarnings(String key) {
-    	if (lnkPermit.get(key).getWarnings() >=1)
-    	{
-    	    lnkPermit.get(key).setWarnings(-lnkPermit.get(key).getWarnings());
-    	}	
-    	
     }
 
+    /**
+     * A method to reset any warnings on the Permit found by the key.
+     * 
+     * @param key - the Permit holder
+     */
+    public void resetWarnings(String key)
+    {
+	if (lnkPermit.get(key).getWarnings() >= 1)
+	{
+	    lnkPermit.get(key).setWarnings(-lnkPermit.get(key).getWarnings());
+	}
+    }
+
+    /**
+     * Returns the Permit associated with the key passed in
+     * 
+     * @param key - The Permit holder
+     * 
+     * @return the Permit associated
+     */
     public Permit getPermit(String key)
     {
 	return lnkPermit.get(key);
     }
 
+    /**
+     * A method to update the Permit when it has been edited. Returns a true or
+     * false if the permit has been edited.
+     * 
+     * @param key - the permit holder
+     * @param p   - the edited permit
+     * 
+     * @return true/false - if the permit was successfully edited
+     */
     public boolean update(String key, Permit p)
     {
 	if (lnkPermit.containsKey(key))
@@ -156,6 +192,16 @@ public class Permit_list
 	return false;
     }
 
+    /**
+     * A method to get the permits by type. It uses the HashTable forEach method to
+     * iterate through the Collection to find the classes by type. It then adds any
+     * Permits found, of the asked type to an ArrayList<Permit> and returns it so
+     * they can be manipulated elsewhere.
+     * 
+     * @param permitType - A string of what Permit class is to be found.
+     * 
+     * @return an ArrayList of the Permits held of that type.
+     */
     public ArrayList<Permit> getPermitsByType(String permitType)
     {
 	ArrayList<Permit> list = new ArrayList<Permit>();
@@ -164,13 +210,15 @@ public class Permit_list
 	    if (v.getClass().toString().contains(permitType))
 	    {
 		list.add(v);
-		System.out.println("Added");
 	    }
-	    
 	});
 	return list;
     }
 
+    /**
+     * A blanket method to set all the permits hasEntered field as false on the
+     * start of a new day
+     */
     public void setPermitsHasEntered()
     {
 	lnkPermit.forEach((k, v) ->

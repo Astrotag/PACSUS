@@ -41,11 +41,22 @@ public class Vehicle_list
      */
     private java.util.Hashtable<String, Vehicle_info> lnkVehicle;
 
+    /*
+     * Vehicle List constructor
+     */
     public Vehicle_list()
     {
 	lnkVehicle = new Hashtable<String, Vehicle_info>();
     }
 
+    /**
+     * A method which adds vehicles to the {@link #Hashtable}
+     * 
+     * @param reg - Registration for the vehicle used as the key
+     * @param vh  - The Vehicle_info class associated with the Registration.
+     * 
+     * @return true/false - If the new vehicle was created
+     */
     public boolean add(String reg, Vehicle_info vh)
     {
 	if (!lnkVehicle.containsValue(reg))
@@ -62,11 +73,23 @@ public class Vehicle_list
 	}
     }
 
+    /**
+     * A method which allows other classes to check for newest version of the list
+     * 
+     * @return - {@link #Hashtable} of vehicles
+     */
     public Hashtable<String, Vehicle_info> updateList()
     {
 	return this.lnkVehicle;
     }
 
+    /**
+     * Returns if the vehicle exists in the collection
+     * 
+     * @param regNo - The reg of the vehicle to find
+     * 
+     * @return true/false if the vehicle exists
+     */
     public boolean findVehicle(String regNo)
     {
 	regNo = regNo.trim();
@@ -74,6 +97,11 @@ public class Vehicle_list
 	return lnkVehicle.get(regNo) != null;
     }
 
+    /**
+     * A method to return the collection as an ArrayList
+     * 
+     * @return the keyset of the collection as an ArrayList
+     */
     public ArrayList<String> getRegs()
     {
 	// returned directly instead of making a variable.
@@ -86,12 +114,19 @@ public class Vehicle_list
 	return "Vehicle_list [lnkVehicle=" + lnkVehicle + "]";
     }
 
+    /**
+     * Returns the permit associated with the vehicles registration
+     * 
+     * @param regNo - The reg of the permit to find
+     * 
+     * @return a permit
+     */
     public Permit getVehiclePermit(String regNo)
     {
 	// System.err.println(lnkVehicle.get(regNo).getPermit().toString());
 	return lnkVehicle.get(regNo).getPermit();
     }
-    
+
     /**
      * Removes a value from the hashtable with a key
      * 
@@ -102,7 +137,7 @@ public class Vehicle_list
     {
 	if (lnkVehicle.remove(key) != null)
 	{
-	    //System.out.println("Removed: " + key);
+	    // System.out.println("Removed: " + key);
 	    return true;
 	}
 	return false;

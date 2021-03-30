@@ -8,60 +8,85 @@ package pacsus.main;
 public class Regular_visitor_permit extends Permit
 {
 
+    /**
+     * The name of the University member hosting the visit.
+     */
+    private String hostName;
 
-	/**
-	 * The name of the University member hosting the visit.
-	 */
-	private String hostName;
+    /**
+     * The date that the visit starts - entry will not be allowed before this date.
+     * 
+     * @label Starting on
+     * @clientCardinality 1
+     * @supplierCardinality 1
+     * @link aggregation
+     * @directed
+     */
+    private Date lnkStartDate;
 
-	/**
-	 * The date that the visit starts - entry will not be allowed before this date.
-	 * 
-	 * @label Starting on
-	 * @clientCardinality 1
-	 * @supplierCardinality 1
-	 * @link aggregation
-	 * @directed
-	 */
-	private Date lnkStartDate;
+    /**
+     * The date that the visit ends - entry will not be allowed after this date.
+     * 
+     * @label Ending on
+     * @clientCardinality 1
+     * @supplierCardinality 1
+     * @link aggregation
+     * @directed
+     */
+    private Date lnkEndDate;
 
+    /**
+     * A constructor for this class. The call to the super class (Permit) handles
+     * the permitHolder and PermittedVehicles with this class taking in a String for
+     * the name of the host, and a start and end date for which the permit can enter
+     * the campus
+     * 
+     * @param permitHolder      - The permit holder
+     * @param permittedVehicles - The vehicles on the permit
+     * @param visiting          - The host on campus
+     * @param start             - the start date
+     * @param end               - the end date
+     */
+    public Regular_visitor_permit(String permitHolder, Vehicle_info permittedVehicles, String visiting, Date start,
+	    Date end)
+    {
+	super(permitHolder, permittedVehicles);
+	this.hostName = visiting;
+	this.lnkStartDate = start;
+	this.lnkEndDate = end;
 
+    }
 
-	/**
-	 * The date that the visit ends - entry will not be allowed after this date.
-	 * 
-	 * @label Ending on
-	 * @clientCardinality 1
-	 * @supplierCardinality 1
-	 * @link aggregation
-	 * @directed
-	 */
-	private Date lnkEndDate;
+    /**
+     * An overridden method from the Permit class which provides the status enquiry
+     * functionality.
+     */
+    @Override
+    public String getStatus()
+    {
+	return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate visit starts: "
+		+ lnkStartDate.getDayNumber() + "\nDate visit ends: " + lnkEndDate.getDayNumber();
+    }
 
-	public Regular_visitor_permit(String permitHolder, Vehicle_info permittedVehicles, String visiting, Date start, Date end ) {
-		super(permitHolder, permittedVehicles);
-		this.hostName = visiting;
-		this.lnkStartDate = start;
-		this.lnkEndDate = end;
+    /**
+     * A getter to retrieve the end date of the permit, inherited from the parent
+     * class (Permit)
+     * 
+     * @return the end date
+     */
+    @Override
+    Date getDate()
+    {
+	return lnkEndDate;
+    }
 
-
-	}
-	
-	@Override
-	public String getStatus() {
-		return super.getStatus() + "\nUniversity Host member name: " + hostName + "\nDate visit starts: "
-					+ lnkStartDate.getDayNumber() + "\nDate visit ends: " + lnkEndDate.getDayNumber();
-	}
-
-	@Override
-	Date getDate()
-	{
-	    return lnkEndDate;
-	}
-	
-	public Date getStartDate()
-	{
-	    return lnkStartDate;
-	}
+    /**
+     * A getter to retrieve the start date for the permit.
+     * 
+     * @return the start date
+     */
+    public Date getStartDate()
+    {
+	return lnkStartDate;
+    }
 }
-

@@ -35,26 +35,45 @@ public class Vehicle_info
      * @label Allowed entry by
      * @directed
      */
-    // TODO this is never ever set, this is ALWAYS null.
     private Permit lnkPermit;
 
+    /**
+     * A constructor for the Vehicle_info with a call
+     * 
+     * @param regNo - The registration to be assigned
+     */
     public Vehicle_info(String regNo)
     {
-	super();
+	// super(); why?
 	this.regNo = regNo;
     }
 
+    /**
+     * A setter for the permit associated with the Vehicle_info
+     * 
+     * @param lnkPermit - A passed permit to be linked
+     */
     public void setLnkPermit(Permit lnkPermit)
     {
 	this.lnkPermit = lnkPermit;
-	System.err.println(lnkPermit.toString());
+	// System.err.println(lnkPermit.toString());
     }
 
+    /**
+     * Return the permit associated with the Vehicle_info
+     * 
+     * @return the permit
+     */
     public Permit getPermit()
     {
 	return this.lnkPermit;
     }
 
+    /**
+     * Returns the registration plate of the vehicle
+     * 
+     * @return regNo - This Vehicle_info registration
+     */
     public String getReg()
     {
 	return regNo;
