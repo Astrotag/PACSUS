@@ -25,6 +25,8 @@ public class Regular_visitor_permit extends Permit
 	 */
 	private Date lnkStartDate;
 
+
+
 	/**
 	 * The date that the visit ends - entry will not be allowed after this date.
 	 * 
@@ -52,9 +54,14 @@ public class Regular_visitor_permit extends Permit
 	}
 
 	@Override
-	public Date getDate()
+	Date getDate()
 	{
 	    return lnkEndDate;
+	}
+	
+	public Date getStartDate()
+	{
+	    return lnkStartDate;
 	}
 }
 
