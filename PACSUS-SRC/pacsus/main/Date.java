@@ -30,11 +30,18 @@ public class Date
      */
     private int dayNumber;
 
+    /**
+     * initial constructor for date, initialises the date field to 1
+     */
     public Date()
     {
 	dayNumber = 1;
     }
 
+    /**
+     * overloaded constructor of date constructor for setting a specific day value
+     * @param date the day 
+     */
     public Date(int date) {
     dayNumber = date;	
     }
@@ -46,7 +53,7 @@ public class Date
      */
     public void increment()
     {
-	// TODO: develop further (Mind the range 1-365)
+	
 	if (dayNumber >= 365)
 	{
 	    dayNumber = 1;
@@ -58,8 +65,8 @@ public class Date
     }
 
     /**
-     * 
-     * @return dayNumber
+     * this method returns an integer representation of the day 
+     * @return the date in integer form
      */
     public int getDayNumber()
     {

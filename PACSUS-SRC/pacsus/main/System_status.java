@@ -126,17 +126,15 @@ public class System_status extends Observable
      */
     public void addEntryLog(String entry)
     {
-	System.out.println(systemActive);
+	
 	if (systemActive)
 	{
-	    System.out.println("Active");
+	    
 	    for (int i = 0; i < log.length; i++)
 	    {
 		if (log[i] == null)
 		{
 		    log[i] = entry;
-		    System.out.println(entry);
-		    System.out.println("working");
 		    break;
 		}
 		// if(log[i]==20)

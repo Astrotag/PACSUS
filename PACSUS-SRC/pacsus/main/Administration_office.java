@@ -492,7 +492,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
     private void popCombo()
     {
-	System.out.println(permitStrings.length);
+	
 	allPermitsWarning.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsEdit.setModel(new DefaultComboBoxModel<String>(permitStrings));
 	allPermitsCancel.setModel(new DefaultComboBoxModel<String>(permitStrings));
@@ -1014,7 +1014,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     }
 
     /**
-     * @author NP this lovely method is an absolute abomination of a method ensures
+     *  this lovely method is an absolute abomination of a method ensures
      *         the user doesn't pointlessly enter info the permit type doesn't need
      * @param b1 visiting date
      * @param b2 end date
@@ -1076,7 +1076,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     {
 
 	boolean valid = false;
-	// System.out.println(txtNameNewPermit.getText());
+	
 	if (!txtNameNewPermit.getText().matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
 	{
 	    JOptionPane.showMessageDialog(this, "Name should contain a uppercase letter and lower case letters",
@@ -1201,7 +1201,7 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 
 	String reg = permitStrings[selected];
 	reg = reg.substring(reg.indexOf('-') + 1);
-	System.out.println(reg);
+	
 	if (JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this permit?", "WARNING",
 		JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 	{

@@ -7,20 +7,31 @@ package pacsus.main;
  */
 public class Permanent_visitor_permit extends Permit
 {
-
+	/**
+	 * the constructor for creaating permanant visitor permits
+	 * @param permitHolder name of permit holder
+	 * @param permittedVehicles reg numbers of the permit holders vehicles
+	 */
 	public Permanent_visitor_permit(String permitHolder, Vehicle_info permittedVehicles) {
 		super(permitHolder, permittedVehicles);
 	
 	}
 	
+	/**
+	 *this method is here to avoid errors since there is no date for permanent visitors 
+	 *since their permit is permanent 
+	 */
     public void checkPermanentVisitorPermitDate() {
     	
     }
 
-    @Override
+    /**
+     * doesn't return anything since permanent permit 
+     * @Override
+     */
     Date getDate()
     {
-	// TODO Auto-generated method stub
+
 	return null;
     }
 }
