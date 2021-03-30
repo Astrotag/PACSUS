@@ -83,29 +83,52 @@ abstract public class Permit
      */
     private Vehicle_info permittedVehicles;
 
+    /**
+     * Constructor for a Permit which can be called in it's sub classes.
+     * 
+     * @param permitHolder      - the permits holder
+     * @param permittedVehicles - the vehicles permitted on the permit
+     */
     public Permit(String permitHolder, Vehicle_info permittedVehicles)
     {
-	super();
 	this.permitHolder = permitHolder;
 	this.permittedVehicles = permittedVehicles;
     }
 
+    /**
+     * Getter to retrieve the warnings on the permit
+     * 
+     * @return warnings on the permit
+     */
     public int getWarnings()
     {
 	return warnings;
     }
 
+    /**
+     * Getter to retrieve the permit holder
+     * 
+     * @return the permit holder
+     */
     public String getPermitHolder()
     {
 	return permitHolder;
     }
 
+    /**
+     * Setter to set the permits warnings
+     * 
+     * @param warnings - amount of warnings
+     */
     public void setWarnings(int warnings)
     {
 	this.warnings += warnings;
 	checkSuspended();
     }
 
+    /**
+     * A method to determine if there is enough warnings to suspend the permit
+     */
     public void checkSuspended()
     {
 	if (this.warnings == 3)
@@ -118,45 +141,88 @@ abstract public class Permit
 	}
     }
 
+    /**
+     * Getter to retrieve if the permit is suspended
+     * 
+     * @return true/false - if the permit is suspended or not
+     */
     public boolean isSuspended()
     {
 	return suspended;
     }
 
+    /**
+     * Setter to set if the permit is suspended or not
+     * 
+     * @param suspended - true if the permit is suspended, false if not.
+     */
     public void setSuspended(boolean suspended)
     {
 	this.suspended = suspended;
     }
 
+    /**
+     * A toString method overridden from the Object class
+     */
     @Override
     public String toString()
     {
 	return "Permit:" + permitHolder + "-" + permittedVehicles.getReg();
     }
 
+    /**
+     * A method to give the functionality to the status enquiry
+     * 
+     * @return a String with the permits details
+     */
     public String getStatus()
     {
 	return "Permit Holder Name: " + permitHolder + "\nNumber of Warnings: " + warnings + "\nSuspended: " + suspended
 		+ "\nNumber of Entries: " + noOfEntries;
     }
 
+    /**
+     * An abstract method to be implemented in the subclasses.
+     * 
+     * @return the Date
+     */
     abstract Date getDate();
 
+    /**
+     * A getter to return the number of times a permit has been used and entered
+     * 
+     * @return the number of entries
+     */
     public int getNoOfEntries()
     {
 	return noOfEntries;
     }
 
+    /**
+     * A setter to set the amount of times a vehicle has entered
+     * 
+     * @param noOfEntries - How many times the vehicle has entered
+     */
     public void setNoOfEntries(int noOfEntries)
     {
 	this.noOfEntries = noOfEntries;
     }
 
+    /**
+     * A getter to return if the associated vehicle has entered campus today
+     * 
+     * @return enteredToday - true if it has entered, false if it hasn't
+     */
     public boolean isEnteredToday()
     {
 	return enteredToday;
     }
 
+    /**
+     * A setter to set if a vehicle has entered today.
+     * 
+     * @param enteredToday - true if it has entered, false if it hasn't
+     */
     public void setEnteredToday(boolean enteredToday)
     {
 	this.enteredToday = enteredToday;
