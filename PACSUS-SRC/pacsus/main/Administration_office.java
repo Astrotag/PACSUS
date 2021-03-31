@@ -1091,6 +1091,17 @@ public class Administration_office extends JFrame implements Observer, ActionLis
 		    "Format Error", JOptionPane.ERROR_MESSAGE);
 	    return valid;
 	}
+	
+	try {
+	if(!(lnkVehicle_list.getVehiclePermit(txtRegNoNewPermit.getText())==null)) {
+		  JOptionPane.showMessageDialog(this, "Issue creating permit. this registration number is already attached to a permit",
+				    "Format Error", JOptionPane.ERROR_MESSAGE);
+			    return valid;
+	}
+	}catch(NullPointerException npe) {
+	//it should be null this code is to avoid an exception	
+	}
+	
 
 	switch (permitType)
 	{
