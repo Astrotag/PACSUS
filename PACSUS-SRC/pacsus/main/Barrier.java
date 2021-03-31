@@ -205,8 +205,14 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	if (e.getSource().equals(enterButton))
 	{
 	    String regText = regField.getText();
-
-	    // when system is deactivated let cars pass
+	    if (regText.length() < 5 && !regText
+	    		.matches("^([A-HK-PRSVWY][A-HJ-PR-Y])\\s?([0][2-9]|[1-9][0-9])\\s?[A-HJ-PR-Z]{3}$"))
+	    	{
+	    	    JOptionPane.showMessageDialog(this, "Please enter a valid UK license plate",
+	    		    "Format Error", JOptionPane.ERROR_MESSAGE);
+	    	    return;
+	    	}
+	    //when system is deactivated let cars pass  
 	    if (!lnkSystem_status.getSystemStatus())
 	    {
 		JOptionPane.showMessageDialog(this, "System Deactivated. Vehicle may pass.", "Barrier",
