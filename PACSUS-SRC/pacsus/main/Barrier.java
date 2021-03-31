@@ -92,10 +92,10 @@ public class Barrier extends JFrame implements Observer, ActionListener
      * the textfield for inputting the registration number attempting to enter
      */
     private JTextField regField;
-    
+
     /**
-     * enter button for entering the reg no into the system
-     * passed button for telling the system when the car has passed the barrier
+     * enter button for entering the reg no into the system passed button for
+     * telling the system when the car has passed the barrier
      */
     private JButton enterButton, passedButton;
     private JLabel label;
@@ -116,9 +116,8 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	loadGUI();
     }
 
-    
     /**
-     *  this method is for initialising and displaying the gui for the barrier system
+     * this method is for initialising and displaying the gui for the barrier system
      */
     private void loadGUI()
     {
@@ -151,7 +150,6 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	updateBarrier();
     }
 
-    
     /**
      * this method is responsible for updating and managing the barrier
      */
@@ -169,9 +167,9 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	}
     }
 
-    
     /**
      * this method is responsible for changing the title
+     * 
      * @param date current day
      */
     private void setTitle(int date)
@@ -179,34 +177,36 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	setTitle("Barrier: Date - " + date);
     }
 
-    
     /**
      * this method updates the day on the title
-     *  @Override
+     * 
+     * @Override
      */
-   
+
     public void update(Observable o, Object arg)
     {
 	int date = lnkSystem_status.getDate().getDayNumber();
-	
+
 	setTitle(date);
 
 	active = lnkSystem_status.getSystemStatus();
 	updateBarrier();
     }
-/**
- * this method deals with button clicks 
- * @Override
- */
-    
+
+    /**
+     * this method deals with button clicks
+     * 
+     * @Override
+     */
+
     public void actionPerformed(ActionEvent e)
     {
 
 	if (e.getSource().equals(enterButton))
 	{
 	    String regText = regField.getText();
-	    
-	    //when system is deactivated let cars pass  
+
+	    // when system is deactivated let cars pass
 	    if (!lnkSystem_status.getSystemStatus())
 	    {
 		JOptionPane.showMessageDialog(this, "System Deactivated. Vehicle may pass.", "Barrier",
@@ -217,7 +217,8 @@ public class Barrier extends JFrame implements Observer, ActionListener
 	    else
 	    {
 		String log;
-		//when system is active and the regfield is not empty run checks and if it passes let them through
+		// when system is active and the regfield is not empty run checks and if it
+		// passes let them through
 		if (!regText.equals(""))
 		{
 		    if (lnkVehicle_list.findVehicle(regText))
@@ -234,7 +235,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 			    log = "Vehicle: " + regText + " entered." + " Date: "
 				    + lnkSystem_status.getDate().getDayNumber();
 			}
-			//if the car has already entered today
+			// if the car has already entered today
 			else if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
 			{
 			    JOptionPane.showMessageDialog(this, "ACCESS DENIED! Permit has already been used today.",
@@ -298,6 +299,7 @@ public class Barrier extends JFrame implements Observer, ActionListener
 
     /**
      * this method checks to see if a permit is allowed to enter on the current day
+     * 
      * @param regText the registration number attempting to enter
      * @return if the car is allowed to enter on the current day
      */
@@ -307,26 +309,27 @@ public class Barrier extends JFrame implements Observer, ActionListener
 		.getDayNumber() || checkVehiclesStartAndEndDate(regText);
     }
 
-    
     /**
-     * this method checks that a car with a regular visitor permit can enter on the current day
+     * this method checks that a car with a regular visitor permit can enter on the
+     * current day
+     * 
      * @param regText registration number to be checked
      * @return true if it can enter false if it cannot
      */
     private boolean checkVehiclesStartAndEndDate(String regText)
     {
-	Regular_visitor_permit rvp = (Regular_visitor_permit) lnkVehicle_list.getVehiclePermit(regText);
+	try
+	{
+	    Regular_visitor_permit rvp = (Regular_visitor_permit) lnkVehicle_list.getVehiclePermit(regText);
 
-	// Make a check to see if the start date and end date exist
-	if (rvp.getStartDate().equals(null) || rvp.getDate().equals(null))
-	{
-	    return false;
-	}
-	// make the check to see if the current date is between the start and end date
-	else
-	{
+	    // make the check to see if the current date is between the start and end date
 	    return lnkSystem_status.getDate().getDayNumber() <= rvp.getDate().getDayNumber()
 		    && lnkSystem_status.getDate().getDayNumber() >= rvp.getStartDate().getDayNumber();
+
+	}
+	catch (ClassCastException classCastException)
+	{
+	    return true;
 	}
 
     }
