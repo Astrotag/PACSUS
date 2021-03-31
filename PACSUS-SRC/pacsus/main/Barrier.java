@@ -224,7 +224,8 @@ public class Barrier extends JFrame implements Observer, ActionListener
 		    if (lnkVehicle_list.findVehicle(regText))
 		    {
 			if (!lnkVehicle_list.getVehiclePermit(regText).isEnteredToday()
-				&& checkVehiclesEntryDate(regText))
+				&& checkVehiclesEntryDate(regText)
+				&& !lnkVehicle_list.getVehiclePermit(regText).isSuspended())
 			{
 
 			    lnkVehicle_list.getVehiclePermit(regText).setEnteredToday(true);
@@ -239,6 +240,16 @@ public class Barrier extends JFrame implements Observer, ActionListener
 			else if (lnkVehicle_list.getVehiclePermit(regText).isEnteredToday())
 			{
 			    JOptionPane.showMessageDialog(this, "ACCESS DENIED! Permit has already been used today.",
+				    "Barrier", JOptionPane.ERROR_MESSAGE);
+
+			    label.setText("STOP");
+			    label.setForeground(Color.red);
+			    log = "Vehicle: " + regText + " couldn't enter." + " Date: "
+				    + lnkSystem_status.getDate().getDayNumber();
+			}
+			else if (lnkVehicle_list.getVehiclePermit(regText).isSuspended())
+			{
+			    JOptionPane.showMessageDialog(this, "ACCESS DENIED! This permit has been suspended",
 				    "Barrier", JOptionPane.ERROR_MESSAGE);
 
 			    label.setText("STOP");
