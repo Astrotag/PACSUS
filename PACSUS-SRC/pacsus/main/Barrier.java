@@ -295,10 +295,12 @@ public class Barrier extends JFrame implements Observer, ActionListener
 //when the pass button is clicked
 	if (e.getSource().equals(passedButton))
 	{
+	    String regText = regField.getText();
 	    // This button simulates when a car goes through
 	    // First check if barrier system is active
 	    if (active)
 	    {
+		lnkVehicle_list.getVehiclePermit(regText).setNoOfEntries(1);
 		// Set raised to false and update JLabel
 		raised = false;
 		updateBarrier();

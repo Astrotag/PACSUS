@@ -484,7 +484,6 @@ public class Administration_office extends JFrame implements Observer, ActionLis
     /**
      * this method populates the comboboxes that interact with the permit list
      */
-
     private void popCombo()
     {
 

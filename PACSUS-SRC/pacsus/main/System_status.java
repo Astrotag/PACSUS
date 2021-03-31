@@ -126,10 +126,10 @@ public class System_status extends Observable
      */
     public void addEntryLog(String entry)
     {
-	
+
 	if (systemActive)
 	{
-	    
+
 	    for (int i = 0; i < log.length; i++)
 	    {
 		if (log[i] == null)
@@ -140,5 +140,17 @@ public class System_status extends Observable
 		// if(log[i]==20)
 	    }
 	}
+    }
+
+    /**
+     * Method to reset the log at the turn of the year.
+     */
+    public void resetEntryLog()
+    {
+	for (int i = 0; i < log.length; i++)
+	{
+	    log[i] = "";
+	}
+
     }
 }

@@ -143,13 +143,11 @@ public class Timer extends JFrame implements ActionListener
 	    lnkSystem_status.nextDay();
 	    today = lnkSystem_status.getDate();
 	    currentDay.setText("Current Day: " + today.getDayNumber());
-	    
+
 	    setTitle();
 
 	    if (today.getDayNumber() == 1)
 	    {
-		
-
 		yearReset();
 	    }
 	}
@@ -195,6 +193,10 @@ public class Timer extends JFrame implements ActionListener
 	ArrayList<Permit> list = lnkPermit_list.getPermitsByType("Permanent_visitor_permit");
 	list.addAll(lnkPermit_list.getPermitsByType("Regular_visitor_permit"));
 	list.addAll(lnkPermit_list.getPermitsByType("University_member_permit"));
+
+	lnkPermit_list.removeEntries();
+	lnkSystem_status.resetEntryLog();
+	
 	for (Permit permit : list)
 	{
 	    if (lnkPermit_list.getPermit(permit.getPermitHolder()).isSuspended())
