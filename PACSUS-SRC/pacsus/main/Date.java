@@ -54,7 +54,7 @@ public class Date
     public void increment()
     {
 	
-	if (dayNumber >= 365)
+	if (dayNumber >= 10)
 	{
 	    dayNumber = 1;
 	}

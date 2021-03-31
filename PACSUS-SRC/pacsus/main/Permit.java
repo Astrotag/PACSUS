@@ -205,7 +205,7 @@ abstract public class Permit
      */
     public void setNoOfEntries(int noOfEntries)
     {
-	this.noOfEntries = noOfEntries;
+	this.noOfEntries += noOfEntries;
     }
 
     /**

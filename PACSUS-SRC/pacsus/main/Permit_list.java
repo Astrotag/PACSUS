@@ -226,4 +226,13 @@ public class Permit_list
 	    v.setEnteredToday(false);
 	});
     }
+
+    public void removeEntries()
+    {
+	lnkPermit.forEach((k, v) ->
+	{
+	    v.setNoOfEntries(-v.getNoOfEntries());
+	});
+	
+    }
 }
