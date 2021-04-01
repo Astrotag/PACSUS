@@ -227,12 +227,15 @@ public class Permit_list
 	});
     }
 
+    /**
+     * A method to remove the amount of entries on the change of year
+     */
     public void removeEntries()
     {
 	lnkPermit.forEach((k, v) ->
 	{
 	    v.setNoOfEntries(-v.getNoOfEntries());
 	});
-	
+
     }
 }
