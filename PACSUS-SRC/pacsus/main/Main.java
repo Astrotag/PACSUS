@@ -23,11 +23,13 @@ public class Main {
 		Vehicle_list vehicleList = new Vehicle_list();
 		Permit_list permitList = new Permit_list();
 		
+		PACSUSManager manager = new PACSUSManager(systemStatus, vehicleList, permitList);
+		
 		Timer timer = new Timer(systemStatus, permitList); // Frame, boundary class
 		// Repeat for as many barriers as required
 		Barrier barrier1 = new Barrier(systemStatus, vehicleList); // Frame, boundary class
 		
-		Administration_office adminOffice1 = new Administration_office(systemStatus, vehicleList, permitList); // Frame,
+		Administration_office adminOffice1 = new Administration_office(manager); // Frame,
 		
 		// Repeat for as many campus security screens as required
 		Campus_security campusSecurity1 = new Campus_security(systemStatus, vehicleList); // Frame, boundary class
