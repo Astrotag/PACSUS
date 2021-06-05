@@ -1,4 +1,4 @@
-package pacsus.main;
+package pacsus.main.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import pacsus.main.vehicles.Vehicle_list;
 
 /**
  * The Campus security staff actually activate and deactivate the barriers,
@@ -77,7 +79,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
      * text area to display the log
      */
     private JTextArea logTxt;
-    
+
     /**
      * array to hold all permits for the combobox
      */
@@ -87,7 +89,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
      * main constructor for this class
      * 
      * @param systemStatus current status of the system
-     * @param vehicleList list of permitted vehicles
+     * @param vehicleList  list of permitted vehicles
      */
     public Campus_security(System_status systemStatus, Vehicle_list vehicleList)
     {
@@ -187,6 +189,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 
     /**
      * this method updates the title
+     * 
      * @param date the current date
      */
     private void setTitle(int date)
@@ -196,9 +199,10 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 
     /**
      * this method updates the title when the day changes
+     * 
      * @Override
      */
-    
+
     public void update(Observable o, Object arg)
     {
 	int date = lnkSystem_status.getDate().getDayNumber();
@@ -212,11 +216,12 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 
     /**
      * this method handles a button click
+     * 
      * @Override
      */
     public void actionPerformed(ActionEvent e)
     {
-    	//when the activate button is clicked
+	// when the activate button is clicked
 	if (e.getSource().equals(activateButton))
 	{
 	    lnkSystem_status.setSystemActive(true);
@@ -224,7 +229,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	    barrierStatus.setForeground(Color.GREEN);
 	}
 
-	//when the deactivate button is clicked
+	// when the deactivate button is clicked
 	if (e.getSource().equals(deactivateButton))
 	{
 	    lnkSystem_status.setSystemActive(false);
@@ -232,15 +237,17 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	    barrierStatus.setForeground(Color.RED);
 	}
 
-	//when the log button is clicked
+	// when the log button is clicked
 	if (e.getSource().equals(logButton))
 	{
 	    logTxt.setText("");
 	    String[] log = lnkSystem_status.getLog();
-	   if(log==null) {
-		   JOptionPane.showMessageDialog(this, "The log is empty", "Campus Security", JOptionPane.INFORMATION_MESSAGE);
-	 return;
-	   }
+	    if (log == null)
+	    {
+		JOptionPane.showMessageDialog(this, "The log is empty", "Campus Security",
+			JOptionPane.INFORMATION_MESSAGE);
+		return;
+	    }
 	    for (String string : log)
 	    {
 		if (string != null)
@@ -255,7 +262,7 @@ public class Campus_security extends JFrame implements Observer, ActionListener
 	{
 	    int selected = allPermitsWarning.getSelectedIndex();
 	    String regNo = permitStrings[selected];
-	    
+
 	    lnkVehicle_list.getVehiclePermit(regNo).setWarnings(1);
 	}
     }

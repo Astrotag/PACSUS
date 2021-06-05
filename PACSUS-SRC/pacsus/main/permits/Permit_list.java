@@ -1,4 +1,4 @@
-package pacsus.main;
+package pacsus.main.permits;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
