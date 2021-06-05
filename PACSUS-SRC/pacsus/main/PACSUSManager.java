@@ -25,7 +25,7 @@ public class PACSUSManager {
 	 * 
 	 * @return
 	 */
-	Permit_list populatePermitList() {
+	public Permit_list populatePermitList() {
 		Vehicle_info vi = new Vehicle_info("YT14HBB");
 		University_member_permit gm = new University_member_permit("Greig", vi, new Date(1));
 		lnkPermit_list.add(gm.getPermitHolder(), gm);
@@ -78,94 +78,43 @@ public class PACSUSManager {
 
 		boolean valid = false;
 
-		if (!name.matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
-			JOptionPane.showMessageDialog(null, "Name should contain a uppercase letter and lower case letters",
-					"Format Error", JOptionPane.ERROR_MESSAGE);
-			return valid;
-		}
+		valid = checkNameIsAllowed(name);
 
-		if (registration.length() < 5
-				&& !registration.matches("^([A-HK-PRSVWY][A-HJ-PR-Y])\\s?([0][2-9]|[1-9][0-9])\\s?[A-HJ-PR-Z]{3}$")) {
-			JOptionPane.showMessageDialog(null, "Issue creating permit. Check that the license plate entered is valid",
-					"Format Error", JOptionPane.ERROR_MESSAGE);
-			return valid;
-		}
+		valid = checkRegistrationIsAllowed(registration);
 
-		try {
-			if (!(lnkVehicle_list.getVehiclePermit(registration) == null)) {
-				JOptionPane.showMessageDialog(null,
-						"Issue creating permit. this registration number is already attached to a permit",
-						"Format Error", JOptionPane.ERROR_MESSAGE);
-				return valid;
-			}
-		} catch (NullPointerException npe) {
-			// it should be null this code is to avoid an exception
-		}
+		valid = checkVehicleListDoesNotContainRegistration(registration);
 
 		switch (permitType) {
 		case 0:
-			if (!visitorName.matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
-				JOptionPane.showMessageDialog(null,
-						"Visitor name should contain a uppercase letter and lower case letters", "Format Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
+			if (!checkNameIsAllowed(visitorName)) {
+
+				sendAnErrorMessage("Format Error",
+						"Visitor name should contain a uppercase letter and lower case letters");
+				return false;
 			}
 
-			if (!(visitDate.matches("^[0-9]{1,3}"))) {
-				JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
-
-			} else if (((Integer.parseInt(visitDate) < 1 || Integer.parseInt(visitDate) > 365))) {
-
-				JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
-						JOptionPane.ERROR_MESSAGE);
-
-			} else {
+			if (checkForAValidDate(visitDate)) {
 				return true;
-
 			}
 
 			break;
 
 		case 1:
-			if (!issueDate.matches("^[0-9]{1,3}")) {
+			if (!checkForAValidDate(issueDate)) {
 
-				JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Date Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
-
-			} else if (Integer.parseInt(issueDate) < 1 || Integer.parseInt(issueDate) > 365) {
-
-				JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
-
-			} else {
-				return true;
+				sendAnErrorMessage("Date Error", "Date fields must contain numbers ");
+				return false;
 			}
 
 		case 2:
-			if (!visitorName.matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
-				JOptionPane.showMessageDialog(null,
-						"Visitor name should contain a uppercase letter and lower case letters", "Format Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
-			}
-			if (!issueDate.matches("^[0-9]{1,3}") || !endDate.matches("^[0-9]{1,3}")) {
-				JOptionPane.showMessageDialog(null, "Date fields must contain numbers ", "Format Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
+			if (!checkNameIsAllowed(visitorName)) {
+
+				sendAnErrorMessage("Format Error",
+						"Visitor name should contain a uppercase letter and lower case letters");
+				return false;
 			}
 
-			else if ((Integer.parseInt(issueDate) < 1 || Integer.parseInt(issueDate) > 365)
-					|| (Integer.parseInt(endDate) < 1 || Integer.parseInt(endDate) > 365)) {
-
-				JOptionPane.showMessageDialog(null, "Date fields must have a number between 1 and 365 ", "Date Error",
-						JOptionPane.ERROR_MESSAGE);
-				return valid;
-
-			} else {
+			if (checkForAValidDate(visitDate) || checkForAValidDate(visitDate)) {
 				return true;
 			}
 
@@ -174,6 +123,58 @@ public class PACSUSManager {
 
 		}
 		return valid;
+	}
+
+	private void sendAnErrorMessage(String title, String message) {
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+
+	}
+
+	private boolean checkForAValidDate(String visitDate) {
+		if (!(visitDate.matches("^[0-9]{1,3}"))) {
+			sendAnErrorMessage("Format Error", "Date fields must contain numbers ");
+			return false;
+
+		} else if (((Integer.parseInt(visitDate) < 1 || Integer.parseInt(visitDate) > 365))) {
+
+			sendAnErrorMessage("Date Error", "Date fields must have a number between 1 and 365 ");
+			return false;
+
+		} else {
+			return true;
+		}
+	}
+
+	private boolean checkVehicleListDoesNotContainRegistration(String registration) {
+		try {
+			if (!(lnkVehicle_list.getVehiclePermit(registration).equals(null))) {
+				sendAnErrorMessage("Format Error",
+						"Issue creating permit. this registration number is already attached to a permit");
+				return false;
+			}
+		} catch (NullPointerException npe) {
+			sendAnErrorMessage(npe.getMessage(), "Issue creating permit");
+		}
+		return false;
+	}
+
+	private boolean checkRegistrationIsAllowed(String registration) {
+		if (registration.length() < 5
+				&& !registration.matches("^([A-HK-PRSVWY][A-HJ-PR-Y])\\s?([0][2-9]|[1-9][0-9])\\s?[A-HJ-PR-Z]{3}$")) {
+			sendAnErrorMessage("Issue creating permit. Check that the license plate entered is valid", "Format Error");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private boolean checkNameIsAllowed(String name) {
+		if (name.matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")) {
+			return true;
+		} else {
+			sendAnErrorMessage("Format Error", "A name should contain a uppercase letter and lower case letters");
+			return false;
+		}
 	}
 
 	// ---------GETTERS AND SETTERS --------
@@ -368,7 +369,6 @@ public class PACSUSManager {
 
 	}
 
-	
 	public String[] getPermitStrings() {
 		return permitStrings;
 	}
